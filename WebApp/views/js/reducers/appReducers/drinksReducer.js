@@ -7,7 +7,9 @@ export default function reducer (state = {
     drinkVolume: 250,
     drinkOrdered: false, 
     drinkOrderPending: false, 
-    errorMessage: ''
+    errorMessage: '', 
+    drinkProgressPercentage: 0,
+    drinkProgressUpdateInterval: 100
   } , action) {
   switch (action.type) {
 
@@ -43,6 +45,11 @@ export default function reducer (state = {
         drinkOrdered: orderPlaced,
         errorMessage: errorMessage || ''
       }
+    }
+
+    case 'UPDATE_DRINK_PROGRESS_TIMER': {
+      const { drinkOrdered, progress } =action.payload
+      return {...state, drinkProgressPercentage: progress, drinkOrdered: drinkOrdered}
     }
   }
 

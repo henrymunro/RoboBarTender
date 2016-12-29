@@ -18,3 +18,10 @@ export function orderDrink(Drink_id, Volume, axios){
 		payload: axios.request.post(axios.URLS.orderDrink, {Drink_id: Drink_id, Volume: Volume})
 	}
 }
+
+export function updateDrinkTimerProgress( progress, drinkOrdered){
+	return{
+		type: 'UPDATE_DRINK_PROGRESS_TIMER', 
+		payload: {progress: progress, drinkOrdered:drinkOrdered}
+	}
+}

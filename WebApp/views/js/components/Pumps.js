@@ -28,10 +28,11 @@ export default class Pumps extends React.Component {
     const pumpLayoutMap = pumpLayout.map((value, key)=>{
         const { pumpNumber, active } = value
         const currentDrink = pumps.filter((el)=>{return el.PumpNumber == pumpNumber})[0] || {}
+        const pumpActive = currentDrink.PumpStatus ===1
         const pumpStyle = cx({
             [styles.pumpEmpty]: !currentDrink.DisplayName,
-            [styles.pumpInactive]: !active && currentDrink.DisplayName,
-            [styles.pumpActive]: active
+            [styles.pumpInactive]: !pumpActive && currentDrink.DisplayName,
+            [styles.pumpActive]: pumpActive
 
         })
         return <Card key={key}>

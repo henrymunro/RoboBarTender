@@ -6,10 +6,15 @@ export default function reducer (state = {
     selectedDrink: 0,
     drinkVolume: 250,
     drinkOrdered: false, 
+    drinkOrderedTime: '', 
     drinkOrderPending: false, 
     errorMessage: '', 
     drinkProgressPercentage: 0,
-    drinkProgressUpdateInterval: 100
+    drinkProgressUpdateInterval: 100,
+    pollPumpInterval: 1000,
+    pollPumpPending: false,
+    pollPumpCount: 0,
+    pollPumpTime: ''
   } , action) {
   switch (action.type) {
 
@@ -43,6 +48,7 @@ export default function reducer (state = {
       return {...state, 
         drinkOrderPending: false,
         drinkOrdered: orderPlaced,
+        drinkOrderedTime:orderPlaced? new Date().getTime(): '',
         errorMessage: errorMessage || ''
       }
     }
@@ -50,6 +56,16 @@ export default function reducer (state = {
     case 'UPDATE_DRINK_PROGRESS_TIMER': {
       const { drinkOrdered, progress } =action.payload
       return {...state, drinkProgressPercentage: progress, drinkOrdered: drinkOrdered}
+    }
+
+    case 'RESET_POLL_PUMP_COUNT':{
+      return {...state, pollPumpPending: false, pollPumpCount: 0}
+    }
+    case 'POLL_PUMP_STATUS_FULFILLED':{
+      return {...state, pollPumpPending: false, pollPumpCount: state.pollPumpCount + 1}
+    }
+    case 'POLL_PUMP_STATUS_PENDING':{
+      return {...state, pollPumpPending: true, pollPumpTime: new Date().getTime()}
     }
   }
 

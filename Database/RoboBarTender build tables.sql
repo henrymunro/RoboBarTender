@@ -51,6 +51,15 @@ CREATE TABLE Pump (
     CONSTRAINT PK_Pump_id PRIMARY KEY (Pump_id)
 );
 
+-- Table: Pump
+CREATE TABLE PumpStatus (
+    PumpStatus_id int NOT NULL AUTO_INCREMENT,
+    Pump_id int NOT NULL,
+    StartDate datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    EndDate datetime NULL,
+    CONSTRAINT PK_PumpStatus_id PRIMARY KEY (PumpStatus_id)
+);
+
 -- Table: GPIOPump
 CREATE TABLE GPIOPump (
     GPIOPump_id int NOT NULL AUTO_INCREMENT,

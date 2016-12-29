@@ -40,6 +40,15 @@ export default function reducer (state = {
                               }
       }
     }
+
+    case 'POLL_PUMP_STATUS_FULFILLED': {
+      const pumps = action.payload.data
+      return {...state, pumps: {
+                                value: pumps, 
+                                pending: false
+                              }
+      }
+    }
   }
 
   return state

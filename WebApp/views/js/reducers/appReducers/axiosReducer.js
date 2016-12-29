@@ -15,7 +15,8 @@ export default function reducer (state = {
         getDrinks: 'drinks',
         orderDrink: 'drinks/order',
         // Pumps
-        getPumps: 'pump'
+        getPumps: 'pump',
+        pollPump: 'pump/poll'
         }
     }
   } , action) {

@@ -33,6 +33,26 @@ router.get('/', (req, res)=>{
   // res.status(200).send('SUCCESS')
 })
 
+// Test route
+router.get('/poll', (req, res)=>{
+  debug('Request RECIEVED: To poll pumps status')
+  const procedure = 'call sp_GetPumpsStatus();'
+  pool.getConnection()
+         .then((conn) => {
+          debug('Calling procedure: '+procedure)
+           const result = conn.query(procedure)
+           conn.release()
+           return result;
+         })
+         .then((result) => {
+          debug('Request SUCCESS: ' + procedure)
+          res.send(result[0][0])
+         }).catch((err)=>{
+          debug('Request ERROR: ' + procedure + ', error: ' +  err)
+          res.send('An Error has occoured')
+         })
+})
+
 //Route to log browser errors in the DB
 // router.post('/browserError', (req, res)=>{
 //   debug('Request RECIEVED: To log browser error')

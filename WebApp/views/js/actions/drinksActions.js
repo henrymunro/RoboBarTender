@@ -25,3 +25,17 @@ export function updateDrinkTimerProgress( progress, drinkOrdered){
 		payload: {progress: progress, drinkOrdered:drinkOrdered}
 	}
 }
+
+export function pollPumps( axios){
+	return{
+		type: 'POLL_PUMP_STATUS', 
+		payload: axios.request.get(axios.URLS.pollPump)
+	}
+}
+
+export function resetPollPumpsCount(){
+	return{
+		type: 'RESET_POLL_PUMP_COUNT', 
+		payload: 0
+	}
+}

@@ -22,8 +22,9 @@ function mixNewDrink(requestDetails){
 
   	ingredientDetails.map((element, key)=>{
   		const { Volume, PumpNumber, GPIOPinNumber, PumpTime } = element
+  		const Pump_id = pumpDetails.filter((el)=>{return el.PumpNumber == PumpNumber})[0].Pump_id
   		const IngredientVolume = (Volume/100)*IngredientsVolumeRatio*DrinkTotalVolume
-  		startPumpPour(PumpNumber, GPIOPinNumber, IngredientVolume, PumpTime)
+  		startPumpPour(PumpNumber, GPIOPinNumber, IngredientVolume, PumpTime, Pump_id)
   // 		console.log(element)
   // 		TextRow {
   // Drink_id: 1,
@@ -39,15 +40,34 @@ function mixNewDrink(requestDetails){
 
 }
 
-
-function startPumpPour(PumpNumber, GPIOPinNumber, IngredientVolume, PumpTime){
+//sp_UpdatePumpStatus
+function startPumpPour(PumpNumber, GPIOPinNumber, IngredientVolume, PumpTime, Pump_id){
 	debug('Starting pour on pump '+PumpNumber+' for '+PumpTime+'s ('+IngredientVolume+'ml)')
-	setTimeout(() => stopPumpPour(PumpNumber, GPIOPinNumber), PumpTime*1000)
+	logPumpChangeInDB(Pump_id, 1)
+	setTimeout(() => stopPumpPour(PumpNumber, GPIOPinNumber, Pump_id), PumpTime*1000)
 }
 
-function stopPumpPour(PumpNumber, GPIOPinNumber){
+function stopPumpPour(PumpNumber, GPIOPinNumber, Pump_id){
 	debug('Stopping pour on pump '+PumpNumber)
+	logPumpChangeInDB(Pump_id, 0)
 }
+
+
+function logPumpChangeInDB(Pump_id, Status){
+	 pool.getConnection()
+         .then((conn) => {
+           const result = conn.query('call sp_UpdatePumpStatus(?,?);', [Pump_id, Status])
+           conn.release()
+           return result;
+         })
+         .then((result) => {
+          debug('Sucesfully logged pump status in DB: ', Pump_id, ' , status: ', Status)
+         }).catch((err)=>{
+          debug('ERROR logged pump status in DB: ', Pump_id, ' , status: ', Status +', error: ' +  err)
+          reject({err})
+         })
+}
+
 
 
 module.exports = { 

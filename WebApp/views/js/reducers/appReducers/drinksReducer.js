@@ -3,7 +3,8 @@ export default function reducer (state = {
       value: [],
       pending: true
     },
-    selectedDrink: 0
+    selectedDrink: 0,
+    drinkVolume: 250
   } , action) {
   switch (action.type) {
 
@@ -21,6 +22,11 @@ export default function reducer (state = {
                                 pending: false
                               }
       }
+    }
+
+    case 'UPDATE_DRINK_VOLUME': {
+      const drinkVolume = action.payload
+      return {...state, drinkVolume: drinkVolume}
     }
   }
 

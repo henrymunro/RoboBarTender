@@ -5,3 +5,16 @@ export function getDrinks (axios) {
   }
 }
 
+export function updateDrinkVolume(volume){
+	return{
+		type: 'UPDATE_DRINK_VOLUME',
+		payload: volume
+	}
+}
+
+export function orderDrink(Drink_id, axios){
+	return{
+		type: 'ORDER_DRINK',
+		payload: axios.request.post(axios.URLS.orderDrink, {Drink_id: Drink_id})
+	}
+}

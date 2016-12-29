@@ -2,6 +2,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { StickyContainer, Sticky } from 'react-sticky'
 
+
+import CurrentDrink from 'js/components/CurrentDrink'
 import Drinks from 'js/components/Drinks'
 import Pumps from 'js/components/Pumps'
 
@@ -38,9 +40,16 @@ export default class Layout extends React.Component {
     const message = username.pending ?  'Loading ... ': welocomeMessage
 
     return <div>
-              <h1 className={baseStyles.cf}> {message} </h1>
-              <Pumps pumps={pumps.value} pumpLayout={pumpLayout} dispatch={this.props.dispatch} /> 
-              <Drinks drinks={drinks.value} dispatch={this.props.dispatch} /> 
+              <div className="row">
+                <div className="col s12 l3">
+                  <CurrentDrink currentDrink={drinks.value[selectedDrink]} drinkVolume={drinksStore.drinkVolume} axios={this.props.axios} dispatch={this.props.dispatch} />
+                </div>
+                <div className="col s12 l9">
+                  <h4 className={baseStyles.cf}> {message} </h4>
+                  <Pumps pumps={pumps.value} pumpLayout={pumpLayout} dispatch={this.props.dispatch} /> 
+                  <Drinks drinks={drinks.value} dispatch={this.props.dispatch}  /> 
+                </div>
+              </div>
            </div>
   }
 }

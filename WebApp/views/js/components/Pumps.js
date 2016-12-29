@@ -24,13 +24,10 @@ export default class Pumps extends React.Component {
     
     const { pumps, pumpLayout } = this.props
 
-    console.log('PUMPS: ', pumps)
 
     const pumpLayoutMap = pumpLayout.map((value, key)=>{
         const { pumpNumber, active } = value
         const currentDrink = pumps.filter((el)=>{return el.PumpNumber == pumpNumber})[0] || {}
-        console.log('PUMPPP: ', pumpNumber, currentDrink[0], currentDrink.DisplayName?true: false)
-
         const pumpStyle = cx({
             [styles.pumpEmpty]: !currentDrink.DisplayName,
             [styles.pumpInactive]: !active && currentDrink.DisplayName,
@@ -48,7 +45,7 @@ export default class Pumps extends React.Component {
 
 
     return <div>
-              <h1> 'pumps'</h1>
+              <h4> 'pumps'</h4>
               {pumpLayoutMap}
            </div>
   }

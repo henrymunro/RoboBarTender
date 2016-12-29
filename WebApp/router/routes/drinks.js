@@ -36,6 +36,12 @@ router.get('/', (req, res)=>{
   // res.status(200).send('SUCCESS')
 })
 
+router.post('/order', (req,res)=>{
+  const Drink_id = req.body
+  debug('Request RECIEVED to order Drink: ', Drink_id)
+  res.send('ORDERD')
+})
+
 //Route to log browser errors in the DB
 // router.post('/browserError', (req, res)=>{
 //   debug('Request RECIEVED: To log browser error')

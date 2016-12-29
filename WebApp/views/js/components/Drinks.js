@@ -22,7 +22,7 @@ export default class Drinks extends React.Component {
     console.log('DRINKS: ', drinks)
 
     return <div>
-              <h1> 'DRINKS'</h1>
+              <h4> 'DRINKS'</h4>
            </div>
   }
 }

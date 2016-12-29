@@ -13,6 +13,7 @@ export default function reducer (state = {
         logError: 'log/browserError',
         // Drinks
         getDrinks: 'drinks',
+        orderDrink: 'drinks/order',
         // Pumps
         getPumps: 'pump'
         }

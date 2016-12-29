@@ -3,6 +3,53 @@ use RoboBarTender;
 
 /* #################### View ################## */
 
+
+
+DROP PROCEDURE IF EXISTS sp_GetDrinkIngredients;
+DELIMITER //
+CREATE PROCEDURE sp_GetDrinkIngredients( 
+	in drink_id_in int
+)
+BEGIN
+
+
+	/* Get Drink Info */ 
+	SELECT Drink_id,
+			DrinkName,
+			TotalVolume * 1.0 / 100 as IngredientsVolumeRatio,
+			@TotalVolume:= TotalVolume,
+			CASE WHEN CanMake = 0 THEN 1 ELSE 0 END as CanMake
+	FROM (
+		SELECT D.Drink_id, 
+			D.DrinkName, 			
+	        SUM( CASE WHEN D.GPIOPinNumber IS NULL THEN 1 ELSE 0 END ) as CanMake,
+	        SUM( D.Volume ) as TotalVolume
+		FROM vw_Drink D 
+		WHERE D.DrinkEndDate IS NULL 
+			AND D.Drink_id = drink_id_in
+		GROUP BY D.Drink_id, 
+			D.DrinkName
+	    ) subquery;
+
+	/* Get Ingredient Info */ 
+	SELECT ING.Drink_id,
+			ING.Name, 
+	        ING.Volume, 
+	        ING.PumpNumber,
+	        ING.Percentage,
+	        ING.GPIOPinNumber,
+	        ING.FlowRate,
+	        ING.Volume * 1.0 / (ING.FlowRate * @TotalVolume) as PumpTime
+	FROM vw_Ingredient ING 
+	WHERE ING.Drink_id = drink_id_in;
+	    
+
+END //
+DELIMITER ;
+
+
+
+
 DROP PROCEDURE IF EXISTS sp_GetDrinks;
 DELIMITER //
 CREATE PROCEDURE sp_GetDrinks()
@@ -56,7 +103,7 @@ BEGIN
 
 
 	SELECT * 
-	FROM TempDrinks ;
+	FROM TempDrinks;
 
 	SELECT T.Drink_id,
 			ING.Name, 
@@ -68,7 +115,9 @@ BEGIN
 	FROM TempDrinks T 
 	INNER JOIN vw_Ingredient ING on T.Drink_id = ING.Drink_id;
 
-	DROP TABLE TempDrinks;
+	DROP TABLE IF EXISTS TempDrinks;
 	
 END //
 DELIMITER ;
+
+

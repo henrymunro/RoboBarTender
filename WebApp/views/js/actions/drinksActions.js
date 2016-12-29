@@ -12,9 +12,9 @@ export function updateDrinkVolume(volume){
 	}
 }
 
-export function orderDrink(Drink_id, axios){
+export function orderDrink(Drink_id, Volume, axios){
 	return{
 		type: 'ORDER_DRINK',
-		payload: axios.request.post(axios.URLS.orderDrink, {Drink_id: Drink_id})
+		payload: axios.request.post(axios.URLS.orderDrink, {Drink_id: Drink_id, Volume: Volume})
 	}
 }

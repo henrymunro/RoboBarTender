@@ -25,7 +25,8 @@ export default class CurrentDrink extends React.Component {
 
   orderDrink(e){
     const Drink_id = this.props.currentDrink.Drink_id
-    this.props.dispatch(orderDrink(Drink_id, this.props.axios))
+    const { drinkVolume } = this.props
+    this.props.dispatch(orderDrink(Drink_id, drinkVolume, this.props.axios))
   }
 
 

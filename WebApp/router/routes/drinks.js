@@ -37,8 +37,8 @@ router.get('/', (req, res)=>{
 })
 
 router.post('/order', (req,res)=>{
-  const Drink_id = req.body
-  debug('Request RECIEVED to order Drink: ', Drink_id)
+  const {Drink_id, Volume} = req.body
+  debug('Request RECIEVED to order Drink: ', Drink_id, Volume)
   res.send('ORDERD')
 })
 

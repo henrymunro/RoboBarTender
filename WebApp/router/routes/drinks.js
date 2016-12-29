@@ -46,10 +46,10 @@ router.post('/order', (req,res)=>{
 
     if(KillSwitch === 1 ){
       debug('Request REJECTED KillSwitch = 1')
-      res.send({orderPlaced: false, errorMessage:'Machine if off, give it some power!'})
+      res.send({orderPlaced: false, errorMessage:'Machine is off, give it some power!'})
     } else if (Pumping ===1 ){
       debug('Request REJECTED Pumping = 1')
-      res.send({orderPlaced: false, errorMessage:'Machine if already making a drink, cool your horses!'})
+      res.send({orderPlaced: false, errorMessage:'Machine is already making a drink, cool your horses!'})
     } 
     else if (CanMake ===0 ){
       debug('Request REJECTED CanMake = 0')

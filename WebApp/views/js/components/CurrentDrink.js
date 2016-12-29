@@ -44,6 +44,9 @@ export default class CurrentDrink extends React.Component {
       Drink_id
     } = this.props.currentDrink || {}
 
+    const errorMessage = this.props.errorMessage===''?false:this.props.errorMessage
+    let displayError = errorMessage? <h4 style={{backgroud:'red'}}>{errorMessage}</h4>:<div/>
+
     const { drinkVolume } = this.props
 
     return <div>
@@ -60,6 +63,7 @@ export default class CurrentDrink extends React.Component {
                 onChange={this.updateDrinkVolume.bind(this)}
               />
               <p> {drinkVolume} ml </p>
+              {displayError}
               <RaisedButton label="Order" fullWidth={true} onClick={this.orderDrink.bind(this)}/>
            </div>
   }

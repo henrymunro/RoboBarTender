@@ -45,7 +45,7 @@ export default class Layout extends React.Component {
     return <div>
               <div className="row">
                 <div className="col s12 l3">
-                  <CurrentDrink currentDrink={drinks.value[selectedDrink]} drinkVolume={drinksStore.drinkVolume} axios={this.props.axios} dispatch={this.props.dispatch} />
+                  <CurrentDrink currentDrink={drinks.value[selectedDrink]} drinkVolume={drinksStore.drinkVolume} errorMessage={drinksStore.errorMessage} axios={this.props.axios} dispatch={this.props.dispatch} />
                 </div>
                 <div className="col s12 l9">
                   <h4 className={baseStyles.cf}> {message} </h4>

@@ -10,6 +10,9 @@ source drinkProcs.sql;
 SELECT 'BUILDING PUMP PROCS';
 source pumpProcs.sql;
 
+SELECT 'BUILDING CONFIG PROCS';
+source configProcs.sql;
+
 
 
 SELECT 'DONE!';

@@ -9,6 +9,8 @@ const pool = require('../databaseConnection')
 const databaseProcedures = require('../functions/databaseProcedures')
 const   { callProcUPDATE, callProcGET } = databaseProcedures
 
+//Load in other functions 
+const validateNewDrinkOrder = require('../functions/validateDrinkOrder').validateNewDrinkOrder
 
 debug('Startup: Loading in DRINKS routes')
 
@@ -39,7 +41,27 @@ router.get('/', (req, res)=>{
 router.post('/order', (req,res)=>{
   const {Drink_id, Volume} = req.body
   debug('Request RECIEVED to order Drink: ', Drink_id, Volume)
-  res.send('ORDERD')
+  validateNewDrinkOrder(Drink_id, Volume).then((response)=>{
+    const { KillSwitch, Pumping, CanMake } = response
+
+    if(KillSwitch === 1 ){
+      debug('Request REJECTED KillSwitch = 1')
+      res.send({orderPlaced: false, errorMessage:'Machine if off, give it some power!'})
+    } else if (Pumping ===1 ){
+      debug('Request REJECTED Pumping = 1')
+      res.send({orderPlaced: false, errorMessage:'Machine if already making a drink, cool your horses!'})
+    } 
+    else if (CanMake ===0 ){
+      debug('Request REJECTED CanMake = 0')
+      res.send({orderPlaced: false, errorMessage:'Don\'t have the necessary ingredients, time to go to the shops!'})
+    } 
+    else {
+      debug('Request ACCEPTED')
+      res.send({orderPlaced: true})
+    }
+  }).catch((err)=>{
+    debug('ERROR with request for drink: '+ Drink_id + '   '+ err)
+  })
 })
 
 //Route to log browser errors in the DB

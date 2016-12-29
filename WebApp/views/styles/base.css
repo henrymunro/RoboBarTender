@@ -1,0 +1,51 @@
+.clearfix:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+}
+
+
+.cf:before,
+.cf:after   { content: " "; display: table; }
+.cf:after   { clear: both; }
+.cf         { *zoom: 1; }
+
+
+.white{
+	background: white;
+}
+
+.resetPadding{
+	padding: 0;
+	margin: 0;
+}
+
+/*General table sytyles*/
+.tableHead{
+	background: white;
+	width: 97%;
+}
+
+.tableRow{
+	padding: 0;
+	height: 34px;
+}
+
+
+.deleteButton{
+	background: #ffffff00;
+	border-width: 0;
+}
+
+
+/* Card styles */
+
+.cardOverflow{
+	height: 450px; 
+	overflowY: auto; 
+	overflowX: hidden;
+	position: relative;
+}

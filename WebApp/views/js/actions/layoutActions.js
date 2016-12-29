@@ -5,3 +5,11 @@ export function getUsername (axios) {
   }
 }
 
+
+// Gets the pump layout stored in the DB
+export function getPumps(axios){
+	return {
+		type:'GET_PUMPS',
+		payload: axios.request.get(axios.URLS.getPumps) 
+	}
+}

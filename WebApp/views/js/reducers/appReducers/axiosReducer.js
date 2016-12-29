@@ -12,8 +12,9 @@ export default function reducer (state = {
         // Log
         logError: 'log/browserError',
         // Drinks
-        getDrinks: 'drinks'
-
+        getDrinks: 'drinks',
+        // Pumps
+        getPumps: 'pump'
         }
     }
   } , action) {

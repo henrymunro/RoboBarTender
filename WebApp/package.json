@@ -5,7 +5,7 @@
   "scripts": {
     "webpack-watch": "webpack --watch --config webpack.config.prod.js",
     "start": "node ./bin/www",
-    "express-server": "DEBUG=databaseProcedure,databaseConnection,LOG,Drinks  nodemon -w . -w www",
+    "express-server": "DEBUG=databaseProcedure,databaseConnection,LOG,Drinks,Pump  nodemon -w . -w www",
     "dev": "concurrently --kill-others \"npm run webpack-watch\" \"npm run express-server\""
   },
   "dependencies": {

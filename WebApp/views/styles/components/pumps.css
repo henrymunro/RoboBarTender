@@ -1,0 +1,12 @@
+
+.pumpEmpty{
+	background: #b3b3b3;
+}
+
+.pumpInactive{
+	background: #fefffe;
+}
+
+.pumpActive{
+	background: #4caf50;
+}

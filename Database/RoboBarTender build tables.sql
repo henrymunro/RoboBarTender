@@ -107,6 +107,7 @@ LEFT JOIN Users U on U.User_id = D.User_id;
 
 CREATE VIEW vw_Pump AS 
 SELECT P.Pump_id, 
+    GP.PumpNumber,
     P.Name as PumpName,
     P.DisplayName,
     P.Percentage,

@@ -61,7 +61,7 @@ CREATE TABLE GPIOPump (
 CREATE TABLE PumpType (
     PumpType_id int NOT NULL AUTO_INCREMENT,
     PumpType varchar(500) NOT NULL, 
-    FlowRate int NOT NULL, 
+    FlowRate DECIMAL(6,4) NOT NULL, 
     StartDate datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
     EndDate datetime NULL,
     CONSTRAINT PK_PumpType_id PRIMARY KEY (PumpType_id)
@@ -120,7 +120,7 @@ ALTER TABLE GPIOPump ADD CONSTRAINT FK_GPIOPump_PumpType FOREIGN KEY FK_GPIOPump
 SELECT 'Populate Data' as 'BUILDING TABLES, VIEWS AND FUNCTIONS';
 
 insert into PumpType(PumpType, FlowRate)
-values('Standard', 100);
+values('Standard', 0.001); /* 60ml/min -> 0.001 L/s */
 
 insert into GPIOPump(PumpNumber, GPIOPinNumber, PumpType_id)
 values (1, 7, 1),
@@ -134,7 +134,7 @@ insert into Users(Name, Image)
 values ('Henry', 'henry.jpg');
 
 insert into Drink(Name, User_id, Description, Image)
-values('Natwest', 1, 'A simple yet refreshing beverage', 'Rum_and_coke.jpg');
+values('Rum and Coke', 1, 'A simple yet refreshing beverage', 'Rum_and_coke.jpg');
 
 insert into Ingredients(Name, Drink_id, Volume)
 values ('Rum', 1, 20),

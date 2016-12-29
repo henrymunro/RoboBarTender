@@ -29,7 +29,7 @@ export default class DrinkTimerProgress extends React.Component {
       drinkProgressUpdateInterval // ms
     } = this.props
     if (completed > 100) {
-      this.props.dispatch(updateDrinkTimerProgress(100, false))
+      this.props.dispatch(updateDrinkTimerProgress(0, false))
     } else {
       const diff = 100.0 * (drinkProgressUpdateInterval/1000) / pourTime
       this.timer = setTimeout(() => this.props.dispatch(updateDrinkTimerProgress(completed + diff, true)), this.props.drinkProgressUpdateInterval);

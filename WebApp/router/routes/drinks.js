@@ -11,6 +11,7 @@ const   { callProcUPDATE, callProcGET } = databaseProcedures
 
 //Load in other functions 
 const validateNewDrinkOrder = require('../functions/validateDrinkOrder').validateNewDrinkOrder
+const mixNewDrink = require('../functions/mixDrink').mixNewDrink
 
 debug('Startup: Loading in DRINKS routes')
 
@@ -58,6 +59,8 @@ router.post('/order', (req,res)=>{
     else {
       debug('Request ACCEPTED')
       res.send({orderPlaced: true})
+      debug('Sending Request to MIX DRINK')
+      mixNewDrink(response)
     }
   }).catch((err)=>{
     debug('ERROR with request for drink: '+ Drink_id + '   '+ err)

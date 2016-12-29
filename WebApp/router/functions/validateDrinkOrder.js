@@ -10,6 +10,8 @@ function validateNewDrinkOrder(Drink_id, Volume){
   return new Promise((resolve, reject)=>{
   		// Set default values for request (default to request killing values, then update to allow requests)
   		let requestDetails = {
+  			Drink_id: Drink_id,
+  			DrinkTotalVolume: Volume,
   			KillSwitch: 1, // 1 kills request (manual overide) 
   			Pumping: 1, // 1 kills current request
   			pumpDetails: [],
@@ -28,7 +30,6 @@ function validateNewDrinkOrder(Drink_id, Volume){
 			requestDetails.CanMake = result.CanMake
 			requestDetails.IngredientsVolumeRatio = result.IngredientsVolumeRatio 
 			requestDetails.ingredientDetails = result.ingredientDetails
-			console.log(requestDetails)
 			resolve(requestDetails)
 		}).catch((err)=>{
 			reject(err)

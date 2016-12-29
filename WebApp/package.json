@@ -1,11 +1,11 @@
 {
-  "name": "React Redux Express boilerplate",
+  "name": "RoboBarTender",
   "version": "0.0.0",
   "private": true,
   "scripts": {
     "webpack-watch": "webpack --watch --config webpack.config.prod.js",
     "start": "node ./bin/www",
-    "express-server": "DEBUG=databaseProcedure,databaseConnection,LOG  nodemon -w . -w www",
+    "express-server": "DEBUG=databaseProcedure,databaseConnection,LOG,Drinks  nodemon -w . -w www",
     "dev": "concurrently --kill-others \"npm run webpack-watch\" \"npm run express-server\""
   },
   "dependencies": {

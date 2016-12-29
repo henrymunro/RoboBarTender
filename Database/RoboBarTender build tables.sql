@@ -37,7 +37,7 @@ CREATE TABLE Ingredients (
 -- Table: Pump
 CREATE TABLE Pump (
     Pump_id int NOT NULL AUTO_INCREMENT,
-    PumpNumber int NOT NULL,
+    GPIOPump_id int NOT NULL,
     Name varchar(500) NOT NULL, 
     DisplayName varchar(1000),
     Percentage int NOT NULL DEFAULT 0,
@@ -75,13 +75,13 @@ CREATE VIEW vw_Ingredient AS
 SELECT ING.Drink_id, 
         ING.Name, 
         ING.Volume, 
-        P.PumpNumber,
+        GP.PumpNumber,
         P.Percentage,
         GP.GPIOPinNumber,
         PT.FlowRate
 FROM Ingredients ING 
 LEFT JOIN Pump P on ING.Name = P.Name AND P.EndDate IS NULL
-LEFT JOIN GPIOPump GP on GP.PumpNumber = P.PumpNumber AND GP.EndDate IS NULL
+LEFT JOIN GPIOPump GP on GP.GPIOPump_id = P.GPIOPump_id AND GP.EndDate IS NULL
 LEFT JOIN PumpType PT on PT.PumpType_id = GP.PumpType_id AND PT.EndDate IS NULL;
 
 
@@ -105,6 +105,24 @@ INNER JOIN vw_Ingredient ING on D.Drink_id = ING.Drink_id
 LEFT JOIN Users U on U.User_id = D.User_id;
 
 
+CREATE VIEW vw_Pump AS 
+SELECT P.Pump_id, 
+    P.Name as PumpName,
+    P.DisplayName,
+    P.Percentage,
+    P.StartDate, 
+    P.EndDate, 
+    GP.GPIOPinNumber,
+    PT.PumpType,
+    PT.FlowRate
+FROM Pump P 
+INNER JOIN GPIOPump GP ON P.GPIOPump_id = GP.GPIOPump_id
+INNER JOIN PumpType PT ON GP.PumpType_id = PT.PumpType_id;
+
+
+
+
+
 SELECT 'Foreign keys' as 'BUILDING TABLES, VIEWS AND FUNCTIONS';
 -- foreign keys
 -- Reference: FK_Ingredients_Drink (table: Ingredients)
@@ -126,7 +144,7 @@ insert into GPIOPump(PumpNumber, GPIOPinNumber, PumpType_id)
 values (1, 7, 1),
         (2, 8, 1);
 
-insert into Pump(PumpNumber, Name, DisplayName, Percentage)
+insert into Pump(GPIOPump_id, Name, DisplayName, Percentage)
 values(1, 'Rum', 'Capitan Morgans Rum', 40),
       (2, 'Coke', 'Coke', 0);
 

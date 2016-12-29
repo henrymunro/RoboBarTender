@@ -11,6 +11,8 @@ export default function reducer (state = {
         baseURL: 'http://localhost:3000/',
         // Log
         logError: 'log/browserError',
+        // Drinks
+        getDrinks: 'drinks'
 
         }
     }

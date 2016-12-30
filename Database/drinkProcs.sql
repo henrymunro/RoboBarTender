@@ -121,3 +121,40 @@ END //
 DELIMITER ;
 
 
+
+
+/* #################### Insert ################## */
+
+DROP PROCEDURE IF EXISTS sp_CreateDrink;
+DELIMITER //
+CREATE PROCEDURE sp_CreateDrink(
+	in name_in varchar(500),
+	in description_in varchar(2000)
+)
+BEGIN
+	
+	INSERT INTO Drink(Name, Description)
+	VALUES(name_in, description_in);
+
+	SELECT LAST_INSERT_ID() as ID; 
+	
+END //
+DELIMITER ;
+
+
+DROP PROCEDURE IF EXISTS sp_AddDrinkIngredient;
+DELIMITER //
+CREATE PROCEDURE sp_AddDrinkIngredient(
+	in drink_id_in int,
+	in name_in varchar(500),
+	in volume_in int
+)
+BEGIN
+	
+	INSERT INTO Ingredients(Name, Description)
+	VALUES(drink_id_in, name_in, volume_in);
+	
+END //
+DELIMITER ;
+
+

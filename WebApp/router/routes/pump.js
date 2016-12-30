@@ -53,6 +53,50 @@ router.get('/poll', (req, res)=>{
          })
 })
 
+router.post('/addPump', (req, res)=>{
+  debug('Request RECIEVED: To add pumps')
+  const { name, displayName, percentage, pumpNumber } = req.body
+  const params = [name, displayName, percentage, pumpNumber]
+  const procedure = 'call sp_AddNewPump(?,?,?,?);'
+  pool.getConnection()
+         .then((conn) => {
+          debug('Calling procedure: '+procedure)
+           const result = conn.query(procedure, params)
+           conn.release()
+           return result;
+         })
+         .then((result) => {
+          debug('Request SUCCESS: ' + procedure)
+          const errorMessage = result[0][0][0].ErrorMessage || ''
+          res.send({errorMessage: errorMessage})
+         }).catch((err)=>{
+          debug('Request ERROR: ' + procedure + ', error: ' +  err)
+          res.send('An Error has occoured')
+         })
+})
+
+router.post('/ceasePump', (req, res)=>{
+  debug('Request RECIEVED: To cease pumps')
+  const { pumpNumber } = req.body
+  const params =  pumpNumber]
+  const procedure = 'call sp_CeasePump(?);'
+  pool.getConnection()
+         .then((conn) => {
+          debug('Calling procedure: '+procedure)
+           const result = conn.query(procedure, params)
+           conn.release()
+           return result;
+         })
+         .then((result) => {
+          debug('Request SUCCESS: ' + procedure)
+          const errorMessage = result[0][0][0].ErrorMessage || ''
+          res.send({errorMessage: errorMessage})
+         }).catch((err)=>{
+          debug('Request ERROR: ' + procedure + ', error: ' +  err)
+          res.send('An Error has occoured')
+         })
+})
+
 //Route to log browser errors in the DB
 // router.post('/browserError', (req, res)=>{
 //   debug('Request RECIEVED: To log browser error')

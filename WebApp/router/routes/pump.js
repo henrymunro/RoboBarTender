@@ -46,11 +46,11 @@ router.get('/pumpsForNewDrink', (req, res)=>{
          })
          .then((result) => {
           debug('Request SUCCESS: ' + procedure)
-          // const resultSend = result[0][0].map((element)=>{
-          //   element.newDrinkProportion = 0
-          //   return element
-          // })
-          res.send(result[0][0])
+          const resultSend = result[0][0].map((element)=>{
+            element.newDrinkProportion = 0
+            return element
+          })
+          res.send(resultSend)
          }).catch((err)=>{
           debug('Request ERROR: ' + procedure + ', error: ' +  err)
           res.send('An Error has occoured')

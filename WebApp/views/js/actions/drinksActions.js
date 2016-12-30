@@ -19,6 +19,8 @@ export function orderDrink(Drink_id, Volume, axios){
 	}
 }
 
+
+/* ################   CHECK DRINK ORDER PROCESS ACTIONS #################*/
 export function updateDrinkTimerProgress( progress, drinkOrdered){
 	return{
 		type: 'UPDATE_DRINK_PROGRESS_TIMER', 
@@ -55,10 +57,13 @@ export function updateSelectedDrink(index){
 	}
 }
 
+
+
+/*  #########################    CREATE NEW DRINK ACTIONS #########################*/
 export function getPumpInfoForNewDrink(axios){
 	return{
 		type: 'GET_PUMP_INFO_FOR_NEW_DRINK',
-		payload: axios.request.post(axios.URLS.pumpsForNewDrink)
+		payload: axios.request.get(axios.URLS.pumpsForNewDrink)
 	}
 }
 
@@ -73,5 +78,25 @@ export function openNewDrinkModal(){
 	return{
 		type: 'OPEN_NEW_DRINK_MODAL', 
 		payload: true
+	}
+}
+
+export function updateNewDrinkIngredientProportion(pump_id, value){
+	return{
+		type: 'UPDATE_NEW_DRINK_INGREDIENET_PROPORTION',
+		payload: { value: value, pump_id: pump_id}
+	}
+}
+
+export function updateNewDrinkName(name){
+	return{
+		type: 'UPDATE_NEW_DRINK_NAME',
+		payload: name
+	}
+}
+export function updateNewDrinkDescription(description){
+	return{
+		type: 'UPDATE_NEW_DRINK_DESCRIPTION',
+		payload: description
 	}
 }

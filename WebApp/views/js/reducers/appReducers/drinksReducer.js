@@ -87,7 +87,7 @@ export default function reducer (state = {
     }
 
 
-    // CREATE NEW DRINK  
+    /* ####################   CREATE NEW DRINK  ###############################*/  
     case 'CLOSE_NEW_DRINK_MODAL':{
       return { ...state, createNewDrink:{
                               modalOpen: false,
@@ -97,7 +97,7 @@ export default function reducer (state = {
     }
     case 'OPEN_NEW_DRINK_MODAL':{
       return { ...state, createNewDrink:{
-                              modalOpen: false,
+                              modalOpen: true,
                               contents: state.createNewDrink.contents
                             }
       }
@@ -110,11 +110,67 @@ export default function reducer (state = {
                                 name: '',
                                 description: '',
                                 image: '',
+                                ingredients:[],
                                 pump:action.payload.data
                               }
                             }
       }
     }
+
+    case 'UPDATE_NEW_DRINK_NAME':{
+      return { ...state, createNewDrink:{
+                              modalOpen: state.createNewDrink.modalOpen,
+                              contents: {
+                                name: action.payload,
+                                description: state.createNewDrink.contents.description,
+                                image: state.createNewDrink.contents.image,
+                                ingredients:state.createNewDrink.contents.ingredients,
+                                pump:state.createNewDrink.contents.pump
+                              }
+                            }
+      }
+    }
+
+    case 'UPDATE_NEW_DRINK_DESCRIPTION':{
+      return { ...state, createNewDrink:{
+                              modalOpen: state.createNewDrink.modalOpen,
+                              contents: {
+                                name: state.createNewDrink.contents.name,
+                                description: action.payload,
+                                image: state.createNewDrink.contents.image,
+                                ingredients:state.createNewDrink.contents.ingredients,
+                                pump:state.createNewDrink.contents.pump
+                              }
+                            }
+      }
+    }
+
+    case 'UPDATE_NEW_DRINK_INGREDIENET_PROPORTION':{
+      const {pump_id, value } = action.payload
+      const currentPumps = state.createNewDrink.contents.pump
+      const index = currentPumps.findIndex(function (obj) {return Number(obj.Pump_id) == Number(pump_id) })
+      const updatedPump = Object.assign({}, currentPumps[index], {newDrinkProportion: value})
+      const newPumpState = [
+                              ...state.createNewDrink.contents.pump.slice(0, index),
+                              updatedPump,
+                              ...state.createNewDrink.contents.pump.slice(index + 1)
+                            ]
+      const newIngredients = [...newPumpState].filter((elm)=> {return elm.newDrinkProportion > 0})
+                                              .sort((a,b)=> {return (a.name > b.name) - (a.name < b.name)})
+      return{ ...state, createNewDrink:{
+                              modalOpen: state.createNewDrink.modalOpen,
+                              contents: {
+                                name: state.createNewDrink.contents.name,
+                                description: state.createNewDrink.contents.description,
+                                image: state.createNewDrink.contents.image,
+                                ingredients: newIngredients,
+                                pump: newPumpState
+                              }
+                            }
+      }
+    }
+
+
   }
   return state
 }

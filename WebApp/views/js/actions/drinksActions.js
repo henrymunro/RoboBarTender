@@ -39,3 +39,11 @@ export function resetPollPumpsCount(){
 		payload: 0
 	}
 }
+
+//used to prevent run away time out loops being triggered upon DrinkProgressTimerUpdate
+export function setPendingTimeout(value){
+	return{
+		type: 'SET_PENDING_TIMEOUT',
+		payload: value
+	}
+}

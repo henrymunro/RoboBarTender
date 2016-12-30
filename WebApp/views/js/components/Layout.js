@@ -43,10 +43,11 @@ export default class Layout extends React.Component {
       drinkProgressPercentage, 
       drinkProgressUpdateInterval,
       drinkOrderedTime,
-      pollPumpInterval,
       pollPumpCount,
       pollPumpPending,
-      pollPumpTime } = drinksStore
+      timeOutPending,
+      pollPumpTotalCount
+    } = drinksStore
     const welocomeMessage = 'Welcome to your new app ' + username.value
     const message = username.pending ?  'Loading ... ': welocomeMessage
 
@@ -54,17 +55,12 @@ export default class Layout extends React.Component {
                                                                       pourTime={drinks.value[selectedDrink].PourTime} 
                                                                       drinkProgressUpdateInterval={drinkProgressUpdateInterval} 
                                                                       drinkOrderedTime={drinkOrderedTime} 
+                                                                      pollPumpCount={pollPumpCount}
+                                                                      pollPumpPending={pollPumpPending}
+                                                                      timeOutPending={timeOutPending}
+                                                                      pollPumpTotalCount={pollPumpTotalCount}
+                                                                      axios={this.props.axios}
                                                                       dispatch={this.props.dispatch} /> : <div/>
-
-    const pollPumpsComponent = drinkOrdered? <PollPumps pollPumpInterval={pollPumpInterval} 
-                                                                  pollPumpCount={pollPumpCount} 
-                                                                  drinkOrdered={drinkOrdered} 
-                                                                  pollPumpPending={pollPumpPending}
-                                                                  pollPumpTime={pollPumpTime}
-                                                                  drinkProgressPercentage={drinkProgressPercentage}
-                                                                  axios={this.props.axios}
-                                                                  dispatch={this.props.dispatch}
-                                                                  /> : <div/>
 
 
     return <div>
@@ -75,7 +71,6 @@ export default class Layout extends React.Component {
                 <div className="col s12 l9">
                   <h4 className={baseStyles.cf}> {message} </h4>
                   {drinkOrderedComponent}
-                  {pollPumpsComponent}
                   <Pumps pumps={pumps.value} pumpLayout={pumpLayout} dispatch={this.props.dispatch} /> 
                   <Drinks drinks={drinks.value} dispatch={this.props.dispatch}  /> 
                 </div>

@@ -11,10 +11,10 @@ export default function reducer (state = {
     errorMessage: '', 
     drinkProgressPercentage: 0,
     drinkProgressUpdateInterval: 100,
-    pollPumpInterval: 1000,
+    pollPumpTotalCount: 10,
+    timeOutPending: false,
     pollPumpPending: false,
     pollPumpCount: 0,
-    pollPumpTime: ''
   } , action) {
   switch (action.type) {
 
@@ -65,7 +65,11 @@ export default function reducer (state = {
       return {...state, pollPumpPending: false, pollPumpCount: state.pollPumpCount + 1}
     }
     case 'POLL_PUMP_STATUS_PENDING':{
-      return {...state, pollPumpPending: true, pollPumpTime: new Date().getTime()}
+      return {...state, pollPumpPending: true}
+    }
+
+    case 'SET_PENDING_TIMEOUT':{
+      return {...state, timeOutPending: action.payload}
     }
   }
 

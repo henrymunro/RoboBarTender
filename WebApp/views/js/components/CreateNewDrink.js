@@ -16,7 +16,8 @@ import {updateSelectedDrink,
   closeNewDrinkModal, 
   updateNewDrinkIngredientProportion,
   updateNewDrinkName,
-  updateNewDrinkDescription
+  updateNewDrinkDescription,
+  createNewDrink
    } from 'js/actions/drinksActions'
 
 
@@ -49,12 +50,18 @@ export default class CreateNewDrink extends React.Component {
 
   updateNewDrinkDescription(e){
     const description = e.target.value 
-    this.props.dispatch(updateNewDrinkName(description))
+    this.props.dispatch(updateNewDrinkDescription(description))
 
   }
 
   createNewDrink(e){
-
+    const {description, image, name, pump, ingredients } = this.props.createNewDrink.contents
+    console.log(name, description, ingredients)
+    if(name!=''&& description!='' && ingredients.length >0){
+      this.props.dispatch(createNewDrink(name, description, ingredients, this.props.axios))
+    } else {
+      alert('Populate all fields')
+    }
   }
 
   render () {

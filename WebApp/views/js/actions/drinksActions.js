@@ -100,3 +100,10 @@ export function updateNewDrinkDescription(description){
 		payload: description
 	}
 }
+
+export function createNewDrink( name, description, ingredients, axios ){
+	return {
+		type: 'CREATE_NEW_DRINK',
+		payload: axios.request.post(axios.URLS.createDrink, {name: name, description: description, ingredients: ingredients})
+	}
+}

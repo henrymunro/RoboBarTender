@@ -133,8 +133,8 @@ CREATE PROCEDURE sp_CreateDrink(
 )
 BEGIN
 	
-	INSERT INTO Drink(Name, Description)
-	VALUES(name_in, description_in);
+	INSERT INTO Drink(Name, User_id, Description)
+	VALUES(name_in, 1,description_in);
 
 	SELECT LAST_INSERT_ID() as ID; 
 	
@@ -151,7 +151,7 @@ CREATE PROCEDURE sp_AddDrinkIngredient(
 )
 BEGIN
 	
-	INSERT INTO Ingredients(Name, Description)
+	INSERT INTO Ingredients(Drink_id, Name, Volume)
 	VALUES(drink_id_in, name_in, volume_in);
 	
 END //

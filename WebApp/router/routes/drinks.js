@@ -67,20 +67,87 @@ router.post('/order', (req,res)=>{
   })
 })
 
-//Route to log browser errors in the DB
-// router.post('/browserError', (req, res)=>{
-//   debug('Request RECIEVED: To log browser error')
-//   // Gathers infromation
-//   let operation = 'logging browser error [user_id, message, stack, errorType] '
-//   const procedure = 'CALL sp_LogError( ?, ?, ?, ?);',
-//         user_id = req.session.user_id, 
-//         { message, stack } = req.body
-//   const  params = [user_id, message, stack, 'browser']
-//   // Updates logging text
-//   operation = operation + params.join(', ') 
-//   // Makes DB update
-//   callProcUPDATE(procedure, params, operation, res) 
-// })
+
+
+router.post('/addPump', (req, res)=>{
+  debug('Request RECIEVED: To add pumps')
+  const { name, displayName, percentage, pumpNumber } = req.body
+  const params = [name, displayName, percentage, pumpNumber]
+  const procedure = 'call sp_AddNewPump(?,?,?,?);'
+  pool.getConnection()
+         .then((conn) => {
+          debug('Calling procedure: '+procedure)
+           const result = conn.query(procedure, params)
+           conn.release()
+           return result;
+         })
+         .then((result) => {
+          debug('Request SUCCESS: ' + procedure)
+          const errorMessage = result[0][0][0].ErrorMessage || ''
+          res.send({errorMessage: errorMessage})
+         }).catch((err)=>{
+          debug('Request ERROR: ' + procedure + ', error: ' +  err)
+          res.send('An Error has occoured')
+         })
+})
+
+
+//sp_CreateDrink(?,?); [name, description]
+
+//sp_AddDrinkIngredient(?, ?,?) [drink_id, name, volume]
+
+
+
+
+
+
+router.post('/createDrink', (req, res)=>{
+  debug('Request recieved to save file')
+  const { name, description, ingredients } = req.body
+  debug('Saving new drink to DB: ' + name)
+   pool.getConnection()
+         .then((conn) => {
+          const procedure1 = 'CALL sp_CreateDrink(?,?);'
+          const params1 = [name, description]
+          debug('Calling procedure: '+procedure1)
+           const result = conn.query(procedure1, params1)
+           conn.release()
+           return result;
+         })
+         .then((result) => {
+            const ID = result[0][0][0].ID
+            debug('Inserting Ingredients from new drink: ' + name+', ID: '+ID)
+            return ingredients.map((ing, key)=>{
+              const {PumpName, newDrinkProportion} = ing
+              return new Promise((resolve, reject)=>{
+                pool.query({sql: 'CALL sp_AddDrinkIngredient( ?, ?, ?);', values: [ID, PumpName, newDrinkProportion]}, (err, rows, files)=>{
+                  if (err){
+                    debug('Error adding row: ', err)
+                    reject(err)
+                  } else {
+                    debug('Ingredient sucessfully added')
+                     resolve()
+                  }
+                })
+              })
+            })
+          })
+         .then((result)=>{
+            Promise.all(result).then((result)=>{
+              debug('Drink sucessfully added: '+name)
+              res.send('SUCCESS')
+            }).catch((err)=>{
+              debug('ERROR when adding drink: '+name)
+              res.send('An Error has occoured')
+            })
+            
+         }).catch((err)=>{
+          debug('Request ERROR creating drink: '+name +' ' +  err)
+          res.send('An Error has occoured')
+         })
+  })
+
+
 
 
 module.exports = router;

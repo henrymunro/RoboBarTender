@@ -6,7 +6,6 @@ import { StickyContainer, Sticky } from 'react-sticky'
 import CurrentDrink from 'js/components/CurrentDrink'
 import Drinks from 'js/components/Drinks'
 import Pumps from 'js/components/Pumps'
-import PollPumps from 'js/components/PollPumps'
 import DrinkProgressTimer from 'js/components/DrinkProgressTimer'
 
 import baseStyles from 'styles/base.css'
@@ -67,11 +66,11 @@ export default class Layout extends React.Component {
               <div className="row">
                 <div className="col s12 l3">
                   <CurrentDrink currentDrink={drinks.value[selectedDrink]} drinkVolume={drinksStore.drinkVolume} errorMessage={drinksStore.errorMessage} axios={this.props.axios} dispatch={this.props.dispatch} />
+                  <Pumps pumps={pumps.value} pumpLayout={pumpLayout} dispatch={this.props.dispatch} /> 
                 </div>
                 <div className="col s12 l9">
                   <h4 className={baseStyles.cf}> {message} </h4>
                   {drinkOrderedComponent}
-                  <Pumps pumps={pumps.value} pumpLayout={pumpLayout} dispatch={this.props.dispatch} /> 
                   <Drinks drinks={drinks.value} dispatch={this.props.dispatch}  /> 
                 </div>
               </div>

@@ -10,7 +10,7 @@ export default function reducer (state = {
     drinkOrderPending: false, 
     errorMessage: '', 
     drinkProgressPercentage: 0,
-    drinkProgressUpdateInterval: 100,
+    drinkProgressUpdateInterval: 250,
     pollPumpTotalCount: 10,
     timeOutPending: false,
     pollPumpPending: false,
@@ -37,6 +37,10 @@ export default function reducer (state = {
     case 'UPDATE_DRINK_VOLUME': {
       const drinkVolume = action.payload
       return {...state, drinkVolume: drinkVolume}
+    }
+
+    case 'UPDATE_SELECTED_DRINK':{
+      return{ ...state, selectedDrink: action.payload}
     }
 
     case 'ORDER_DRINK_PENDING': {

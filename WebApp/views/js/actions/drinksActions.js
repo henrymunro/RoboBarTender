@@ -47,3 +47,10 @@ export function setPendingTimeout(value){
 		payload: value
 	}
 }
+
+export function updateSelectedDrink(index){
+	return{
+		type: 'UPDATE_SELECTED_DRINK',
+		payload: index
+	}
+}

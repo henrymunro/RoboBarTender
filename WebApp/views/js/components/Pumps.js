@@ -37,8 +37,7 @@ export default class Pumps extends React.Component {
         })
         return <Card key={key}>
                     <CardHeader
-                      title={'Pump '+ pumpNumber}
-                      subtitle={currentDrink.DisplayName}
+                      subtitle={currentDrink.DisplayName||'Empty'}
                       className={pumpStyle}
                     /> 
                 </Card>

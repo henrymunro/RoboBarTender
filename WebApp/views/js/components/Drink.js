@@ -46,7 +46,7 @@ export default class Drink extends React.Component {
                       subtitle={DrinkName}                      
                     /> 
                     <CardMedia                        
-                        overlay={<CardTitle title="Overlay title" subtitle="Overlay subtitle" />}
+                        overlay={(CanMake==0?<CardTitle title="Can't make!" subtitle="Please add the correct ingredients" />:<div/>)}
                       >
                         <img src={"images/"+DrinkImage } />
                       </CardMedia>

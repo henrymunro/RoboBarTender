@@ -13,3 +13,24 @@ export function getPumps(axios){
 		payload: axios.request.get(axios.URLS.getPumps) 
 	}
 }
+
+
+// Gets the pump layout stored in the DB
+export function addPump(name, displayName, percentage, pumpNumber, axios){
+	return {
+		type:'GET_PUMPS',
+		payload: axios.request.post(axios.URLS.addPump, {name:name, 
+														displayName:displayName, 
+														percentage: percentage, 
+														pumpNumber: pumpNumber
+													}) 
+	}
+}
+
+// Gets the pump layout stored in the DB
+export function ceasePump(pumpNumber, axios){
+	return {
+		type:'GET_PUMPS',
+		payload: axios.request.post(axios.URLS.ceasePump, {pumpNumber: pumpNumber}) 
+	}
+}

@@ -15,6 +15,16 @@ export default function reducer (state = {
     timeOutPending: false,
     pollPumpPending: false,
     pollPumpCount: 0,
+    createNewDrink:{
+      modalOpen: false, 
+      contents: {
+        name: '',
+        description: '',
+        image: '',
+        ingredients:[],
+        pump:[]
+      }
+    }
   } , action) {
   switch (action.type) {
 
@@ -75,8 +85,37 @@ export default function reducer (state = {
     case 'SET_PENDING_TIMEOUT':{
       return {...state, timeOutPending: action.payload}
     }
-  }
 
+
+    // CREATE NEW DRINK  
+    case 'CLOSE_NEW_DRINK_MODAL':{
+      return { ...state, createNewDrink:{
+                              modalOpen: false,
+                              contents: state.createNewDrink.contents
+                            }
+      }
+    }
+    case 'OPEN_NEW_DRINK_MODAL':{
+      return { ...state, createNewDrink:{
+                              modalOpen: false,
+                              contents: state.createNewDrink.contents
+                            }
+      }
+    }
+
+    case 'GET_PUMP_INFO_FOR_NEW_DRINK_FULFILLED':{
+      return { ...state, createNewDrink:{
+                              modalOpen: state.createNewDrink.modalOpen,
+                              contents: {
+                                name: '',
+                                description: '',
+                                image: '',
+                                pump:action.payload.data
+                              }
+                            }
+      }
+    }
+  }
   return state
 }
 

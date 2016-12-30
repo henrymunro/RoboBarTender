@@ -45,7 +45,8 @@ export default class Layout extends React.Component {
       pollPumpCount,
       pollPumpPending,
       timeOutPending,
-      pollPumpTotalCount
+      pollPumpTotalCount,
+      createNewDrink
     } = drinksStore
     const welocomeMessage = 'Welcome to your new app ' + username.value
     const message = username.pending ?  'Loading ... ': welocomeMessage
@@ -66,12 +67,12 @@ export default class Layout extends React.Component {
               <div className="row">
                 <div className="col s12 l3">
                   <CurrentDrink currentDrink={drinks.value[selectedDrink]} drinkVolume={drinksStore.drinkVolume} errorMessage={drinksStore.errorMessage} axios={this.props.axios} dispatch={this.props.dispatch} />
-                  <Pumps pumps={pumps.value} pumpLayout={pumpLayout} dispatch={this.props.dispatch} /> 
+                  <Pumps pumps={pumps.value} pumpLayout={pumpLayout} axios={this.props.axios} dispatch={this.props.dispatch} /> 
                 </div>
                 <div className="col s12 l9">
                   <h4 className={baseStyles.cf}> {message} </h4>
                   {drinkOrderedComponent}
-                  <Drinks drinks={drinks.value} dispatch={this.props.dispatch}  /> 
+                  <Drinks createNewDrink={createNewDrink} drinks={drinks.value} axios={this.props.axios} dispatch={this.props.dispatch}  /> 
                 </div>
               </div>
            </div>

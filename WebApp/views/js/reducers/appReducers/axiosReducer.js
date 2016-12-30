@@ -16,7 +16,10 @@ export default function reducer (state = {
         orderDrink: 'drinks/order',
         // Pumps
         getPumps: 'pump',
-        pollPump: 'pump/poll'
+        pollPump: 'pump/poll',
+        addPump: 'pump/addPump',
+        ceasePump: 'pump/ceasePump',
+        pumpsForNewDrink: 'pump/pumpsForNewDrink'
         }
     }
   } , action) {

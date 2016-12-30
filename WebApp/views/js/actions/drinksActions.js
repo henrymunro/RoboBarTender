@@ -54,3 +54,24 @@ export function updateSelectedDrink(index){
 		payload: index
 	}
 }
+
+export function getPumpInfoForNewDrink(axios){
+	return{
+		type: 'GET_PUMP_INFO_FOR_NEW_DRINK',
+		payload: axios.request.post(axios.URLS.pumpsForNewDrink)
+	}
+}
+
+export function closeNewDrinkModal(){
+	return{
+		type: 'CLOSE_NEW_DRINK_MODAL', 
+		payload: false
+	}
+}
+
+export function openNewDrinkModal(){
+	return{
+		type: 'OPEN_NEW_DRINK_MODAL', 
+		payload: true
+	}
+}

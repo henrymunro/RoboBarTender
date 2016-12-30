@@ -34,6 +34,32 @@ router.get('/', (req, res)=>{
 })
 
 // Test route
+router.get('/pumpsForNewDrink', (req, res)=>{
+  debug('Request RECIEVED: To get pumps')
+  const procedure = 'call sp_GetPumps();'
+  pool.getConnection()
+         .then((conn) => {
+          debug('Calling procedure: '+procedure)
+           const result = conn.query(procedure)
+           conn.release()
+           return result;
+         })
+         .then((result) => {
+          debug('Request SUCCESS: ' + procedure)
+          // const resultSend = result[0][0].map((element)=>{
+          //   element.newDrinkProportion = 0
+          //   return element
+          // })
+          res.send(result[0][0])
+         }).catch((err)=>{
+          debug('Request ERROR: ' + procedure + ', error: ' +  err)
+          res.send('An Error has occoured')
+         })
+  // res.status(200).send('SUCCESS')
+})
+
+
+// Test route
 router.get('/poll', (req, res)=>{
   debug('Request RECIEVED: To poll pumps status')
   const procedure = 'call sp_GetPumpsStatus();'
@@ -78,7 +104,7 @@ router.post('/addPump', (req, res)=>{
 router.post('/ceasePump', (req, res)=>{
   debug('Request RECIEVED: To cease pumps')
   const { pumpNumber } = req.body
-  const params =  pumpNumber]
+  const params = [pumpNumber]
   const procedure = 'call sp_CeasePump(?);'
   pool.getConnection()
          .then((conn) => {

@@ -82,3 +82,61 @@ DELIMITER ;
 
 
 
+/* Proc to assign a new drink to a pump */
+DROP PROCEDURE IF EXISTS sp_AddNewPump;
+DELIMITER //
+CREATE PROCEDURE sp_AddNewPump(
+	in name_in varchar(500),
+	in displayName_in varchar(1000),
+	in percentage_in int, 
+	in pumpNumber_in int
+)
+BEGIN
+	
+	IF EXISTS (SELECT * FROM Pump P 
+			INNER JOIN GPIOPump GP on P.GPIOPump_id = GP.GPIOPump_id
+			WHERE GP.PumpNumber = pumpNumber_in
+				AND GP.EndDate IS NULL 
+				AND P.EndDate IS NULL 
+			) THEN 
+		SELECT 'Pump already in use please deallocate the current bottle' AS ErrorMessage;
+	ELSEIF (IFNULL((SELECT COUNT(*) FROM GPIOPump WHERE PumpNumber = pumpNumber_in and EndDate is NULL), 0) < 1) THEN
+		SELECT 'Pump number not set up' AS ErrorMessage;
+
+	ELSE
+		INSERT INTO Pump(Name, DisplayName, Percentage, GPIOPump_id)
+		SELECT name_in, displayName_in, percentage_in, GPIOPump_id
+		FROM GPIOPump 
+		WHERE PumpNumber = pumpNumber_in
+			AND EndDate IS NULL;
+	END IF;
+	
+END //
+DELIMITER ;
+
+
+DROP PROCEDURE IF EXISTS sp_CeasePump;
+DELIMITER //
+CREATE PROCEDURE sp_CeasePump(in pumpNumber_in int)
+BEGIN
+
+	SELECT @GPIOPump_id := GP.GPIOPump_id 
+	FROM Pump P 
+	INNER JOIN GPIOPump GP on P.GPIOPump_id = GP.GPIOPump_id
+	WHERE GP.PumpNumber = pumpNumber_in
+		AND GP.EndDate IS NULL 
+		AND P.EndDate IS NULL;
+	
+	IF (@GPIOPump_id IS NOT NULL) THEN 
+		UPDATE Pump 
+		SET EndDate = CURRENT_TIMESTAMP
+		WHERE GPIOPump_id = @GPIOPump_id;
+	ELSE 
+		SELECT 'Pump number not set up' AS ErrorMessage;
+	END IF;
+	
+END //
+DELIMITER ;
+
+
+

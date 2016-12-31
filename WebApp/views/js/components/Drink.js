@@ -69,14 +69,15 @@ export default class Drink extends React.Component {
     const adjustedImagePath = URLMatch? DrinkImage: "images/"+DrinkImage
 
     return <div className='col s12 l6'>
-              <Card  onClick={this.onCardClick.bind(this)}>
+              <Card  onClick={this.onCardClick.bind(this)} style={{marginBottom:'10px'}}>
                     <CardHeader
                       subtitle={DrinkName}                      
                     /> 
                     <CardMedia                        
                         overlay={(CanMake==0?<CardTitle title="Can't make!" subtitle="Please add the correct ingredients" />:<div/>)}
+
                       >
-                        <img src={adjustedImagePath} />
+                        <img src={adjustedImagePath} style={{height:"228px"}}/>
                       </CardMedia>
                 </Card>
            </div>

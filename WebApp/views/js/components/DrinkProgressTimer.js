@@ -1,6 +1,7 @@
 import React from 'react'
 import { StickyContainer, Sticky } from 'react-sticky'
 import LinearProgress from 'material-ui/LinearProgress'
+import Dialog from 'material-ui/Dialog'
 
 
 import {updateDrinkTimerProgress, pollPumps, resetPollPumpsCount, setPendingTimeout } from 'js/actions/drinksActions'
@@ -68,7 +69,15 @@ export default class DrinkTimerProgress extends React.Component {
   render() {
     return (
       <div>
-        <LinearProgress mode="determinate" value={this.props.drinkProgressPercentage} />
+         <Dialog
+          actions={actions}
+          modal={false}
+          open={this.state.open}
+          onRequestClose={this.handleClose}
+        >
+          Discard draft?
+          <LinearProgress mode="determinate" value={this.props.drinkProgressPercentage} />
+        </Dialog>
       </div>
     )
   }

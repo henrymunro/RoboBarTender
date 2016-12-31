@@ -5,6 +5,15 @@ export function getDrinks (axios) {
   }
 }
 
+export function setDrinkImageToDefault(Drink_id, image){
+	return{
+		type:'SET_DRINK_IMAGE_TO_DEFAULT',
+		payload: {Drink_id: Drink_id, image: image}
+	}
+}
+
+/* ###################### ORDER DRINK ##############################*/
+
 export function updateDrinkVolume(volume){
 	return{
 		type: 'UPDATE_DRINK_VOLUME',

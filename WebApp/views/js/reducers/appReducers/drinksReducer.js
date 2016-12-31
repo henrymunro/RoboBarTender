@@ -44,6 +44,26 @@ export default function reducer (state = {
       }
     }
 
+    case 'SET_DRINK_IMAGE_TO_DEFAULT': {
+      const { Drink_id, image } = action.payload
+      const currentDrinks = state.drinks.value
+      const index = currentDrinks.findIndex(function (obj) {return Number(obj.Drink_id) == Number(Drink_id) })
+      const updatedDrink = Object.assign({}, currentDrinks[index], {DrinkImage: image})
+      const newDrinksState = [
+                              ...state.drinks.value.slice(0, index),
+                              updatedDrink,
+                              ...state.drinks.value.slice(index + 1)
+                            ]
+      return {...state, drinks: {
+                                value: newDrinksState, 
+                                pending: false
+                              }
+      }
+    }
+
+    /* ###################### ORDER DRINK ##############################*/
+
+
     case 'UPDATE_DRINK_VOLUME': {
       const drinkVolume = action.payload
       return {...state, drinkVolume: drinkVolume}
@@ -52,6 +72,7 @@ export default function reducer (state = {
     case 'UPDATE_SELECTED_DRINK':{
       return{ ...state, selectedDrink: action.payload}
     }
+
 
     case 'ORDER_DRINK_PENDING': {
       return {...state, drinkOrderPending: true}
@@ -66,6 +87,8 @@ export default function reducer (state = {
         errorMessage: errorMessage || ''
       }
     }
+
+    /* ################   CHECK DRINK ORDER PROCESS ACTIONS #################*/
 
     case 'UPDATE_DRINK_PROGRESS_TIMER': {
       const { drinkOrdered, progress } =action.payload

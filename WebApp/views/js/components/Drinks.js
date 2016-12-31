@@ -33,8 +33,6 @@ export default class Drinks extends React.Component {
         return <Drink drink={drink} key={key} index={key} dispatch={this.props.dispatch} />
     })
 
-    console.log('DRINKS: ', drinks)
-
     return <div>
               <RaisedButton label="Create New Drink" fullWidth={true} onClick={this.openNewDrinkModal.bind(this)}/>
               <CreateNewDrink createNewDrink={createNewDrink} axios={this.props.axios} dispatch={this.props.dispatch} /> 

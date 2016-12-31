@@ -153,7 +153,6 @@ export default class CreateNewDrink extends React.Component {
                     </div>
                   </div>
 
-    console.log('OPENING MODELLL: ', createNewDrink)
     return <div >
               <Dialog title={DialogHeadElement}
                     actions={actions}

@@ -101,9 +101,17 @@ export function updateNewDrinkDescription(description){
 	}
 }
 
-export function createNewDrink( name, description, ingredients, axios ){
+export function updateNewDrinkImage(image){
+	return{
+		type: 'UPDATE_NEW_DRINK_IMAGE',
+		payload: image
+	}
+}
+
+
+export function createNewDrink( name, description, ingredients, image, axios ){
 	return {
 		type: 'CREATE_NEW_DRINK',
-		payload: axios.request.post(axios.URLS.createDrink, {name: name, description: description, ingredients: ingredients})
+		payload: axios.request.post(axios.URLS.createDrink, {name: name, image:image, description: description, ingredients: ingredients})
 	}
 }

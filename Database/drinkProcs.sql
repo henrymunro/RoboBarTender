@@ -129,12 +129,13 @@ DROP PROCEDURE IF EXISTS sp_CreateDrink;
 DELIMITER //
 CREATE PROCEDURE sp_CreateDrink(
 	in name_in varchar(500),
-	in description_in varchar(2000)
+	in description_in varchar(2000),
+	in image_in varchar(500)
 )
 BEGIN
 	
-	INSERT INTO Drink(Name, User_id, Description)
-	VALUES(name_in, 1,description_in);
+	INSERT INTO Drink(Name, User_id, Description, Image)
+	VALUES(name_in, 1,description_in, image_in);
 
 	SELECT LAST_INSERT_ID() as ID; 
 	

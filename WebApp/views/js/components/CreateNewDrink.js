@@ -17,7 +17,9 @@ import {updateSelectedDrink,
   updateNewDrinkIngredientProportion,
   updateNewDrinkName,
   updateNewDrinkDescription,
-  createNewDrink
+  updateNewDrinkImage,
+  createNewDrink,
+  getDrinks
    } from 'js/actions/drinksActions'
 
 
@@ -54,11 +56,21 @@ export default class CreateNewDrink extends React.Component {
 
   }
 
+  updateNewDrinkImage(e){
+    const image = e.target.value 
+    this.props.dispatch(updateNewDrinkImage(image))
+  }
+
   createNewDrink(e){
     const {description, image, name, pump, ingredients } = this.props.createNewDrink.contents
     console.log(name, description, ingredients)
     if(name!=''&& description!='' && ingredients.length >0){
-      this.props.dispatch(createNewDrink(name, description, ingredients, this.props.axios))
+      this.props.dispatch(createNewDrink(name, description, ingredients, image, this.props.axios))
+            .then((res)=>{
+              console.log('DRINK CREATEDDDDD')
+                this.props.dispatch(closeNewDrinkModal())
+                this.props.dispatch(getDrinks(this.props.axios))
+            })
     } else {
       alert('Populate all fields')
     }
@@ -83,11 +95,13 @@ export default class CreateNewDrink extends React.Component {
 
     const pumpsElements = pump.map((element, key)=>{    
       return <div key={key}>
-        <div className="row">
-          <div className="col s3 m3 l3">
-            {element.DisplayName}
+        <div className="row" style={{marginBottom:'1px'}}>
+          <div className="col s4 m4 l4 valign-wrapper" style={{height: '65px'}}>
+            <div className="valign">
+              {element.DisplayName}
+            </div>
           </div>
-          <div className="col s9 m9 l9">
+          <div className="col s8 m8 l8" style={{height: '65px'}}>
             <var data-pump-id={element.Pump_id}>
               <Slider 
               min={0}
@@ -110,20 +124,25 @@ export default class CreateNewDrink extends React.Component {
     })
 
     const DialogHeadElement = <div>
-                    Create New Concoction
+                    <TextField
+                          hintText="Name"
+                          defaultValue={createNewDrink.name}
+                          onChange={this.updateNewDrinkName.bind(this)}
+                          floatingLabelText="Create a new concoction"
+                        />
                     <Divider />
                     <div className="row">
 
                       <div className='col s12 l6'>
-                        <TextField
-                          value={createNewDrink.name}
-                          onChange={this.updateNewDrinkName.bind(this)}
-                          floatingLabelText="Name"
-                        />
                       <TextField
+                        hintText="A short description"
                         value={createNewDrink.description}                      
                         onChange={this.updateNewDrinkDescription.bind(this)}
-                        floatingLabelText="Description"
+                      />
+                      <TextField
+                        hintText="Image"
+                        value={createNewDrink.image}                      
+                        onChange={this.updateNewDrinkImage.bind(this)}
                       />
                       </div>
                       <div className="col s12 l6">
@@ -142,6 +161,7 @@ export default class CreateNewDrink extends React.Component {
                     open={createNewDrink.modalOpen}
                     onRequestClose={this.closeNewDrinkModal.bind(this)}
                     autoScrollBodyContent={true}
+                    contentStyle={{maxHeight:'99%'}}
                     >
                     
                     <div className="row">

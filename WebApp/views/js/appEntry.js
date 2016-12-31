@@ -16,7 +16,14 @@ const app = document.getElementById('app')
 
 ReactDOM.render(<Provider store={store}>
 					<MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
-	                  <Layout />
+						<div>
+		                  	<div className='hide-on-small-only'>
+		                   		<Layout />
+		                   	</div>	
+		                   	<div className='hide-on-large-only'>
+		                   		HIIIIIII
+		                   	</div>
+		                </div>	                   
 	                </MuiThemeProvider>
                 </Provider>, app)
 

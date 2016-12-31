@@ -145,6 +145,21 @@ export default function reducer (state = {
       }
     }
 
+    case 'UPDATE_NEW_DRINK_IMAGE':{
+      return { ...state, createNewDrink:{
+                              modalOpen: state.createNewDrink.modalOpen,
+                              contents: {
+                                name: state.createNewDrink.contents.name,
+                                description: state.createNewDrink.contents.description,
+                                image: action.payload,
+                                ingredients:state.createNewDrink.contents.ingredients,
+                                pump:state.createNewDrink.contents.pump
+                              }
+                            }
+      }
+    }
+
+
     case 'UPDATE_NEW_DRINK_INGREDIENET_PROPORTION':{
       const {pump_id, value } = action.payload
       const currentPumps = state.createNewDrink.contents.pump

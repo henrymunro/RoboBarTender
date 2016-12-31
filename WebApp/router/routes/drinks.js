@@ -28,7 +28,6 @@ router.get('/', (req, res)=>{
          })
          .then((result) => {
           debug('Request SUCCESS: ' + procedure)
-          console.log(result[0])
           const drinks = result[0][0]
           const ingredients = result[0][1]
           res.send(result[0][0])
@@ -103,12 +102,12 @@ router.post('/addPump', (req, res)=>{
 
 router.post('/createDrink', (req, res)=>{
   debug('Request recieved to save file')
-  const { name, description, ingredients } = req.body
+  const { name, description, ingredients, image } = req.body
   debug('Saving new drink to DB: ' + name)
    pool.getConnection()
          .then((conn) => {
-          const procedure1 = 'CALL sp_CreateDrink(?,?);'
-          const params1 = [name, description]
+          const procedure1 = 'CALL sp_CreateDrink(?,?,?);'
+          const params1 = [name, description, image]
           debug('Calling procedure: '+procedure1)
            const result = conn.query(procedure1, params1)
            conn.release()

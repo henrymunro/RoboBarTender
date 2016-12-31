@@ -67,16 +67,20 @@ export default class Layout extends React.Component {
 
 
     return <div>
-              <div className="row">
-                <div className="col s12 l3">
-                  <CurrentDrink currentDrink={drinks.value[selectedDrink]} drinkVolume={drinksStore.drinkVolume} errorMessage={drinksStore.errorMessage} axios={this.props.axios} dispatch={this.props.dispatch} />
+              <StickyContainer>
+                <div className="row">
+                  <div className="col s12 l3">
+                    <Sticky>
+                      <CurrentDrink currentDrink={drinks.value[selectedDrink]} drinkVolume={drinksStore.drinkVolume} errorMessage={drinksStore.errorMessage} axios={this.props.axios} dispatch={this.props.dispatch} />
+                    </Sticky>
+                  </div>
+                  <div className="col s12 l9">
+                    <h4 className={baseStyles.cf}> {message} </h4>
+                    {drinkOrderedComponent}
+                    <Drinks createNewDrink={createNewDrink} drinks={drinks.value} axios={this.props.axios} dispatch={this.props.dispatch}  /> 
+                  </div>
                 </div>
-                <div className="col s12 l9">
-                  <h4 className={baseStyles.cf}> {message} </h4>
-                  {drinkOrderedComponent}
-                  <Drinks createNewDrink={createNewDrink} drinks={drinks.value} axios={this.props.axios} dispatch={this.props.dispatch}  /> 
-                </div>
-              </div>
+              </StickyContainer>
            </div>
   }
 }

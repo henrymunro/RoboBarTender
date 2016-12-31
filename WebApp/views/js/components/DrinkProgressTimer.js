@@ -2,6 +2,9 @@ import React from 'react'
 import { StickyContainer, Sticky } from 'react-sticky'
 import LinearProgress from 'material-ui/LinearProgress'
 import Dialog from 'material-ui/Dialog'
+import FlatButton from 'material-ui/FlatButton';
+
+import Pumps from 'js/components/Pumps'
 
 
 import {updateDrinkTimerProgress, pollPumps, resetPollPumpsCount, setPendingTimeout } from 'js/actions/drinksActions'
@@ -13,13 +16,15 @@ import baseStyles from 'styles/base.css'
 export default class DrinkTimerProgress extends React.Component {
 
   componentDidMount() {
-    this.timer = setTimeout(() => this.progress(), this.props.drinkProgressUpdateInterval);
+    if( this.props.drinkOrdered){
+      this.timer = setTimeout(() => this.progress(), this.props.drinkProgressUpdateInterval);
+    }
   }
 
   componentDidUpdate() {
-    const { timeOutPending } = this.props
+    const { timeOutPending , drinkOrdered} = this.props
     // Prevent a new time out before the old one has finished
-    if (!timeOutPending) {
+    if (!timeOutPending && drinkOrdered) {
       this.props.dispatch(setPendingTimeout(true))
       this.progress()
     }
@@ -48,6 +53,7 @@ export default class DrinkTimerProgress extends React.Component {
     } else {
       // Calculate new value for progress bar
       const newCompleted = 100.0 * (new Date().getTime() - drinkOrderedTime) / (pourTime* 1000) 
+      console.log('NEW COMPLETED: ', newCompleted, new Date().getTime() , drinkOrderedTime, pourTime)
 
       this.timer = setTimeout(() => {
         // Clear pending timeout to allow a new one to be added
@@ -61,22 +67,38 @@ export default class DrinkTimerProgress extends React.Component {
         }
       }, this.props.drinkProgressUpdateInterval);
     }
+  }
+
+  abortDrink(){
+    console.log('ABORTING DRINK!')
+  }
   
 
 
-  }
 
   render() {
+    const { drinkOrdered } = this.props
+     const actions = [
+      <FlatButton
+        label="Cancel"
+        secondary={true}
+        onTouchTap={this.abortDrink.bind(this)}
+      />
+    ]
+
+    console.log('HASS DRINKKK BEENNN : ', drinkOrdered)
+
     return (
       <div>
          <Dialog
           actions={actions}
           modal={false}
-          open={this.state.open}
-          onRequestClose={this.handleClose}
+          open={drinkOrdered}
+          onRequestClose={this.abortDrink.bind(this)}
         >
           Discard draft?
           <LinearProgress mode="determinate" value={this.props.drinkProgressPercentage} />
+          <Pumps pumps={this.props.pumps.value} pumpLayout={this.props.pumpLayout} axios={this.props.axios} dispatch={this.props.dispatch} /> 
         </Dialog>
       </div>
     )

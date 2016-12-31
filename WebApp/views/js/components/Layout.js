@@ -5,7 +5,6 @@ import { StickyContainer, Sticky } from 'react-sticky'
 
 import CurrentDrink from 'js/components/CurrentDrink'
 import Drinks from 'js/components/Drinks'
-import Pumps from 'js/components/Pumps'
 import DrinkProgressTimer from 'js/components/DrinkProgressTimer'
 
 import baseStyles from 'styles/base.css'
@@ -51,15 +50,19 @@ export default class Layout extends React.Component {
     const welocomeMessage = 'Welcome to your new app ' + username.value
     const message = username.pending ?  'Loading ... ': welocomeMessage
 
-    const drinkOrderedComponent = drinkOrdered? <DrinkProgressTimer drinkProgressPercentage={drinkProgressPercentage} 
-                                                                      pourTime={drinks.value[selectedDrink].PourTime} 
+
+    const drinkOrderedComponent = drinkOrdered ? <DrinkProgressTimer drinkProgressPercentage={drinkProgressPercentage} 
+                                                                      pourTime={(drinks.value[selectedDrink]||{}).PourTime} 
                                                                       drinkProgressUpdateInterval={drinkProgressUpdateInterval} 
                                                                       drinkOrderedTime={drinkOrderedTime} 
                                                                       pollPumpCount={pollPumpCount}
                                                                       pollPumpPending={pollPumpPending}
                                                                       timeOutPending={timeOutPending}
                                                                       pollPumpTotalCount={pollPumpTotalCount}
+                                                                      drinkOrdered={drinkOrdered}
                                                                       axios={this.props.axios}
+                                                                      pumps={pumps}
+                                                                      pumpLayout={pumpLayout}
                                                                       dispatch={this.props.dispatch} /> : <div/>
 
 
@@ -67,7 +70,6 @@ export default class Layout extends React.Component {
               <div className="row">
                 <div className="col s12 l3">
                   <CurrentDrink currentDrink={drinks.value[selectedDrink]} drinkVolume={drinksStore.drinkVolume} errorMessage={drinksStore.errorMessage} axios={this.props.axios} dispatch={this.props.dispatch} />
-                  <Pumps pumps={pumps.value} pumpLayout={pumpLayout} axios={this.props.axios} dispatch={this.props.dispatch} /> 
                 </div>
                 <div className="col s12 l9">
                   <h4 className={baseStyles.cf}> {message} </h4>

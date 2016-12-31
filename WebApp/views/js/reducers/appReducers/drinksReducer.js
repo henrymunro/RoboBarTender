@@ -10,7 +10,7 @@ export default function reducer (state = {
     drinkOrderPending: false, 
     errorMessage: '', 
     drinkProgressPercentage: 0,
-    drinkProgressUpdateInterval: 250,
+    drinkProgressUpdateInterval: 4000,
     pollPumpTotalCount: 10,
     timeOutPending: false,
     pollPumpPending: false,

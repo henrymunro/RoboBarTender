@@ -69,7 +69,8 @@ export default class Drink extends React.Component {
     const adjustedImagePath = URLMatch? DrinkImage: "images/"+DrinkImage
 
     return <div className='col s12 l6'>
-              <Card  onClick={this.onCardClick.bind(this)} style={{marginBottom:'10px'}}>
+              <div className="hoverable">
+                <Card onClick={this.onCardClick.bind(this)} style={{marginBottom:'20px'}}>
                     <CardHeader
                       subtitle={DrinkName}                      
                     /> 
@@ -80,6 +81,7 @@ export default class Drink extends React.Component {
                         <img src={adjustedImagePath} style={{height:"228px"}}/>
                       </CardMedia>
                 </Card>
+              </div>
            </div>
   }
 }

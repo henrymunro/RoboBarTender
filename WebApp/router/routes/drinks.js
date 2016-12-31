@@ -68,11 +68,11 @@ router.post('/order', (req,res)=>{
 
 
 
-router.post('/addPump', (req, res)=>{
-  debug('Request RECIEVED: To add pumps')
-  const { name, displayName, percentage, pumpNumber } = req.body
-  const params = [name, displayName, percentage, pumpNumber]
-  const procedure = 'call sp_AddNewPump(?,?,?,?);'
+router.post('/getDrinkIngredients', (req, res)=>{
+  const { Drink_id } = req.body 
+  debug('Request RECIEVED: To get drink ingredients Drink_id: '+ Drink_id)
+  const params = [Drink_id]
+  const procedure = 'call sp_GetDrinkIngredients(?);'
   pool.getConnection()
          .then((conn) => {
           debug('Calling procedure: '+procedure)
@@ -82,18 +82,12 @@ router.post('/addPump', (req, res)=>{
          })
          .then((result) => {
           debug('Request SUCCESS: ' + procedure)
-          const errorMessage = result[0][0][0].ErrorMessage || ''
-          res.send({errorMessage: errorMessage})
+          res.send(result[0][1])
          }).catch((err)=>{
           debug('Request ERROR: ' + procedure + ', error: ' +  err)
           res.send('An Error has occoured')
          })
 })
-
-
-//sp_CreateDrink(?,?); [name, description]
-
-//sp_AddDrinkIngredient(?, ?,?) [drink_id, name, volume]
 
 
 

@@ -4,13 +4,14 @@ export default function reducer (state = {
       pending: true
     },
     selectedDrink: 0,
+    selectedDrinkIngredients: [],
     drinkVolume: 250,
     drinkOrdered: false, 
     drinkOrderedTime: '', 
     drinkOrderPending: false, 
     errorMessage: '', 
     drinkProgressPercentage: 0,
-    drinkProgressUpdateInterval: 4000,
+    drinkProgressUpdateInterval: 250,
     pollPumpTotalCount: 10,
     timeOutPending: false,
     pollPumpPending: false,
@@ -59,6 +60,10 @@ export default function reducer (state = {
                                 pending: false
                               }
       }
+    }
+
+    case 'GET_DRINK_INGREDIENTS_FULFILLED': {
+      return { ...state, selectedDrinkIngredients: action.payload.data}
     }
 
     /* ###################### ORDER DRINK ##############################*/

@@ -37,6 +37,7 @@ export default class Layout extends React.Component {
     const {username, drinksStore, pumps, pumpLayout} = this.props
     const { drinks, 
       selectedDrink, 
+      selectedDrinkIngredients,
       drinkOrdered, 
       drinkProgressPercentage, 
       drinkProgressUpdateInterval,
@@ -71,7 +72,7 @@ export default class Layout extends React.Component {
                 <div className="row">
                   <div className="col s12 l3">
                     <Sticky>
-                      <CurrentDrink currentDrink={drinks.value[selectedDrink]} drinkVolume={drinksStore.drinkVolume} errorMessage={drinksStore.errorMessage} axios={this.props.axios} dispatch={this.props.dispatch} />
+                      <CurrentDrink currentDrink={drinks.value[selectedDrink]} selectedDrinkIngredients={selectedDrinkIngredients} drinkVolume={drinksStore.drinkVolume} errorMessage={drinksStore.errorMessage} axios={this.props.axios} dispatch={this.props.dispatch} />
                     </Sticky>
                   </div>
                   <div className="col s12 l9">

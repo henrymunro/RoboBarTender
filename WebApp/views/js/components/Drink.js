@@ -3,7 +3,7 @@ import { StickyContainer, Sticky } from 'react-sticky'
 
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card'
 
-import {updateSelectedDrink, setDrinkImageToDefault } from 'js/actions/drinksActions'
+import {updateSelectedDrink, setDrinkImageToDefault, getDrinkIngredients } from 'js/actions/drinksActions'
 
 import baseStyles from 'styles/base.css'
 
@@ -25,6 +25,7 @@ export default class Drink extends React.Component {
 
   onCardClick(e){
     this.props.dispatch(updateSelectedDrink(this.props.index))
+    this.props.dispatch(getDrinkIngredients(this.props.drink.Drink_id, this.props.axios))
 
   }
 

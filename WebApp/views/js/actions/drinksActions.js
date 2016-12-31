@@ -12,6 +12,20 @@ export function setDrinkImageToDefault(Drink_id, image){
 	}
 }
 
+export function updateSelectedDrink(index){
+	return{
+		type: 'UPDATE_SELECTED_DRINK',
+		payload: index
+	}
+}
+
+export function getDrinkIngredients(Drink_id, axios){
+	return{
+		type: 'GET_DRINK_INGREDIENTS',
+		payload: axios.request.post(axios.URLS.getDrinkIngredients, {Drink_id: Drink_id})
+	}
+}
+
 /* ###################### ORDER DRINK ##############################*/
 
 export function updateDrinkVolume(volume){
@@ -59,12 +73,6 @@ export function setPendingTimeout(value){
 	}
 }
 
-export function updateSelectedDrink(index){
-	return{
-		type: 'UPDATE_SELECTED_DRINK',
-		payload: index
-	}
-}
 
 
 

@@ -48,7 +48,7 @@ export default class CurrentDrink extends React.Component {
 
 
     const errorMessage = this.props.errorMessage===''?false:this.props.errorMessage
-    let displayError = errorMessage? <h4 style={{backgroud:'red'}}>{errorMessage}</h4>:<div/>
+    let displayError = errorMessage? <h6 style={{backgroud:'red'}}>{errorMessage}</h6>:<div/>
 
     const { drinkVolume } = this.props
 

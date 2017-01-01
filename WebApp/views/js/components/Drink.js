@@ -69,28 +69,28 @@ export default class Drink extends React.Component {
     const URLMatch = re.test(DrinkImage)
     const adjustedImagePath = URLMatch? DrinkImage: "images/"+DrinkImage
 
+    const cantMakeElement = (CanMake==0?<CardHeader title="Can't make!" subtitle="Please add the correct ingredients" />:<div/>)
+
     const drinkCard = <Card onClick={this.onCardClick.bind(this)} style={{marginBottom:'20px'}}>
-                    <CardHeader
-                      subtitle={DrinkName}                      
-                    /> 
+                    {cantMakeElement}
                     <div className="hide-on-med-and-up">                        
                       <CardMedia                        
-                          overlay={(CanMake==0?<CardTitle title="Can't make!" subtitle="Please add the correct ingredients" />:<div/>)}
+                          overlay={<CardHeader subtitle={DrinkName}/>}
                         >
                         <img src={adjustedImagePath} style={{height:"160px"}}/>
                       </CardMedia>
                     </div>
                     <div className="hide-on-small-only">
                       <CardMedia                        
-                          overlay={(CanMake==0?<CardTitle title="Can't make!" subtitle="Please add the correct ingredients" />:<div/>)}
-                        >
+                          overlay={<CardHeader subtitle={DrinkName}/>}
+                          >
                         <img src={adjustedImagePath} style={{height:"228px"}}/>
                       </CardMedia>
                     </div> 
                 </Card>
 
     const selectedDrinkCard = <Card>                                          
-                      <CardMedia style={{marginBottom:'20px', marginRight:'10px', marginLeft:'10px'}}>
+                      <CardMedia style={{marginBottom:'20px', marginRight:'10px', marginLeft:'10px', paddingTop:'4px', paddingBotton:'10px'}}>
                         <CurrentDrink 
                           {... currentDrinkProps}
                           axios={this.props.axios} 

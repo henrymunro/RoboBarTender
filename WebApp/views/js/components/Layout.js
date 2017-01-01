@@ -10,7 +10,7 @@ import DrinkProgressTimer from 'js/components/DrinkProgressTimer'
 import baseStyles from 'styles/base.css'
 
 import { getUsername, getPumps } from 'js/actions/layoutActions'
-import { getDrinks } from 'js/actions/drinksActions'
+import { getDrinks, getDrinkIngredients } from 'js/actions/drinksActions'
 
 
 @connect((store) => {
@@ -29,6 +29,10 @@ export default class Layout extends React.Component {
 
   componentDidMount(){
     this.props.dispatch(getDrinks(this.props.axios))
+        .then((res)=>{
+          console.log('GOT DRINKS: ',res.value.data[0].Drink_id, res)
+          this.props.dispatch(getDrinkIngredients(res.value.data[0].Drink_id, this.props.axios))
+        })
     this.props.dispatch(getPumps(this.props.axios))
   }
 
@@ -48,8 +52,6 @@ export default class Layout extends React.Component {
       pollPumpTotalCount,
       createNewDrink
     } = drinksStore
-    const welocomeMessage = 'Welcome to your new app ' + username.value
-    const message = username.pending ?  'Loading ... ': welocomeMessage
 
 
     const drinkOrderedComponent = drinkOrdered ? <DrinkProgressTimer drinkProgressPercentage={drinkProgressPercentage} 
@@ -70,13 +72,12 @@ export default class Layout extends React.Component {
     return <div>
               <StickyContainer>
                 <div className="row">
-                  <div className="col s12 l3">
+                  <div className="col s12 m3 l3">
                     <Sticky>
                       <CurrentDrink currentDrink={drinks.value[selectedDrink]} selectedDrinkIngredients={selectedDrinkIngredients} drinkVolume={drinksStore.drinkVolume} errorMessage={drinksStore.errorMessage} axios={this.props.axios} dispatch={this.props.dispatch} />
                     </Sticky>
                   </div>
-                  <div className="col s12 l9">
-                    <h4 className={baseStyles.cf}> {message} </h4>
+                  <div className="col s12 m9 l9">
                     {drinkOrderedComponent}
                     <Drinks createNewDrink={createNewDrink} drinks={drinks.value} axios={this.props.axios} dispatch={this.props.dispatch}  /> 
                   </div>

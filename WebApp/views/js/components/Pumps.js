@@ -55,23 +55,19 @@ export default class Pumps extends React.Component {
         })
 
 
-        const ceasePumpButton = (!pumpActive && currentDrink.DisplayName)?  <RaisedButton label="Delete" data-pump-number={pumpNumber} fullWidth={true} onClick={this.ceasePump.bind(this)}/> : <div/>
-        const addPumpButton = (!currentDrink.DisplayName)?<RaisedButton label="Add" data-pump-number={pumpNumber} fullWidth={true} onClick={this.addPump.bind(this)}/> :<div/>
-
-
-        return <Card key={key}>
+        const PumpCard = <Card key={key}>
                     <CardHeader
                       subtitle={currentDrink.DisplayName||'Empty'}
                       className={pumpStyle}
                     /> 
-                    {ceasePumpButton}
-                    {addPumpButton}
                 </Card>
+
+        return (currentDrink.DisplayName)? PumpCard : <div/>
+
     })
 
 
     return <div>
-              <h4> 'pumps'</h4>
               {pumpLayoutMap}
            </div>
   }

@@ -6,7 +6,7 @@ import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'mat
 import {List, ListItem} from 'material-ui/List'
 import moment from 'moment'
 
-import {updateDrinkVolume, orderDrink } from 'js/actions/drinksActions'
+import {updateDrinkVolume, orderDrink, getDrinkIngredients } from 'js/actions/drinksActions'
 
 import baseStyles from 'styles/base.css'
 
@@ -69,13 +69,9 @@ export default class CurrentDrink extends React.Component {
 
     const re = new RegExp("^(http|https)://", "i")
       const URLMatch = re.test(DrinkImage)
-      const adjustedImagePath = URLMatch? DrinkImage: "images/"+'henry.jpg'
+      const adjustedImagePath = URLMatch? DrinkImage: "images/"+DrinkImage
 
     const drinkIngredients = <Card>
-                          <CardHeader
-                            title="Details"
-                            avatar={adjustedImagePath}
-                          />
                            <CardMedia
                               children={<List> {mappedIngredients} </List>}
                             >
@@ -88,10 +84,13 @@ export default class CurrentDrink extends React.Component {
 
     return <div>
               <h4>{DrinkName}</h4>
-              <p>{DrinkDescription}</p>
-              <p>Created by: {AddedBy}</p>
-              <p>Created at: {moment(DrinkStartDate).format('DD-MM-YYYY')}</p>
               <p>Percentage: {AlcoholPercentage}%</p>
+              <p>{DrinkDescription}</p>
+              <Card style={{marginBottom:'20px'}}>
+                    <CardMedia>
+                        <img src={adjustedImagePath} style={{height:"228px"}}/>
+                    </CardMedia>
+              </Card>
               {drinkIngredients}
               <Slider
                 min={0}
@@ -100,11 +99,13 @@ export default class CurrentDrink extends React.Component {
                 value={drinkVolume}
                 onChange={this.updateDrinkVolume.bind(this)}
               />
-              <p> {drinkVolume} ml </p>
+              <p>  </p>
               {displayError}
-              <RaisedButton label="Order" fullWidth={true} onClick={this.orderDrink.bind(this)}/>
+              <RaisedButton label={'Order '+drinkVolume+'ml'} fullWidth={true} onClick={this.orderDrink.bind(this)}/>
            </div>
   }
 }
 
 
+              /*<p>Created by: {AddedBy}</p>
+              <p>Created at: {moment(DrinkStartDate).format('DD-MM-YYYY')}</p>*/

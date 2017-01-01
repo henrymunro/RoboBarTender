@@ -96,8 +96,8 @@ export default class DrinkTimerProgress extends React.Component {
           open={drinkOrdered}
           onRequestClose={this.abortDrink.bind(this)}
         >
-          Discard draft?
-          <LinearProgress mode="determinate" value={this.props.drinkProgressPercentage} />
+          Drink Status
+          <LinearProgress mode="determinate" value={this.props.drinkProgressPercentage} style={{marginBottom:'20px'}}/>
           <Pumps pumps={this.props.pumps.value} pumpLayout={this.props.pumpLayout} axios={this.props.axios} dispatch={this.props.dispatch} /> 
         </Dialog>
       </div>

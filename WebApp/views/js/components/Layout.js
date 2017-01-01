@@ -68,18 +68,31 @@ export default class Layout extends React.Component {
                                                                       pumpLayout={pumpLayout}
                                                                       dispatch={this.props.dispatch} /> : <div/>
 
+    // Props to pass to current drink compontent                                                                  
+    const currentDrink = drinks.value[selectedDrink]                                                                  
+    const drinkVolume = drinksStore.drinkVolume
+    const errorMessage = drinksStore.errorMessage
+    const currentDrinkProps = { currentDrink, selectedDrinkIngredients, drinkVolume, errorMessage}
 
     return <div>
               <StickyContainer>
                 <div className="row">
-                  <div className="col s12 m3 l3">
+                  <div className="col hide-on-med-and-down l3">
                     <Sticky>
-                      <CurrentDrink currentDrink={drinks.value[selectedDrink]} selectedDrinkIngredients={selectedDrinkIngredients} drinkVolume={drinksStore.drinkVolume} errorMessage={drinksStore.errorMessage} axios={this.props.axios} dispatch={this.props.dispatch} />
+                      <CurrentDrink 
+                          {... currentDrinkProps}
+                          axios={this.props.axios} 
+                          dispatch={this.props.dispatch} />
                     </Sticky>
                   </div>
-                  <div className="col s12 m9 l9">
+                  <div className="col s12 m12 l9">
                     {drinkOrderedComponent}
-                    <Drinks createNewDrink={createNewDrink} drinks={drinks.value} axios={this.props.axios} dispatch={this.props.dispatch}  /> 
+                    <Drinks 
+                      currentDrinkProps= {currentDrinkProps}
+                      createNewDrink={createNewDrink} 
+                      drinks={drinks.value} 
+                      axios={this.props.axios} 
+                      dispatch={this.props.dispatch}  /> 
                   </div>
                 </div>
               </StickyContainer>

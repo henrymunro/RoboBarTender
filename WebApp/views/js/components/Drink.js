@@ -1,9 +1,9 @@
 import React from 'react'
 import { StickyContainer, Sticky } from 'react-sticky'
-
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card'
-
 import {updateSelectedDrink, setDrinkImageToDefault, getDrinkIngredients } from 'js/actions/drinksActions'
+
+import CurrentDrink from 'js/components/CurrentDrink'
 
 import baseStyles from 'styles/base.css'
 
@@ -50,7 +50,7 @@ export default class Drink extends React.Component {
 
   render () {
     
-    const { drink, index} = this.props
+    const { drink, index, currentDrinkProps} = this.props
     const { AddedBy,
             AlcoholPercentage,
             CanMake,
@@ -69,19 +69,45 @@ export default class Drink extends React.Component {
     const URLMatch = re.test(DrinkImage)
     const adjustedImagePath = URLMatch? DrinkImage: "images/"+DrinkImage
 
-    return <div className='col s12 l6'>
-              <div className="hoverable">
-                <Card onClick={this.onCardClick.bind(this)} style={{marginBottom:'20px'}}>
+    const drinkCard = <Card onClick={this.onCardClick.bind(this)} style={{marginBottom:'20px'}}>
                     <CardHeader
                       subtitle={DrinkName}                      
                     /> 
-                    <CardMedia                        
-                        overlay={(CanMake==0?<CardTitle title="Can't make!" subtitle="Please add the correct ingredients" />:<div/>)}
-
-                      >
+                    <div className="hide-on-med-and-up">                        
+                      <CardMedia                        
+                          overlay={(CanMake==0?<CardTitle title="Can't make!" subtitle="Please add the correct ingredients" />:<div/>)}
+                        >
+                        <img src={adjustedImagePath} style={{height:"160px"}}/>
+                      </CardMedia>
+                    </div>
+                    <div className="hide-on-small-only">
+                      <CardMedia                        
+                          overlay={(CanMake==0?<CardTitle title="Can't make!" subtitle="Please add the correct ingredients" />:<div/>)}
+                        >
                         <img src={adjustedImagePath} style={{height:"228px"}}/>
                       </CardMedia>
+                    </div> 
                 </Card>
+
+    const selectedDrinkCard = <Card>                                          
+                      <CardMedia style={{marginBottom:'20px', marginRight:'10px', marginLeft:'10px'}}>
+                        <CurrentDrink 
+                          {... currentDrinkProps}
+                          axios={this.props.axios} 
+                          dispatch={this.props.dispatch} />
+                      </CardMedia>
+                </Card>
+
+    const isDrinkSelected = (currentDrinkProps.currentDrink.Drink_id==Drink_id)
+
+    return <div className='col s12 m6 l6'>
+              <div className="hoverable">
+                <div className="hide-on-large-only">
+                    {isDrinkSelected?selectedDrinkCard:drinkCard}
+                </div>
+                <div className="hide-on-med-and-down">
+                  {drinkCard}
+                </div>
               </div>
            </div>
   }

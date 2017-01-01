@@ -83,14 +83,21 @@ export default class CurrentDrink extends React.Component {
 
 
     return <div>
-              <h4>{DrinkName}</h4>
-              <p>Percentage: {AlcoholPercentage}%</p>
-              <p>{DrinkDescription}</p>
-              <Card style={{marginBottom:'20px'}}>
-                    <CardMedia>
-                        <img src={adjustedImagePath} style={{height:"228px"}}/>
-                    </CardMedia>
-              </Card>
+              <div className="hide-on-med-and-down">
+                <h4>{DrinkName}</h4>
+                <p>Percentage: {AlcoholPercentage}%</p>
+                <p>{DrinkDescription}</p>
+              </div>
+              <div className="hide-on-large-only">
+                <h5>{DrinkName}</h5>
+              </div>
+              <div className="hide-on-med-and-down">
+                <Card style={{marginBottom:'20px'}}>
+                      <CardMedia>
+                          <img src={adjustedImagePath} style={{height:"228px"}}/>
+                      </CardMedia>
+                </Card>
+              </div>
               {drinkIngredients}
               <Slider
                 min={0}

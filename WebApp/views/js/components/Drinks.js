@@ -30,7 +30,7 @@ export default class Drinks extends React.Component {
     const { drinks, createNewDrink } = this.props
 
     const drinksComponent = drinks.map((drink, key)=>{
-        return <Drink drink={drink} key={key} index={key} axios={this.props.axios} dispatch={this.props.dispatch} />
+        return <Drink currentDrinkProps={this.props.currentDrinkProps} drink={drink} key={key} index={key} axios={this.props.axios} dispatch={this.props.dispatch} />
     })
 
     return <div>

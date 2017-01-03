@@ -1,4 +1,8 @@
 const debug = require('debug')('MixDrink')
+const gpio = require('rpi-gpio');
+
+
+const RPi = true;
 
 
 //Load in database connection
@@ -44,12 +48,18 @@ function mixNewDrink(requestDetails){
 function startPumpPour(PumpNumber, GPIOPinNumber, IngredientVolume, PumpTime, Pump_id){
 	debug('Starting pour on pump '+PumpNumber+' for '+PumpTime+'s ('+IngredientVolume+'ml)')
 	logPumpChangeInDB(Pump_id, 1)
+  if(RPi){
+    setGPIOPinHigh(GPIOPinNumber)
+  }
 	setTimeout(() => stopPumpPour(PumpNumber, GPIOPinNumber, Pump_id), PumpTime*1000)
 }
 
 function stopPumpPour(PumpNumber, GPIOPinNumber, Pump_id){
 	debug('Stopping pour on pump '+PumpNumber)
 	logPumpChangeInDB(Pump_id, 0)
+  if(RPi){
+    setGPIOPinLow(GPIOPinNumber)
+  }
 }
 
 
@@ -66,6 +76,28 @@ function logPumpChangeInDB(Pump_id, Status){
           debug('ERROR logged pump status in DB: ', Pump_id, ' , status: ', Status +', error: ' +  err)
           reject({err})
          })
+}
+
+function setGPIOPinHigh(GPIOPinNumber){
+  gpio.setup(GPIOPinNumber, gpio.DIR_OUT, write);
+ 
+  function write() {
+      gpio.write(GPIOPinNumber, true, function(err) {
+          if (err) throw err;
+          debug('Set Pin '+GPIOPinNumber+' high')
+      });
+  }
+}
+
+function setGPIOPinLow(GPIOPinNumber){
+  gpio.setup(GPIOPinNumber, gpio.DIR_OUT, write);
+ 
+  function write() {
+      gpio.write(GPIOPinNumber, false, function(err) {
+          if (err) throw err;
+          debug('Set Pin '+GPIOPinNumber+' low')
+      });
+  }
 }
 
 

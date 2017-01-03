@@ -9,8 +9,8 @@ CREATE TABLE Users (
     User_id int NOT NULL AUTO_INCREMENT,
     Name varchar(500) NOT NULL,
     Image varchar(500),
-    StartDate datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    EndDate datetime NULL,
+    StartDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    EndDate TIMESTAMP NULL,
     CONSTRAINT PK_User_id PRIMARY KEY (User_id)
 );
 
@@ -25,8 +25,8 @@ CREATE TABLE Drink (
     User_id int,
     Description varchar(2000),
     Image varchar(500),
-    StartDate datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    EndDate datetime NULL,
+    StartDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    EndDate TIMESTAMP NULL,
     CONSTRAINT PK_Drink_id PRIMARY KEY (Drink_id)
 );
 
@@ -46,8 +46,8 @@ CREATE TABLE Pump (
     Name varchar(500) NOT NULL, 
     DisplayName varchar(1000),
     Percentage int NOT NULL DEFAULT 0,
-    StartDate datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    EndDate datetime NULL,
+    StartDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    EndDate TIMESTAMP NULL,
     CONSTRAINT PK_Pump_id PRIMARY KEY (Pump_id)
 );
 
@@ -55,8 +55,8 @@ CREATE TABLE Pump (
 CREATE TABLE PumpStatus (
     PumpStatus_id int NOT NULL AUTO_INCREMENT,
     Pump_id int NOT NULL,
-    StartDate datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    EndDate datetime NULL,
+    StartDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    EndDate TIMESTAMP NULL,
     CONSTRAINT PK_PumpStatus_id PRIMARY KEY (PumpStatus_id)
 );
 
@@ -66,8 +66,8 @@ CREATE TABLE GPIOPump (
     PumpNumber int NOT NULL, 
     GPIOPinNumber int NOT NULL,
     PumpType_id int NOT NULL, 
-    StartDate datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    EndDate datetime NULL,
+    StartDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    EndDate TIMESTAMP NULL,
     CONSTRAINT PK_GPIOPump_id PRIMARY KEY (GPIOPump_id)
 );
 
@@ -76,8 +76,8 @@ CREATE TABLE PumpType (
     PumpType_id int NOT NULL AUTO_INCREMENT,
     PumpType varchar(500) NOT NULL, 
     FlowRate DECIMAL(6,4) NOT NULL, 
-    StartDate datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    EndDate datetime NULL,
+    StartDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    EndDate TIMESTAMP NULL,
     CONSTRAINT PK_PumpType_id PRIMARY KEY (PumpType_id)
 );
 

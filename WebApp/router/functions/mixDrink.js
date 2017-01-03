@@ -1,5 +1,5 @@
 const debug = require('debug')('MixDrink')
-const gpio = require('rpi-gpio');
+const gpio = require("pi-gpio")
 
 
 const RPi = true;
@@ -80,10 +80,11 @@ function logPumpChangeInDB(Pump_id, Status){
 
 function setGPIOPinHigh(GPIOPinNumber){
   debug('Attempting to set Pin '+GPIOPinNumber+' high')
-  gpio.setup(GPIOPinNumber, gpio.DIR_OUT, write);
+  gpio.open(GPIOPinNumber, "output", write(error));
  
-  function write() {
-      gpio.write(GPIOPinNumber, true, function(err) {
+  function write(error) {
+      if (error) throw error;
+      gpio.write(GPIOPinNumber, 1, function(err) {
           if (err) throw err;
           debug('Set Pin '+GPIOPinNumber+' high')
       });
@@ -92,13 +93,12 @@ function setGPIOPinHigh(GPIOPinNumber){
 
 function setGPIOPinLow(GPIOPinNumber){
   debug('Attempting to set Pin '+GPIOPinNumber+' low')
-  gpio.setup(GPIOPinNumber, gpio.DIR_OUT, write);
+  gpio.open(GPIOPinNumber, "output", write(error));
  
-  function write() {
-      gpio.write(GPIOPinNumber, false, function(err) {
-          if (err) throw err;
-          debug('Set Pin '+GPIOPinNumber+' low')
-      });
+  function write(error) {
+    if (error) throw error;
+      gpio.close(GPIOPinNumber)
+      debug('Set Pin '+GPIOPinNumber+' low')
   }
 }
 

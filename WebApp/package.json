@@ -36,6 +36,7 @@
     "morgan": "^1.7.0",
     "mysql2": "^1.1.1",
     "njwt": "^0.3.2",
+    "pi-gpio": "0.0.8",
     "react": "^15.0.0",
     "react-dom": "^15.0.0",
     "react-faux-dom": "^3.0.0",

@@ -80,7 +80,7 @@ function logPumpChangeInDB(Pump_id, Status){
 
 function setGPIOPinHigh(GPIOPinNumber){
   debug('Attempting to set Pin '+GPIOPinNumber+' high')
-  gpio.open(GPIOPinNumber, "output", write(error));
+  gpio.open(GPIOPinNumber, "output", write);
  
   function write(error) {
       if (error) throw error;
@@ -93,7 +93,7 @@ function setGPIOPinHigh(GPIOPinNumber){
 
 function setGPIOPinLow(GPIOPinNumber){
   debug('Attempting to set Pin '+GPIOPinNumber+' low')
-  gpio.open(GPIOPinNumber, "output", write(error));
+  gpio.open(GPIOPinNumber, "output", write);
  
   function write(error) {
     if (error) throw error;

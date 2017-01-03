@@ -15,6 +15,22 @@ export function getPumps(axios){
 }
 
 
+export function openEditPumpDialog(){
+	return {
+		type: 'OPEN_EDIT_PUMP_DIALOG',
+		payload: true
+	}
+}
+
+export function closeEditPumpDialog(){
+	return {
+		type: 'CLOSE_EDIT_PUMP_DIALOG',
+		payload: false
+	}
+}
+
+
+
 // Gets the pump layout stored in the DB
 export function addPump(name, displayName, percentage, pumpNumber, axios){
 	return {

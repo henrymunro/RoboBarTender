@@ -12,7 +12,8 @@ export default function reducer (state = {
                   {pumpNumber: 3, active: false},
                   {pumpNumber: 4, active: false},
                   {pumpNumber: 5, active: false}],
-    pumping: false
+    pumping: false,
+    editPumpDialogOpen: false
   } , action) {
   switch (action.type) {
 
@@ -23,6 +24,14 @@ export default function reducer (state = {
                                 pending: false
                               }
       }
+    }
+
+    case 'OPEN_EDIT_PUMP_DIALOG':{
+      return {...state, editPumpDialogOpen:true}
+    }
+
+    case 'CLOSE_EDIT_PUMP_DIALOG':{
+      return {...state, editPumpDialogOpen:false}
     }
 
     case 'GET_PUMPS_PENDING': {

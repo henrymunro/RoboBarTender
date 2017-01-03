@@ -6,6 +6,7 @@ import { StickyContainer, Sticky } from 'react-sticky'
 import CurrentDrink from 'js/components/CurrentDrink'
 import Drinks from 'js/components/Drinks'
 import DrinkProgressTimer from 'js/components/DrinkProgressTimer'
+import EditPumps from 'js/components/EditPumps'
 
 import baseStyles from 'styles/base.css'
 

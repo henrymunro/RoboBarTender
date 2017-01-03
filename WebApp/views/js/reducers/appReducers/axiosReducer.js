@@ -3,7 +3,8 @@ import axios from 'axios'
 export default function reducer (state = {
     axios: {
       request: axios.create({
-        baseURL: 'http://localhost:3000/',
+        //baseURL: 'http://localhost:3000/',  //for dev 
+        baseURL: 'http://192.168.1.33:3000/', // for RPi
         timeout: 5000
 
         }),

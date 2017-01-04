@@ -105,9 +105,28 @@ if (RPi) {
   // Graceful shut down on CTRL-C
   process.on('SIGINT', function () { 
     debug('Gracefully shutting off pins, bye bye!')
-    wpi.digitalWrite(7, 0)
-    wpi.digitalWrite(2, 0)
-    process.exit();
+    const procedure = 'call sp_GetPumps();'
+    pool.getConnection()
+           .then((conn) => {
+            debug('Calling procedure: '+procedure)
+             const result = conn.query(procedure)
+             conn.release()
+             return result;
+           })
+           .then((result) => {
+            debug('Request SUCCESS: ' + procedure)
+            const resultSend = result[0][0].map((element)=>{
+              const GPIOPinNumber = element.GPIOPinNumber
+              wpi.digitalWrite(GPIOPinNumber, 0)
+            })
+
+            // Continue shut down process
+            process.exit();
+
+           }).catch((err)=>{
+            debug('Request ERROR: ' + procedure + ', error: ' +  err)
+           })
+    
   });
 
 } else {

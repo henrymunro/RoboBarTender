@@ -13,7 +13,14 @@ export default function reducer (state = {
                   {pumpNumber: 4, active: false},
                   {pumpNumber: 5, active: false}],
     pumping: false,
-    editPumpDialogOpen: false
+    editPumps:{
+      editPumpDialogOpen: false,
+      selectedEditPumpNumber: 0,
+      editPumpName:'',
+      editPumpDisplayName:'',
+      editPumpPercrntage:undefined
+    }
+    
   } , action) {
   switch (action.type) {
 
@@ -26,13 +33,80 @@ export default function reducer (state = {
       }
     }
 
+    /*************************   EDIT PUMPS *********************/
+
     case 'OPEN_EDIT_PUMP_DIALOG':{
-      return {...state, editPumpDialogOpen:true}
+      return {...state, editPumps:{
+                              editPumpDialogOpen: true,
+                              selectedEditPumpNumber: 0,
+                              editPumpName:'',
+                              editPumpDisplayName:'',
+                              editPumpPercrntage:undefined
+                            }
+          }
     }
 
     case 'CLOSE_EDIT_PUMP_DIALOG':{
-      return {...state, editPumpDialogOpen:false}
+      return {...state, editPumps:{
+                              editPumpDialogOpen: false,
+                              selectedEditPumpNumber: 0,
+                              editPumpName:'',
+                              editPumpDisplayName:'',
+                              editPumpPercrntage:undefined
+                            }
+          }
     }
+
+
+    case 'UPDATE_SELECTED_EDIT_PUMP':{
+      const pumpNumber = Number(action.payload)
+      const currentSelectedPump = state.pumps.value.filter((el)=>{return el.PumpNumber == pumpNumber})[0] || {}
+      return {...state, editPumps:{
+                              editPumpDialogOpen: true,
+                              selectedEditPumpNumber: pumpNumber,
+                              editPumpName:currentSelectedPump.PumpName,
+                              editPumpDisplayName:currentSelectedPump.DisplayName,
+                              editPumpPercrntage:currentSelectedPump.Percentage
+                            }
+            }
+    }
+
+    case 'UPDATE_EDIT_PUMP_NAME':{
+      return {...state, editPumps:{
+                              editPumpDialogOpen: true,
+                              selectedEditPumpNumber: state.editPumps.selectedEditPumpNumber,
+                              editPumpName:action.payload,
+                              editPumpDisplayName:state.editPumps.editPumpDisplayName,
+                              editPumpPercrntage:state.editPumps.editPumpPercrntage
+                            }
+            }
+    }
+
+    case 'UPDATE_EDIT_PUMP_DISPLAY_NAME':{
+      return {...state, editPumps:{
+                              editPumpDialogOpen: true,
+                              selectedEditPumpNumber: state.editPumps.selectedEditPumpNumber,
+                              editPumpName:state.editPumps.editPumpName,
+                              editPumpDisplayName:action.payload,
+                              editPumpPercrntage:state.editPumps.editPumpPercrntage
+                            }
+            }
+    }
+
+    case 'UPDATE_EDIT_PUMP_PERCENTAGE':{
+      return {...state, editPumps:{
+                              editPumpDialogOpen: true,
+                              selectedEditPumpNumber: state.editPumps.selectedEditPumpNumber,
+                              editPumpName:state.editPumps.editPumpName,
+                              editPumpDisplayName:state.editPumps.editPumpDisplayName,
+                              editPumpPercrntage:Number(action.payload)||0
+                            }
+            }
+    }
+
+
+
+    /************************  GENERAL PUMPS *************************/
 
     case 'GET_PUMPS_PENDING': {
       return {...state, pumps: {

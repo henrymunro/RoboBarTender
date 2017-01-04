@@ -15,6 +15,8 @@ export function getPumps(axios){
 }
 
 
+/********************* EDIT PUMPS ********************************/
+
 export function openEditPumpDialog(){
 	return {
 		type: 'OPEN_EDIT_PUMP_DIALOG',
@@ -29,6 +31,34 @@ export function closeEditPumpDialog(){
 	}
 }
 
+
+export function updateSelectedEditPump(pump_id){
+	return{
+		type: 'UPDATE_SELECTED_EDIT_PUMP',
+		payload: pump_id
+	}
+}
+
+export function updateEditPumpName(Name){
+	return{
+		type:'UPDATE_EDIT_PUMP_NAME',
+		payload: Name
+	}
+}
+
+export function updateEditPumpDisplayName(DisplayName){
+	return{
+		type:'UPDATE_EDIT_PUMP_DISPLAY_NAME',
+		payload: DisplayName
+	}
+}
+
+export function updateEditPumpPercentage(Percentage){
+	return{
+		type:'UPDATE_EDIT_PUMP_PERCENTAGE',
+		payload: Percentage
+	}
+}
 
 
 // Gets the pump layout stored in the DB

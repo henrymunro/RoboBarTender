@@ -22,6 +22,8 @@ import {updateSelectedDrink,
   getDrinks
    } from 'js/actions/drinksActions'
 
+import { getPumps } from 'js/actions/layoutActions'
+
 
 import baseStyles from 'styles/base.css'
 
@@ -30,6 +32,7 @@ import baseStyles from 'styles/base.css'
 export default class CreateNewDrink extends React.Component {
   componentWillMount () {
       this.props.dispatch(getPumpInfoForNewDrink(this.props.axios))
+      this.props.dispatch(getPumps(this.props.axios))
   }
 
   componentDidMount () {

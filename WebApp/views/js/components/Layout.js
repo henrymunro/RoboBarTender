@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { StickyContainer, Sticky } from 'react-sticky'
-
+import RaisedButton from 'material-ui/RaisedButton'
 
 import CurrentDrink from 'js/components/CurrentDrink'
 import Drinks from 'js/components/Drinks'
@@ -10,7 +10,7 @@ import EditPumps from 'js/components/EditPumps'
 
 import baseStyles from 'styles/base.css'
 
-import { getUsername, getPumps } from 'js/actions/layoutActions'
+import { getUsername, getPumps, openEditPumpDialog } from 'js/actions/layoutActions'
 import { getDrinks, getDrinkIngredients } from 'js/actions/drinksActions'
 
 
@@ -20,7 +20,8 @@ import { getDrinks, getDrinkIngredients } from 'js/actions/drinksActions'
     drinksStore: store.drinks,
     axios: store.axios.axios,
     pumps: store.layout.pumps,
-    pumpLayout: store.layout.pumpLayout
+    pumpLayout: store.layout.pumpLayout,
+    editPumps: store.layout.editPumps
   }
 })
 export default class Layout extends React.Component {
@@ -37,9 +38,13 @@ export default class Layout extends React.Component {
     this.props.dispatch(getPumps(this.props.axios))
   }
 
+  openEditPumpsDialog(){
+    this.props.dispatch(openEditPumpDialog())
+  }
+
 
   render () {
-    const {username, drinksStore, pumps, pumpLayout} = this.props
+    const {username, drinksStore, pumps, pumpLayout, editPumps} = this.props
     const { drinks, 
       selectedDrink, 
       selectedDrinkIngredients,
@@ -75,6 +80,9 @@ export default class Layout extends React.Component {
     const errorMessage = drinksStore.errorMessage
     const currentDrinkProps = { currentDrink, selectedDrinkIngredients, drinkVolume, errorMessage}
 
+    //Edit Pumps props
+    const editPumpsProps = {pumps, pumpLayout, editPumps}
+
     return <div>
               <StickyContainer>
                 <div className="row">
@@ -84,6 +92,8 @@ export default class Layout extends React.Component {
                           {... currentDrinkProps}
                           axios={this.props.axios} 
                           dispatch={this.props.dispatch} />
+                      <RaisedButton label='Edit Pumps' primary={true} onClick={this.openEditPumpsDialog.bind(this)} />
+                      <EditPumps {...editPumpsProps} axios={this.props.axios} dispatch={this.props.dispatch} />
                     </Sticky>
                   </div>
                   <div className="col s12 m12 l9">

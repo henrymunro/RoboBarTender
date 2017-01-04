@@ -64,7 +64,7 @@ export function updateEditPumpPercentage(Percentage){
 // Gets the pump layout stored in the DB
 export function addPump(name, displayName, percentage, pumpNumber, axios){
 	return {
-		type:'GET_PUMPS',
+		type:'ADD_PUMPS',
 		payload: axios.request.post(axios.URLS.addPump, {name:name, 
 														displayName:displayName, 
 														percentage: percentage, 
@@ -76,7 +76,7 @@ export function addPump(name, displayName, percentage, pumpNumber, axios){
 // Gets the pump layout stored in the DB
 export function ceasePump(pumpNumber, axios){
 	return {
-		type:'GET_PUMPS',
+		type:'CEASE_PUMP',
 		payload: axios.request.post(axios.URLS.ceasePump, {pumpNumber: pumpNumber}) 
 	}
 }

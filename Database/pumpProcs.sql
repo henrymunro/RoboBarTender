@@ -99,9 +99,26 @@ BEGIN
 				AND GP.EndDate IS NULL 
 				AND P.EndDate IS NULL 
 			) THEN 
-		SELECT 'Pump already in use please deallocate the current bottle' AS ErrorMessage;
+
+		UPDATE Pump 
+		SET EndDate = CURRENT_TIMESTAMP
+		WHERE GPIOPump_id = (SELECT GPIOPump_id FROM GPIOPump WHERE PumpNumber = pumpNumber_in AND EndDate IS NULL)
+			AND EndDate IS NULL;
+
+		INSERT INTO Pump(Name, DisplayName, Percentage, GPIOPump_id)
+		SELECT name_in, displayName_in, percentage_in, GPIOPump_id
+		FROM GPIOPump 
+		WHERE PumpNumber = pumpNumber_in
+			AND EndDate IS NULL;
+
+
 	ELSEIF (IFNULL((SELECT COUNT(*) FROM GPIOPump WHERE PumpNumber = pumpNumber_in and EndDate is NULL), 0) < 1) THEN
-		SELECT 'Pump number not set up' AS ErrorMessage;
+		INSERT INTO GPIOPump(PumpNumber, GPIOPinNumber, PumpType_id)
+		SELECT pumpNumber_in, 2, 1;
+
+		INSERT INTO Pump(Name, DisplayName, Percentage, GPIOPump_id)
+		SELECT name_in, displayName_in, percentage_in, LAST_INSERT_ID();
+
 
 	ELSE
 		INSERT INTO Pump(Name, DisplayName, Percentage, GPIOPump_id)

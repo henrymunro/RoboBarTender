@@ -17,6 +17,8 @@ import { addPump,
   updateEditPumpPercentage
 } from 'js/actions/layoutActions'
 
+import { getPumpInfoForNewDrink } from 'js/actions/drinksActions'
+
 import baseStyles from 'styles/base.css'
 import styles from 'styles/components/pumps.css'
 
@@ -33,14 +35,6 @@ export default class Pumps extends React.Component {
      
   }
 
-  addPump(e){
-    const pumpNumber = e.target.closest('button').attributes.getNamedItem('data-pump-number').value
-    const name = 'test name'
-    const displayName = 'test displayName'
-    const percentage = '60'
-    this.props.dispatch(addPump(name, displayName, percentage, pumpNumber, this.props.axios))
-        .then(this.props.dispatch(getPumps(this.props.axios)))
-  }
 
   ceasePump(e){
     const pumpNumber = e.target.closest('button').attributes.getNamedItem('data-pump-number').value
@@ -75,7 +69,10 @@ export default class Pumps extends React.Component {
     const { editPumps } = this.props
     const { editPumpName, editPumpDisplayName, editPumpPercrntage, selectedEditPumpNumber } =editPumps
     this.props.dispatch(addPump(editPumpName, editPumpDisplayName, editPumpPercrntage, selectedEditPumpNumber, this.props.axios))
-        .then(this.props.dispatch(getPumps(this.props.axios)))
+        .then(()=>{
+          this.props.dispatch(getPumps(this.props.axios))
+          this.props.dispatch(getPumpInfoForNewDrink(this.props.axios))
+        })
   }
 
 
@@ -115,7 +112,6 @@ export default class Pumps extends React.Component {
 
 
         const ceasePumpButton = (!pumpActive && currentDrink.DisplayName)?  <RaisedButton label="Delete" data-pump-number={pumpNumber} fullWidth={true} onClick={this.ceasePump.bind(this)}/> : <div/>
-        const addPumpButton = (!currentDrink.DisplayName)?<RaisedButton label="Add" data-pump-number={pumpNumber} fullWidth={true} onClick={this.addPump.bind(this)}/> :<div/>
 
 
         return <var data-pump-number={pumpNumber} key={key}>
@@ -126,7 +122,6 @@ export default class Pumps extends React.Component {
                       onClick={this.updateSelectedEditPump.bind(this)}
                     /> 
                     {ceasePumpButton}
-                    {addPumpButton}
                 </Card>
               </var>
     })

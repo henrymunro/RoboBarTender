@@ -1,14 +1,15 @@
 const debug = require('debug')('MixDrink')
-const gpio = require("pi-gpio")
+const wpi = require('wiring-pi')
 
 
-const RPi = true;
+const RPi = (process.env.RPI?true:false);
 
 
 //Load in database connection
 const pool = require('../databaseConnection')
 
 debug('Startup: Loading in MIX_DRINK functions')
+
 
 
 function mixNewDrink(requestDetails){
@@ -78,32 +79,54 @@ function logPumpChangeInDB(Pump_id, Status){
          })
 }
 
-function setGPIOPinHigh(GPIOPinNumber){
-  debug('Attempting to set Pin '+GPIOPinNumber+' high')
-  gpio.open(GPIOPinNumber, "output", write);
- 
-  function write(error) {
-      if (error) throw error;
-      gpio.write(GPIOPinNumber, 1, function(err) {
-          if (err) throw err;
-          debug('Set Pin '+GPIOPinNumber+' high')
-      });
+
+//Only sets up GPIO integration if on the RPi
+if (RPi) {
+  debug('Startup: setting up GPIO connection with wiring-pi pin numbers')
+  wpi.wiringPiSetup()
+
+  function setGPIOPinHigh(GPIOPinNumber){
+    debug('Attempting to set Pin '+GPIOPinNumber)
+    wpi.pinMode(GPIOPinNumber, wpi.OUTPUT)
+    
+    debug('Attempting to write Pin '+GPIOPinNumber+' high')
+    wpi.digitalWrite(GPIOPinNumber, 1)
   }
+
+
+  function setGPIOPinLow(GPIOPinNumber){
+    debug('Attempting to set Pin '+GPIOPinNumber+' low')
+    wpi.pinMode(GPIOPinNumber, wpi.OUTPUT) 
+   
+    debug('Attempting to write Pin '+GPIOPinNumber+' low')
+    wpi.digitalWrite(GPIOPinNumber, 0)
+  }
+
+  // Graceful shut down on CTRL-C
+  process.on('SIGINT', function () { 
+    debug('Gracefully shutting off pins, bye bye!')
+    wpi.digitalWrite(7, 0)
+    wpi.digitalWrite(2, 0)
+    process.exit();
+  });
+
+} else {
+
+  function setGPIOPinHigh(GPIOPinNumber){
+    debug('Dummy set '+GPIOPinNumber+' high')
+  }
+
+  function setGPIOPinLow(GPIOPinNumber){
+    debug('Dummy set '+GPIOPinNumber+' low')
+  }
+
 }
 
-function setGPIOPinLow(GPIOPinNumber){
-  debug('Attempting to set Pin '+GPIOPinNumber+' low')
-  gpio.open(GPIOPinNumber, "output", write);
- 
-  function write(error) {
-    if (error) throw error;
-      gpio.close(GPIOPinNumber)
-      debug('Set Pin '+GPIOPinNumber+' low')
-  }
-}
 
 
 
 module.exports = { 
 	mixNewDrink: mixNewDrink
 }
+
+

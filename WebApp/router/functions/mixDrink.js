@@ -2,7 +2,7 @@ const debug = require('debug')('MixDrink')
 const wpi = require('wiring-pi')
 
 
-const RPi = (process.env.RPI?true:false);
+const RPi = (process.env.RPi?true:false);
 
 
 //Load in database connection

@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const RPi = (process.env.RPiA?true:false)
+const RPi = (process.env.RPi?true:false)
 
 const baseURL = RPi?'http://192.168.1.33:3000/':'http://localhost:3000/'
 

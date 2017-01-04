@@ -1,8 +1,10 @@
 import axios from 'axios'
 
-const RPi = (process.env.RPI?true:false)
+const RPi = (process.env.RPiA?true:false)
 
 const baseURL = RPi?'http://192.168.1.33:3000/':'http://localhost:3000/'
+
+console.log('BASE URL: ', baseURL)
 
 export default function reducer (state = {
     axios: {

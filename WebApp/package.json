@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "webpack-watch": "webpack --watch --config webpack.config.prod.js",
-    "RPi-webpack-watch": "webpack --define process.env.RPiA='\"true\"' --watch --config webpack.config.prod.js",
+    "RPi-webpack-watch": "webpack --define process.env.RPiA='\"true\"' --config webpack.config.prod.js",
     "start": "node ./bin/www",
     "express-server": "DEBUG=databaseProcedure,databaseConnection,LOG,Drinks,Pump,ValidateDrinkOrder,MixDrink nodemon -w . -w www",
     "RPi-express-server": "RPi=true DEBUG=databaseProcedure,databaseConnection,LOG,Drinks,Pump,ValidateDrinkOrder,MixDrink nodemon -w . -w www",

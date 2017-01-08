@@ -56,6 +56,7 @@ export default class Layout extends React.Component {
       pollPumpPending,
       timeOutPending,
       pollPumpTotalCount,
+      drinkVolume,
       createNewDrink
     } = drinksStore
 
@@ -71,12 +72,12 @@ export default class Layout extends React.Component {
                                                                       drinkOrdered={drinkOrdered}
                                                                       axios={this.props.axios}
                                                                       pumps={pumps}
+                                                                      drinkVolume={drinkVolume}
                                                                       pumpLayout={pumpLayout}
                                                                       dispatch={this.props.dispatch} /> : <div/>
 
     // Props to pass to current drink compontent                                                                  
-    const currentDrink = drinks.value[selectedDrink]                                                                  
-    const drinkVolume = drinksStore.drinkVolume
+    const currentDrink = drinks.value[selectedDrink] 
     const errorMessage = drinksStore.errorMessage
     const currentDrinkProps = { currentDrink, selectedDrinkIngredients, drinkVolume, errorMessage}
 

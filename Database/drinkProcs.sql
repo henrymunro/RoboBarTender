@@ -66,7 +66,7 @@ BEGIN
 	     CanMake INT NOT NULL DEFAULT 0,
 	     IngredientsVolumeRatio DECIMAL(5,3),
 	     AlcoholPercentage INT,
-	     PourTime INT
+	     PourTime DECIMAL(5,3)
 	);
 
 	INSERT INTO TempDrinks( Drink_id, DrinkName, AddedBy, DrinkDescription, DrinkImage, DrinkStartDate, CanMake, IngredientsVolumeRatio, AlcoholPercentage, PourTime )
@@ -90,7 +90,7 @@ BEGIN
 	        SUM( CASE WHEN D.GPIOPinNumber IS NULL THEN 1 ELSE 0 END ) as CanMake,
 	        SUM( D.Volume ) as TotalVolume,
 	        SUM( IFNULL(D.Volume, 0) * IFNULL(D.Percentage*1.0/100, 0)) as AlcoholVolume,
-	        MAX( IFNULL(D.Volume*1.0/100, 0) * 1.0 / D.FlowRate ) as MaxTime
+	        MAX( (IFNULL(D.Volume*1.0/100, 0.0)) * 1.0 / D.FlowRate ) as MaxTime
 		FROM vw_Drink D 
 		WHERE D.DrinkEndDate IS NULL 
 		GROUP BY D.Drink_id, 

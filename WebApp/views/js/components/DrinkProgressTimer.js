@@ -42,7 +42,8 @@ export default class DrinkTimerProgress extends React.Component {
       drinkOrderedTime, //ms
       pollPumpCount,
       pollPumpTotalCount,
-      pollPumpPending
+      pollPumpPending,
+      drinkVolume
     } = this.props
     
     if (completed > 100) {
@@ -52,8 +53,14 @@ export default class DrinkTimerProgress extends React.Component {
       this.props.dispatch(setPendingTimeout(false))
     } else {
       // Calculate new value for progress bar
-      const newCompleted = 100.0 * (new Date().getTime() - drinkOrderedTime) / (pourTime* 1000) 
-      console.log('NEW COMPLETED: ', newCompleted, new Date().getTime() , drinkOrderedTime, pourTime)
+      const timeElaspedS = (new Date().getTime() - drinkOrderedTime)/1000
+      const totalPourTime = pourTime * (drinkVolume/1000) // Pour time s/L  drinkVolume ml
+      const newCompleted = 100.0 * timeElaspedS / totalPourTime
+      console.log('NEW COMPLETED: ', newCompleted)
+      console.log('TimeEllapsed: ', timeElaspedS)
+      console.log('Total Pour Time: ', totalPourTime)
+      console.log('Pour Time: ', pourTime)
+      console.log('Drink drinkVolume: ', drinkVolume)
 
       this.timer = setTimeout(() => {
         // Clear pending timeout to allow a new one to be added

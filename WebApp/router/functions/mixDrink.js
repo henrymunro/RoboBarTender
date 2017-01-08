@@ -21,13 +21,12 @@ function mixNewDrink(requestDetails){
   			pumpDetails,
   			CanMake, 
   			IngredientsVolumeRatio,
-  			ingredientDetails,
-        FlowRate
+  			ingredientDetails        
   		} = requestDetails
   		debug('Request RECIEVED to mix drink: '+ Drink_id)
 
   	ingredientDetails.map((element, key)=>{
-  		const { Volume, PumpNumber, GPIOPinNumber, PumpTime } = element
+  		const { Volume, PumpNumber, GPIOPinNumber, PumpTime, FlowRate } = element
   		const Pump_id = pumpDetails.filter((el)=>{return el.PumpNumber == PumpNumber})[0].Pump_id
   		const IngredientVolume = (Volume/100)*IngredientsVolumeRatio*DrinkTotalVolume
       const PumpTimeCalc = IngredientVolume/(1000*FlowRate)

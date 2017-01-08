@@ -21,7 +21,8 @@ function mixNewDrink(requestDetails){
   			pumpDetails,
   			CanMake, 
   			IngredientsVolumeRatio,
-  			ingredientDetails
+  			ingredientDetails,
+        FlowRate
   		} = requestDetails
   		debug('Request RECIEVED to mix drink: '+ Drink_id)
 
@@ -29,7 +30,8 @@ function mixNewDrink(requestDetails){
   		const { Volume, PumpNumber, GPIOPinNumber, PumpTime } = element
   		const Pump_id = pumpDetails.filter((el)=>{return el.PumpNumber == PumpNumber})[0].Pump_id
   		const IngredientVolume = (Volume/100)*IngredientsVolumeRatio*DrinkTotalVolume
-  		startPumpPour(PumpNumber, GPIOPinNumber, IngredientVolume, PumpTime, Pump_id)
+      const PumpTimeCalc = IngredientVolume/(1000*FlowRate)
+  		startPumpPour(PumpNumber, GPIOPinNumber, IngredientVolume, PumpTimeCalc, Pump_id)
   // 		console.log(element)
   // 		TextRow {
   // Drink_id: 1,
@@ -45,7 +47,7 @@ function mixNewDrink(requestDetails){
 
 }
 
-//sp_UpdatePumpStatus
+// Starts pump for the pre set time flow
 function startPumpPour(PumpNumber, GPIOPinNumber, IngredientVolume, PumpTime, Pump_id){
 	debug('Starting pour on pump '+PumpNumber+' for '+PumpTime+'s ('+IngredientVolume+'ml)')
 	logPumpChangeInDB(Pump_id, 1)
@@ -55,13 +57,24 @@ function startPumpPour(PumpNumber, GPIOPinNumber, IngredientVolume, PumpTime, Pu
 	setTimeout(() => stopPumpPour(PumpNumber, GPIOPinNumber, Pump_id), PumpTime*1000)
 }
 
+
+
 function stopPumpPour(PumpNumber, GPIOPinNumber, Pump_id){
-	debug('Stopping pour on pump '+PumpNumber)
-	logPumpChangeInDB(Pump_id, 0)
+  debug('Stopping pour on pump '+PumpNumber)
+  logPumpChangeInDB(Pump_id, 0)
   if(RPi){
     setGPIOPinLow(GPIOPinNumber)
   }
 }
+
+
+
+
+
+
+
+
+
 
 
 function logPumpChangeInDB(Pump_id, Status){
@@ -125,7 +138,9 @@ if (RPi) {
 
            }).catch((err)=>{
             debug('Request ERROR: ' + procedure + ', error: ' +  err)
+            process.exit();
            })
+    process.exit();
     
   });
 
@@ -140,6 +155,9 @@ if (RPi) {
   }
 
 }
+
+
+
 
 
 

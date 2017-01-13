@@ -114,16 +114,20 @@ export default class Pumps extends React.Component {
         const ceasePumpButton = (!pumpActive && currentDrink.DisplayName)?  <RaisedButton label="Delete" data-pump-number={pumpNumber} fullWidth={true} onClick={this.ceasePump.bind(this)}/> : <div/>
 
 
-        return <var data-pump-number={pumpNumber} key={key}>
+        return <div>
+            <var data-pump-number={pumpNumber} key={key}>
               <Card key={key}>
                     <CardHeader
                       subtitle={currentDrink.DisplayName||'Empty'}
                       className={pumpStyle}
                       onClick={this.updateSelectedEditPump.bind(this)}
                     /> 
-                    {ceasePumpButton}
+                    <div>
+                      {ceasePumpButton}
+                    </div>
                 </Card>
               </var>
+            </div>
     })
 
 

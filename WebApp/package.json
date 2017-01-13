@@ -54,7 +54,8 @@
     "redux-thunk": "^2.1.0",
     "rpi-gpio": "^0.7.0",
     "serve-favicon": "~2.3.0",
-    "webpack": "^1.12.9"
+    "webpack": "^1.12.9",
+    "wiring-pi": "^2.2.1"
   },
   "devDependencies": {
     "concurrently": "^3.1.0",

@@ -71,23 +71,25 @@ export default class Drink extends React.Component {
 
     const cantMakeElement = (CanMake==0?<CardHeader title="Can't make!" subtitle="Please add the correct ingredients" />:<div/>)
 
-    const drinkCard = <Card onClick={this.onCardClick.bind(this)} style={{marginBottom:'20px'}}>
+    const drinkCard = <div>
+                  <Card onClick={this.onCardClick.bind(this)} style={{marginBottom:'20px'}}>
                     {cantMakeElement}
                     <div className="hide-on-med-and-up">                        
                       <CardMedia                        
-                          overlay={<CardHeader subtitle={DrinkName}/>}
+                          overlay={<div><CardHeader subtitle={DrinkName}/></div>}
                         >
                         <img src={adjustedImagePath} style={{height:"160px"}}/>
                       </CardMedia>
                     </div>
                     <div className="hide-on-small-only">
                       <CardMedia                        
-                          overlay={<CardHeader subtitle={DrinkName}/>}
+                          overlay={<div><CardHeader subtitle={DrinkName}/></div>}
                           >
                         <img src={adjustedImagePath} style={{height:"228px"}}/>
                       </CardMedia>
                     </div> 
                 </Card>
+              </div>
 
     const selectedDrinkCard = <Card>                                          
                       <CardMedia style={{marginBottom:'20px', marginRight:'10px', marginLeft:'10px', paddingTop:'4px', paddingBotton:'10px'}}>

@@ -73,7 +73,7 @@ export default class CurrentDrink extends React.Component {
 
     const drinkIngredients = <Card>
                            <CardMedia
-                              children={<List> {mappedIngredients} </List>}
+                              children={<div><List> {mappedIngredients} </List></div>}
                             >
                               
                             </CardMedia>

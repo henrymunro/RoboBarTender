@@ -26,7 +26,7 @@ import styles from 'styles/components/pumps.css'
 
 
 
-export default class Pumps extends React.Component {
+export default class EditPumps extends React.Component {
   componentWillMount () {
       
   }
@@ -114,7 +114,7 @@ export default class Pumps extends React.Component {
         const ceasePumpButton = (!pumpActive && currentDrink.DisplayName)?  <RaisedButton label="Delete" data-pump-number={pumpNumber} fullWidth={true} onClick={this.ceasePump.bind(this)}/> : <div/>
 
 
-        return <div>
+        return <div key={key}>
             <var data-pump-number={pumpNumber} key={key}>
               <Card key={key}>
                     <CardHeader

@@ -9,7 +9,8 @@ CREATE PROCEDURE sp_GetApplicationStatus()
 BEGIN
 	
 	SELECT KillSwitch, 
-			Pumping
+			Pumping,
+			CupInPlace
     FROM Config
   	LIMIT 1; 
 	

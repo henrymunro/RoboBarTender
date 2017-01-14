@@ -42,18 +42,25 @@ router.post('/order', (req,res)=>{
   const {Drink_id, Volume} = req.body
   debug('Request RECIEVED to order Drink: ', Drink_id, Volume)
   validateNewDrinkOrder(Drink_id, Volume).then((response)=>{
-    const { KillSwitch, Pumping, CanMake } = response
+    const { KillSwitch, Pumping, CanMake, CupInPlace, drinkNotRecognised } = response
 
-    if(KillSwitch === 1 ){
+    console.log(response)
+    // Switching block to deal with validation failures 
+    if ( drinkNotRecognised ){
+      debug('Request REJECTED drinkNotRecognised = 1')
+      res.send({orderPlaced: false, msg:'drink_not_recognised', errorMessage:'The drink has not been recognised!'})
+    } else if(KillSwitch === 1 ){
       debug('Request REJECTED KillSwitch = 1')
-      res.send({orderPlaced: false, errorMessage:'Machine is off, give it some power!'})
+      res.send({orderPlaced: false, msg:'bar_tender_off', errorMessage:'Machine is off, give it some power!'})
     } else if (Pumping ===1 ){
       debug('Request REJECTED Pumping = 1')
-      res.send({orderPlaced: false, errorMessage:'Machine is already making a drink, cool your horses!'})
-    } 
-    else if (CanMake ===0 ){
+      res.send({orderPlaced: false, msg:'bar_tender_busy', errorMessage:'Machine is already making a drink, cool your horses!'})
+    } else if (CupInPlace === 0){
+      debug('Request REJECTED CupInPlace = 0')
+      res.send({orderPlaced: false, msg:'no_cup', errorMessage:'There is no cup present, please place on in the bar tender'})
+    } else if (CanMake ===0 ){
       debug('Request REJECTED CanMake = 0')
-      res.send({orderPlaced: false, errorMessage:'Don\'t have the necessary ingredients, time to go to the shops!'})
+      res.send({orderPlaced: false, msg:'no_ingredients', errorMessage:'Don\'t have the necessary ingredients, time to go to the shops!'})
     } 
     else {
       debug('Request ACCEPTED')

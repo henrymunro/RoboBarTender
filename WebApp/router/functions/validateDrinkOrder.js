@@ -16,20 +16,25 @@ function validateNewDrinkOrder(Drink_id, Volume){
   			Pumping: 1, // 1 kills current request
   			pumpDetails: [],
   			CanMake: 0, 
+  			drinkNotRecognised: true,
+  			CupInPlace: 0,
   			IngredientsVolumeRatio: 0.0,
   			ingredientDetails: []
   		}
   		gatherApplicationInfo().then((result)=>{
   			requestDetails.KillSwitch = result.KillSwitch
 			requestDetails.Pumping = result.Pumping
+			requestDetails.CupInPlace = result.CupInPlace
   			return gatherPumpInfo()
   		}).then((result)=>{
 			requestDetails.pumpDetails = result
 			return gatherDrinkInfo(Drink_id)
 		}).then((result)=>{
+			// console.log('COIH: ', result)
 			requestDetails.CanMake = result.CanMake
 			requestDetails.IngredientsVolumeRatio = result.IngredientsVolumeRatio 
 			requestDetails.ingredientDetails = result.ingredientDetails
+			requestDetails.drinkNotRecognised = result.drinkNotRecognised			
 			resolve(requestDetails)
 		}).catch((err)=>{
 			reject(err)
@@ -99,13 +104,26 @@ function gatherDrinkInfo (Drink_id){
 	         .then((result) => {
 	         	const drinkDetails = result[0][0][0],
 	         			ingredientDetails = result[0][1]
-
-	         	const {CanMake, IngredientsVolumeRatio} = drinkDetails
-	          debug('Request SUCCESS: ' + operation)
-	          const sendResult =  { ingredientDetails: ingredientDetails,
-	          			CanMake: CanMake,
-	          			IngredientsVolumeRatio: IngredientsVolumeRatio
+	         	let sendResult
+	         	if(drinkDetails){
+		         	const {CanMake, IngredientsVolumeRatio} = drinkDetails
+		         	sendResult =  { 
+		         		drinkNotRecognised: false,
+		         		ingredientDetails,
+	          			CanMake,
+	          			IngredientsVolumeRatio	          		
+	          		}	         		
+	         	} else {
+	         		debug('Drink not recognised')
+	         		sendResult = { 
+	         			drinkNotRecognised: true,
+		         		ingredientDetails: false,
+	          			CanMake: false,
+	          			IngredientsVolumeRatio: false
 	          		}
+	         	}
+	          debug('Request SUCCESS: ' + operation)
+	          
 	          resolve(sendResult)
 	         }).catch((err)=>{
 	          debug('Request ERROR: ' + operation + ', error: ' +  err)

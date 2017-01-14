@@ -8,9 +8,18 @@ use RoboBarTender;
 DROP PROCEDURE IF EXISTS sp_GetDrinkIngredients;
 DELIMITER //
 CREATE PROCEDURE sp_GetDrinkIngredients( 
-	in drink_id_in int
+	in drink_id_in varchar(400)
 )
 BEGIN
+	
+	SET @is_int = (SELECT drink_id_in REGEXP '^(-|\\+){0,1}([0-9]+\\.[0-9]*|[0-9]*\\.[0-9]+|[0-9]+)$');
+
+
+	IF (@is_int = 1) THEN
+		SET @drink_id_calc = drink_id_in;
+	ELSE 
+		SET @drink_id_calc = (SELECT Drink_id FROM vw_Drink WHERE DrinkEndDate IS NULL AND DrinkName = drink_id_in LIMIT 1);
+	END IF;
 
 
 	/* Get Drink Info */ 
@@ -26,7 +35,7 @@ BEGIN
 	        SUM( D.Volume ) as TotalVolume
 		FROM vw_Drink D 
 		WHERE D.DrinkEndDate IS NULL 
-			AND D.Drink_id = drink_id_in
+			AND D.Drink_id = @drink_id_calc
 		GROUP BY D.Drink_id, 
 			D.DrinkName
 	    ) subquery;
@@ -41,7 +50,7 @@ BEGIN
 	        ING.FlowRate,
 	        ING.Volume * 1.0 / (ING.FlowRate * @TotalVolume) as PumpTime
 	FROM vw_Ingredient ING 
-	WHERE ING.Drink_id = drink_id_in;
+	WHERE ING.Drink_id = @drink_id_calc;
 	    
 
 END //
@@ -64,9 +73,9 @@ BEGIN
 	     DrinkImage varchar(500),
 	     DrinkStartDate datetime,
 	     CanMake INT NOT NULL DEFAULT 0,
-	     IngredientsVolumeRatio DECIMAL(5,3),
+	     IngredientsVolumeRatio DECIMAL(7,3),
 	     AlcoholPercentage INT,
-	     PourTime DECIMAL(5,3)
+	     PourTime DECIMAL(6,2)
 	);
 
 	INSERT INTO TempDrinks( Drink_id, DrinkName, AddedBy, DrinkDescription, DrinkImage, DrinkStartDate, CanMake, IngredientsVolumeRatio, AlcoholPercentage, PourTime )

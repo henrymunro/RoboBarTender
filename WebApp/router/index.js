@@ -4,9 +4,9 @@ var router = require('./router')
 
 
 module.exports = function (app) {
-  app.use('/log', require('./routes/log')),
-  app.use('/drinks', require('./routes/drinks')),
-  app.use('/pump', require('./routes/pump'))
+  app.use('/RoboBarTender/log', require('./routes/log')),
+  app.use('/RoboBarTender/drinks', require('./routes/drinks')),
+  app.use('/RoboBarTender/pump', require('./routes/pump'))
 
 }
 

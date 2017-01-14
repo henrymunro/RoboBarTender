@@ -16,7 +16,8 @@ CREATE TABLE Users (
 
 CREATE TABLE Config (
     KillSwitch int NOT NULL, 
-    Pumping int NOT NULL
+    Pumping int NOT NULL,
+    CupInPlace int NOT NULL
 );
 
 CREATE TABLE Drink (

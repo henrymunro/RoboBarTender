@@ -62,7 +62,7 @@ export default class Pumps extends React.Component {
                     /> 
                 </Card>
 
-        return (currentDrink.DisplayName)? PumpCard : <div/>
+        return (currentDrink.DisplayName)? PumpCard : <div key={key}/>
 
     })
 

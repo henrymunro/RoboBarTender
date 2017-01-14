@@ -99,15 +99,15 @@ export default class Layout extends React.Component {
                   </div>
                   <div className="col s12 m12 l9">
                     {drinkOrderedComponent}
+                    <Drinks 
+                      currentDrinkProps= {currentDrinkProps}
+                      createNewDrink={createNewDrink} 
+                      drinks={drinks.value} 
+                      axios={this.props.axios} 
+                      dispatch={this.props.dispatch}  /> 
                   </div>
                 </div>
               </StickyContainer>
            </div>
   }
 }
-                   /* <Drinks 
-                      currentDrinkProps= {currentDrinkProps}
-                      createNewDrink={createNewDrink} 
-                      drinks={drinks.value} 
-                      axios={this.props.axios} 
-                      dispatch={this.props.dispatch}  />  */

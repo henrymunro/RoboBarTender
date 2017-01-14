@@ -33,6 +33,7 @@
     "express": "~4.13.1",
     "helmet": "^2.3.0",
     "hjs": "~0.0.6",
+    "letsencrypt-express": "^2.0.5",
     "material-ui": "^0.16.6",
     "moment": "^2.15.1",
     "morgan": "^1.7.0",

@@ -49,6 +49,9 @@ router.post('/order', (req,res)=>{
     if ( drinkNotRecognised ){
       debug('Request REJECTED drinkNotRecognised = 1')
       res.send({orderPlaced: false, msg:'drink_not_recognised', errorMessage:'The drink has not been recognised!'})
+    } else if (CanMake ===0 ){
+      debug('Request REJECTED CanMake = 0')
+      res.send({orderPlaced: false, msg:'no_ingredients', errorMessage:'Don\'t have the necessary ingredients, time to go to the shops!'})
     } else if(KillSwitch === 1 ){
       debug('Request REJECTED KillSwitch = 1')
       res.send({orderPlaced: false, msg:'bar_tender_off', errorMessage:'Machine is off, give it some power!'})
@@ -58,11 +61,7 @@ router.post('/order', (req,res)=>{
     } else if (CupInPlace === 0){
       debug('Request REJECTED CupInPlace = 0')
       res.send({orderPlaced: false, msg:'no_cup', errorMessage:'There is no cup present, please place on in the bar tender'})
-    } else if (CanMake ===0 ){
-      debug('Request REJECTED CanMake = 0')
-      res.send({orderPlaced: false, msg:'no_ingredients', errorMessage:'Don\'t have the necessary ingredients, time to go to the shops!'})
-    } 
-    else {
+    } else {
       debug('Request ACCEPTED')
       res.send({orderPlaced: true})
       debug('Sending Request to MIX DRINK')

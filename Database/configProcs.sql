@@ -16,3 +16,17 @@ BEGIN
 	
 END //
 DELIMITER ;
+
+
+DROP PROCEDURE IF EXISTS sp_UpdatePumpingStatus;
+DELIMITER //
+CREATE PROCEDURE sp_UpdatePumpingStatus(
+	in isPumping int 
+)
+BEGIN
+	
+	UPDATE Config
+	SET Pumping = isPumping;
+	
+END //
+DELIMITER ;

@@ -25,54 +25,70 @@ function mixNewDrink(requestDetails){
   		} = requestDetails
   		debug('Request RECIEVED to mix drink: '+ Drink_id)
 
-  	ingredientDetails.map((element, key)=>{
+    // Set the pumping state to 1 to prevenet a subsequent order 
+    debug('Pour start, logging pump status 1 in DB')
+    setPumpingState(1)
+
+    // Turn on pumps
+  	const pumpPromise = ingredientDetails.map((element, key)=>{
   		const { Volume, PumpNumber, GPIOPinNumber, PumpTime, FlowRate } = element
   		const Pump_id = pumpDetails.filter((el)=>{return el.PumpNumber == PumpNumber})[0].Pump_id
   		const IngredientVolume = (Volume/100)*IngredientsVolumeRatio*DrinkTotalVolume
       const PumpTimeCalc = IngredientVolume/(1000*FlowRate)
-  		startPumpPour(PumpNumber, GPIOPinNumber, IngredientVolume, PumpTimeCalc, Pump_id)
-  // 		console.log(element)
-  // 		TextRow {
-  // Drink_id: 1,
-  // Name: 'Coke',
-  // Volume: 80,
-  // PumpNumber: 2,
-  // Percentage: 0,
-  // GPIOPinNumber: 8,
-  // FlowRate: '0.0500',
-  // PumpTime: '16.00000' }
+  		return startPumpPour(PumpNumber, GPIOPinNumber, IngredientVolume, PumpTimeCalc, Pump_id)
 
   	})
+
+    // Set pumping state to 0 once all pumps stopped to allow for new drink
+    Promise.all(pumpPromise).then(values => { 
+      debug('Pour finished, logging pump status 0 in DB')
+      setPumpingState(0)
+    })
 
 }
 
 // Starts pump for the pre set time flow
 function startPumpPour(PumpNumber, GPIOPinNumber, IngredientVolume, PumpTime, Pump_id){
-	debug('Starting pour on pump '+PumpNumber+' for '+PumpTime+'s ('+IngredientVolume+'ml)')
-	logPumpChangeInDB(Pump_id, 1)
-  if(RPi){
-    setGPIOPinHigh(GPIOPinNumber)
-  }
-	setTimeout(() => stopPumpPour(PumpNumber, GPIOPinNumber, Pump_id), PumpTime*1000)
+  return new Promise((resolve, reject)=>{
+  	debug('Starting pour on pump '+PumpNumber+' for '+PumpTime+'s ('+IngredientVolume+'ml)')
+  	logPumpChangeInDB(Pump_id, 1)
+    if(RPi){
+      setGPIOPinHigh(GPIOPinNumber)
+    }
+  	setTimeout(() => stopPumpPour(PumpNumber, GPIOPinNumber, Pump_id, resolve), PumpTime*1000)   
+  })
 }
 
 
 
-function stopPumpPour(PumpNumber, GPIOPinNumber, Pump_id){
+function stopPumpPour(PumpNumber, GPIOPinNumber, Pump_id, resolve){
   debug('Stopping pour on pump '+PumpNumber)
   logPumpChangeInDB(Pump_id, 0)
   if(RPi){
     setGPIOPinLow(GPIOPinNumber)
   }
+  resolve({stopPump: true})
+
 }
 
 
+function setPumpingState(pumpingState){
+  // 1 = pumping (busy), 0 = not pumping (availible)
+  const logPumping = pumpingState===0?0:1
+  pool.getConnection()
+         .then((conn) => {
+           const result = conn.query('call sp_UpdatePumpingStatus(?);', [logPumping])
+           conn.release()
+           return result;
+         })
+         .then((result) => {
+          debug('Sucesfully logged pumping status: ' + logPumping)
+         }).catch((err)=>{
+          debug('ERROR logged pumping status: '+ logPumping +', error: ' +  err)
+          reject({err})
+         })
 
-
-
-
-
-
+}
 
 
 

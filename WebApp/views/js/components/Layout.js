@@ -60,7 +60,6 @@ export default class Layout extends React.Component {
       createNewDrink
     } = drinksStore
 
-
     const drinkOrderedComponent = drinkOrdered ? <DrinkProgressTimer drinkProgressPercentage={drinkProgressPercentage} 
                                                                       pourTime={(drinks.value[selectedDrink]||{}).PourTime} 
                                                                       drinkProgressUpdateInterval={drinkProgressUpdateInterval} 

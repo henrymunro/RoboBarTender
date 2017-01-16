@@ -18,7 +18,7 @@ app.use(logger('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
-app.use(express.static('/var/www'))
+app.use(express.static('/var/www/RoboBarTender'))
 // Loads Routes
 var router = require('./router/index')(app)
 

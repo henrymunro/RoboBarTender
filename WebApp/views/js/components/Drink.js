@@ -102,7 +102,7 @@ export default class Drink extends React.Component {
 
     const isDrinkSelected = (currentDrinkProps.currentDrink.Drink_id==Drink_id)
 
-    return <div className='col s12 m6 l6'>
+    return <div className='col s12 m12 l6'>
               <div className="hoverable">
                 <div className="hide-on-large-only">
                     {isDrinkSelected?selectedDrinkCard:drinkCard}

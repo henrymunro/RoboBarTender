@@ -130,16 +130,7 @@ export default class EditPumps extends React.Component {
             </div>
     })
 
-
-    return <div>              
-              <Dialog
-                title="Edit Pumps"
-                actions={actions}
-                modal={false}
-                open={editPumpDialogOpen}
-                onRequestClose={this.closeEditPumpsDialog.bind(this)}
-              >
-              <div className="row">
+    const dialogHead = <div className="row">
                 <div className="col s6 m6 l6">
                   <TextField
                     value={editPumpName||''}
@@ -151,21 +142,32 @@ export default class EditPumps extends React.Component {
                     onChange={this.updateEditPumpDisplayName.bind(this)}
                     floatingLabelText="Display Name"
                   /><br />
+                </div>
+                <div className="col s6 m6 l6">
                   <TextField
                     value={editPumpPercrntage==0?'0':editPumpPercrntage||''}
                     onChange={this.updateEditPumpPercentage.bind(this)}
                     floatingLabelText="Alcohol Percentage"
                   /><br />
-                </div>
-                <div className="col s6 m6 l6">
-                  <RaisedButton 
-                      label="Save"
-                      primary={true}
-                      onTouchTap={this.saveNewPump.bind(this)} />
+                  <div className="container">
+                    <RaisedButton 
+                        label={ "Save Pump " + selectedEditPumpNumber}
+                        primary={true}
+                        onTouchTap={this.saveNewPump.bind(this)} />
+                  </div>
 
                 </div>
-
               </div>
+
+    return <div>              
+              <Dialog
+                title={dialogHead}
+                actions={actions}
+                modal={false}
+                open={editPumpDialogOpen}
+                onRequestClose={this.closeEditPumpsDialog.bind(this)}
+                autoScrollBodyContent={true}
+              >
 
                 {pumpLayoutMap}
               </Dialog>

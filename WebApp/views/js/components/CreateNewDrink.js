@@ -43,8 +43,7 @@ export default class CreateNewDrink extends React.Component {
     this.props.dispatch(closeNewDrinkModal())
   }
 
-  updateNewDrinkIngredientProportion(e, value){
-    const pump_id = e.target.closest('var').attributes.getNamedItem('data-pump-id').value 
+  updateNewDrinkIngredientProportion(pump_id, e, value){
     this.props.dispatch(updateNewDrinkIngredientProportion(pump_id, value))
   }
 
@@ -105,17 +104,15 @@ export default class CreateNewDrink extends React.Component {
             </div>
           </div>
           <div className="col s8 m8 l8" style={{height: '65px'}}>
-            <var data-pump-id={element.Pump_id}>
               <Slider 
               min={0}
               max={100}
               step={10}
               defaultValue={0}
               value={element.newDrinkProportion}
-              onChange={this.updateNewDrinkIngredientProportion.bind(this)}
+              onChange={this.updateNewDrinkIngredientProportion.bind(this, element.Pump_id)}
               data-pump-id={element.Pump_id}
               />
-            </var>
           </div>
         </div>
         <Divider />

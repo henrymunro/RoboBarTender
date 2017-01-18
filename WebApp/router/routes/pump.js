@@ -7,6 +7,7 @@ const router = new Router().router
 //Load in database connection
 const pool = require('../databaseConnection')
 const databaseProcedures = require('../functions/databaseProcedures')
+const { killAllPumps } = require('../functions/mixDrink')
 const   { callProcUPDATE, callProcGET } = databaseProcedures
 
 
@@ -122,6 +123,23 @@ router.post('/ceasePump', (req, res)=>{
           res.send('An Error has occoured')
          })
 })
+
+
+router.get('/killAllPumps', (req, res)=>{
+  debug('Request RECIEVED to kill all pumps')
+  killAllPumps().then((result)=>{
+    debug('Request to kill all pumps sucessful')
+    res.send({status: true})
+  }).catch((err)=>{
+    deubg('Request to kill all pumps FAILED, retrying')
+    killAllPumps().then((result)=>{debug('Second attempt to kill pumps sucessful')})
+                  .catch((err)=>{
+                      debug('Second attempt to kill pumps FAILED, NOT RETRYING')
+                      res.send({status: false, error: err})
+                    })
+  })
+
+} )
 
 //Route to log browser errors in the DB
 // router.post('/browserError', (req, res)=>{

@@ -74,14 +74,14 @@ export default class Drink extends React.Component {
     const drinkCard = <div>
                   <Card onClick={this.onCardClick.bind(this)} style={{marginBottom:'20px'}}>
                     {cantMakeElement}
-                    <div className="hide-on-med-and-up">                        
+                    <div className="hide-on-large-only">                        
                       <CardMedia                        
                           overlay={<div><CardHeader subtitle={DrinkName}/></div>}
                         >
-                        <img src={adjustedImagePath} style={{height:"160px"}}/>
+                        <img src={adjustedImagePath} style={{height:"250px"}}/>
                       </CardMedia>
                     </div>
-                    <div className="hide-on-small-only">
+                    <div className="hide-on-med-and-down">
                       <CardMedia                        
                           overlay={<div><CardHeader subtitle={DrinkName}/></div>}
                           >

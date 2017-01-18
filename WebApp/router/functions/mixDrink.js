@@ -133,29 +133,15 @@ if (RPi) {
   // Graceful shut down on CTRL-C
   process.on('SIGINT', function () { 
     debug('Gracefully shutting off pins, bye bye!')
-    const procedure = 'call sp_GetPumps();'
-    pool.getConnection()
-           .then((conn) => {
-            debug('Calling procedure: '+procedure)
-             const result = conn.query(procedure)
-             conn.release()
-             return result;
-           })
-           .then((result) => {
-            debug('Request SUCCESS: ' + procedure)
-            const resultSend = result[0][0].map((element)=>{
-              const GPIOPinNumber = element.GPIOPinNumber
-              wpi.digitalWrite(GPIOPinNumber, 0)
-            })
+    killAllPumps().then((res)=>{
+      // Continue shut down process
+      process.exit();
 
-            // Continue shut down process
-            process.exit();
-
-           }).catch((err)=>{
+     }).catch((err)=>{
             debug('Request ERROR: ' + procedure + ', error: ' +  err)
             process.exit();
-           })
-    process.exit();
+    })
+    //process.exit();
     
   });
 
@@ -174,11 +160,39 @@ if (RPi) {
 
 
 
+function killAllPumps(){
+  debug('REQUEST RECIEVED TO KILL ALL PUMPS')
+  return new Promise((resolve, reject)=>{
+   pool.getConnection()
+         .then((conn) => {
+           const result = conn.query('call sp_GetPumps();')
+           conn.release()
+           return result;
+         })
+         .then((result) => {
+            result[0][0].map((element)=>{
+              const { PumpNumber, GPIOPinNumber } = element
+              debug('Shutting down pump '+ PumpNumber)
+              setGPIOPinLow(GPIOPinNumber)
+            })
+            resolve()
+         }).catch((err)=>{
+          debug('ERROR KILLING PUMPS: '+ err)
+          reject(err)
+         })
+    
+  })
+
+}
+
+
+
 
 
 
 module.exports = { 
-	mixNewDrink: mixNewDrink
+	mixNewDrink: mixNewDrink,
+  killAllPumps: killAllPumps
 }
 
 

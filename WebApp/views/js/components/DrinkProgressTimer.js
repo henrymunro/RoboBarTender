@@ -7,6 +7,7 @@ import FlatButton from 'material-ui/FlatButton';
 import Pumps from 'js/components/Pumps'
 
 
+import { killAllPumps } from 'js/actions/layoutActions'
 import {updateDrinkTimerProgress, pollPumps, resetPollPumpsCount, setPendingTimeout } from 'js/actions/drinksActions'
 
 import baseStyles from 'styles/base.css'
@@ -78,6 +79,13 @@ export default class DrinkTimerProgress extends React.Component {
 
   abortDrink(){
     console.log('ABORTING DRINK!')
+    this.props.dispatch(killAllPumps(this.props.axios))
+          .then((result)=>{
+            const { status, err } = result.data
+            if (!status){
+              alert('ERROR: '+ err)
+            }
+          })
   }
   
 

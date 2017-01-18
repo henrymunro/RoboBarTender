@@ -33,7 +33,7 @@ function mixNewDrink(requestDetails){
   	const pumpPromise = ingredientDetails.map((element, key)=>{
   		const { Volume, PumpNumber, GPIOPinNumber, PumpTime, FlowRate } = element
   		const Pump_id = pumpDetails.filter((el)=>{return el.PumpNumber == PumpNumber})[0].Pump_id
-  		const IngredientVolume = (Volume/100)*IngredientsVolumeRatio*DrinkTotalVolume
+  		const IngredientVolume = (Volume/100)*DrinkTotalVolume/IngredientsVolumeRatio
       const PumpTimeCalc = IngredientVolume/(1000*FlowRate)
   		return startPumpPour(PumpNumber, GPIOPinNumber, IngredientVolume, PumpTimeCalc, Pump_id)
 

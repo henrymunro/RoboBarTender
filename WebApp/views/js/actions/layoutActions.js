@@ -15,6 +15,14 @@ export function getPumps(axios){
 }
 
 
+export function killAllPumps(axios){
+	return {
+		type: 'KILL_ALL_PUMPS',
+		payload: axios.request.get(axios.URLS.killAllPumps)
+	}
+}
+
+
 /********************* EDIT PUMPS ********************************/
 
 export function openEditPumpDialog(){

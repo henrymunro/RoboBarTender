@@ -32,6 +32,8 @@ export default class CurrentDrink extends React.Component {
   }
 
 
+
+
   render () {
     
     const { AddedBy, 

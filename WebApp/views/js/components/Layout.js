@@ -10,7 +10,7 @@ import EditPumps from 'js/components/EditPumps'
 
 import baseStyles from 'styles/base.css'
 
-import { getUsername, getPumps, openEditPumpDialog } from 'js/actions/layoutActions'
+import { getUsername, getPumps, openEditPumpDialog, killAllPumps } from 'js/actions/layoutActions'
 import { getDrinks, getDrinkIngredients } from 'js/actions/drinksActions'
 
 
@@ -40,6 +40,16 @@ export default class Layout extends React.Component {
 
   openEditPumpsDialog(){
     this.props.dispatch(openEditPumpDialog())
+  }
+
+  killAllPumps(){
+    this.props.dispatch(killAllPumps(this.props.axios))
+          .then((result)=>{
+            const { status, err } = result.data
+            if (!status){
+              alert('ERROR: '+ err)
+            }
+          })
   }
 
 
@@ -92,8 +102,15 @@ export default class Layout extends React.Component {
                           {... currentDrinkProps}
                           axios={this.props.axios} 
                           dispatch={this.props.dispatch} />
-                      <RaisedButton label='Edit Pumps' primary={true} onClick={this.openEditPumpsDialog.bind(this)} />
-                      <EditPumps {...editPumpsProps} axios={this.props.axios} dispatch={this.props.dispatch} />
+                      <div className="row" style={{marginTop: '10px'}}>
+                        <div className="col s6 m6 l6">
+                            <RaisedButton label='Edit Pumps' primary={true} onClick={this.openEditPumpsDialog.bind(this)} />
+                            <EditPumps {...editPumpsProps} axios={this.props.axios} dispatch={this.props.dispatch} />
+                        </div>
+                        <div className="col s6 m6 l6">
+                          <RaisedButton label='KILL PUMP' secondary={true} onClick={this.killAllPumps.bind(this)} />
+                        </div>
+                      </div>
                     </Sticky>
                   </div>
                   <div className="col s12 m12 l9">

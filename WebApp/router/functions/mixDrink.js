@@ -177,6 +177,7 @@ function killAllPumps(){
               debug('Shutting down pump '+ PumpNumber)
               setGPIOPinLow(GPIOPinNumber)
             })
+            setPumpingState(0)
             resolve()
          }).catch((err)=>{
           debug('ERROR KILLING PUMPS: '+ err)

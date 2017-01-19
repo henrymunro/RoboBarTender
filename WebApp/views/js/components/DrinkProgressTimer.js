@@ -81,6 +81,7 @@ export default class DrinkTimerProgress extends React.Component {
     console.log('ABORTING DRINK!')
     this.props.dispatch(killAllPumps(this.props.axios))
           .then((result)=>{
+            this.props.dispatch(resetPollPumpsCount())
             const { status, err } = result.data
             if (!status){
               alert('ERROR: '+ err)

@@ -25,6 +25,8 @@ function mixNewDrink(requestDetails){
   		} = requestDetails
   		debug('Request RECIEVED to mix drink: '+ Drink_id)
 
+
+
     // Set the pumping state to 1 to prevenet a subsequent order 
     debug('Pour start, logging pump status 1 in DB')
     setPumpingState(1)
@@ -187,12 +189,32 @@ function killAllPumps(){
 
 
 
+function logDrinkRequestInDB(drink_id, volume, user, source, status, statusReason){
+  return new Promise((resolve, reject)=>{
+      debug('Logging drink request')
+
+       pool.getConnection()
+         .then((conn) => {
+           const result = conn.query('call sp_LogDrinkRequest(?,?,?,?,?,?);', [drink_id, volume, user, source, status, statusReason])
+           conn.release()
+           return result;
+         }).then((result)=>{
+            debug('Sucesfully logged drink request in DB')
+            resolve()
+         }).catch((err)=>{
+            debug('ERROR: ', err)
+            reject()
+         })    
+  })
+}
+
 
 
 
 module.exports = { 
 	mixNewDrink: mixNewDrink,
-  killAllPumps: killAllPumps
+  killAllPumps: killAllPumps,
+  logDrinkRequestInDB: logDrinkRequestInDB
 }
 
 

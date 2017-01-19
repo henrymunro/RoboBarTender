@@ -11,7 +11,7 @@ const   { callProcUPDATE, callProcGET } = databaseProcedures
 
 //Load in other functions 
 const validateNewDrinkOrder = require('../functions/validateDrinkOrder').validateNewDrinkOrder
-const mixNewDrink = require('../functions/mixDrink').mixNewDrink
+const { mixNewDrink, logDrinkRequestInDB } = require('../functions/mixDrink')
 
 debug('Startup: Loading in DRINKS routes')
 
@@ -41,6 +41,9 @@ router.get('/', (req, res)=>{
 router.post('/order', (req,res)=>{
   const {Drink_id, Volume} = req.body
   debug('Request RECIEVED to order Drink: ', Drink_id, Volume)
+  const user = 'UNKNOWN'
+  const source = 'UNKONWN'
+
   validateNewDrinkOrder(Drink_id, Volume).then((response)=>{
     const { KillSwitch, Pumping, CanMake, CupInPlace, drinkNotRecognised } = response
 
@@ -48,22 +51,28 @@ router.post('/order', (req,res)=>{
     // Switching block to deal with validation failures 
     if ( drinkNotRecognised ){
       debug('Request REJECTED drinkNotRecognised = 1')
+      logDrinkRequestInDB(Drink_id, Volume, user, source, 'fail', 'drink not recognised')
       res.send({orderPlaced: false, msg:'drink_not_recognised', errorMessage:'The drink has not been recognised!'})
     } else if (CanMake ===0 ){
       debug('Request REJECTED CanMake = 0')
+      logDrinkRequestInDB(Drink_id, Volume, user, source, 'fail', 'ingredients')
       res.send({orderPlaced: false, msg:'no_ingredients', errorMessage:'Don\'t have the necessary ingredients, time to go to the shops!'})
     } else if(KillSwitch === 1 ){
       debug('Request REJECTED KillSwitch = 1')
+      logDrinkRequestInDB(Drink_id, Volume, user, source, 'fail', 'kill switch')
       res.send({orderPlaced: false, msg:'bar_tender_off', errorMessage:'Machine is off, give it some power!'})
     } else if (Pumping ===1 ){
       debug('Request REJECTED Pumping = 1')
+      logDrinkRequestInDB(Drink_id, Volume, user, source, 'fail', 'pumping')
       res.send({orderPlaced: false, msg:'bar_tender_busy', errorMessage:'Machine is already making a drink, cool your horses!'})
     } else if (CupInPlace === 0){
       debug('Request REJECTED CupInPlace = 0')
+      logDrinkRequestInDB(Drink_id, Volume, user, source, 'fail', 'no cup')
       res.send({orderPlaced: false, msg:'no_cup', errorMessage:'There is no cup present, please place on in the bar tender'})
     } else {
       debug('Request ACCEPTED')
       res.send({orderPlaced: true})
+      logDrinkRequestInDB(Drink_id, Volume, user, source, 'success', '')
       debug('Sending Request to MIX DRINK')
       mixNewDrink(response)
     }

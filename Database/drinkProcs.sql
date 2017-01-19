@@ -168,3 +168,33 @@ END //
 DELIMITER ;
 
 
+DROP PROCEDURE IF EXISTS sp_LogDrinkRequest;
+DELIMITER //
+CREATE PROCEDURE sp_LogDrinkRequest(
+	in drink_id_in int,
+	in volume_in int,
+	in user_in varchar(500),
+	in source_in varchar(500),
+	in status_in varchar(500),
+	in statusReason_in varchar(500)
+)
+BEGIN
+	
+	IF (status_in = 'success') THEN
+		SET @DrinkLogStatus_id = (SELECT DrinkLogStatus_id FROM DrinkLogStatus WHERE Status = 'success');
+	ELSE 
+		SET @DrinkLogStatus_id = (SELECT DrinkLogStatus_id FROM DrinkLogStatus WHERE Status = 'fail' AND Reason = statusReason_in);
+	END IF;
+
+	IF (@DrinkLogStatus_id IS NULL) THEN 
+		SET @DrinkLogStatus_id = (SELECT DrinkLogStatus_id FROM DrinkLogStatus WHERE Status = 'fail' AND Reason = 'Other'); 
+	END IF;
+	
+	
+
+	INSERT INTO DrinkLog(Drink_id, Volume, User, Source, DrinkLogStatus_id)
+	VALUES(drink_id_in, volume_in, user_in, source_in, @DrinkLogStatus_id);
+	
+END //
+DELIMITER ;
+

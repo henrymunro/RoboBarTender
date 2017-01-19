@@ -31,6 +31,24 @@ CREATE TABLE Drink (
     CONSTRAINT PK_Drink_id PRIMARY KEY (Drink_id)
 );
 
+CREATE TABLE DrinkLog (
+    DrinkLog_id int NOT NULL AUTO_INCREMENT,
+    Drink_id varchar(500) NOT NULL,
+    Volume int NOT NULL,
+    User varchar(500),
+    Source varchar(500),
+    DrinkLogStatus_id int,
+    TimeStamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT PK_DrinkLog_id PRIMARY KEY (DrinkLog_id)
+);
+
+CREATE TABLE DrinkLogStatus (
+    DrinkLogStatus_id int NOT NULL AUTO_INCREMENT,
+    Status varchar(500) NOT NULL,
+    Reason varchar(500),
+    CONSTRAINT PK_DrinkLogStatus_id PRIMARY KEY (DrinkLogStatus_id)
+);
+
 -- Table: Ingredients
 CREATE TABLE Ingredients (
     Ingredient_id int NOT NULL AUTO_INCREMENT,
@@ -172,6 +190,9 @@ values ('Henry', 'henry.jpg');
 
 insert into Drink(Name, User_id, Description, Image)
 values('Rum and Coke', 1, 'A simple yet refreshing beverage', 'Rum_and_coke.jpg');
+
+insert into DrinkLogStatus(Status, Reason)
+values ('success', NULL), ('fail','kill switch'), ('fail','pumping'), ('fail', 'ingredients'), ('fail', 'no cup'), ('fail', 'drink not recognised'), ('fail', 'other');
 
 insert into Ingredients(Name, Drink_id, Volume)
 values ('Rum', 1, 20),

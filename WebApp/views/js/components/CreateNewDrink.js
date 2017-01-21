@@ -107,7 +107,7 @@ export default class CreateNewDrink extends React.Component {
               <Slider 
               min={0}
               max={100}
-              step={10}
+              step={5}
               defaultValue={0}
               value={element.newDrinkProportion}
               onChange={this.updateNewDrinkIngredientProportion.bind(this, element.Pump_id)}

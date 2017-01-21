@@ -1,5 +1,4 @@
 const debug = require('debug')('MixDrink')
-const wpi = require('wiring-pi')
 
 
 const RPi = (process.env.RPi?true:false);
@@ -112,6 +111,8 @@ function logPumpChangeInDB(Pump_id, Status){
 
 //Only sets up GPIO integration if on the RPi
 if (RPi) {
+  const wpi = require('wiring-pi')
+
   debug('Startup: setting up GPIO connection with wiring-pi pin numbers')
   wpi.wiringPiSetup()
 

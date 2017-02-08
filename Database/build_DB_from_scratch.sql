@@ -1,3 +1,9 @@
+create database RoboBarTender;
+
+SELECT 'CREATING USER';
+CREATE USER 'RoboBarTender'@'%' IDENTIFIED BY 'some_pass';
+GRANT EXECUTE ON PROCEDURE RoboBarTender.* TO 'RoboBarTender'@'%';
+
 use RoboBarTender;
 
 SELECT 'BUILDING TABLES, VIEWS AND FUNCTIONS';

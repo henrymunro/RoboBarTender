@@ -36,12 +36,9 @@ export function updateDrinkVolume(volume){
 }
 
 export function orderDrink(Drink_id, Volume, axios){
-	let instance = axios.request
-	console.log('DEFAULRSSS : ', instance)
-	instance.defaults.headers.common['Access-Control-Allow-Origin'] = 'true';
 	return{
 		type: 'ORDER_DRINK',
-		payload: instance.post(axios.URLS.orderDrink, {Drink_id: Drink_id, Volume: Volume})
+		payload: axios.request.post(axios.URLS.orderDrink, {Drink_id: Drink_id, Volume: Volume})
 	}
 }
 

@@ -10,16 +10,24 @@ module.exports =  class Router {
     	
 		var router = express.Router()		
 
-		router.use(function(req, res, next){
-		  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST');
-		  res.header('Access-Control-Allow-Headers', 'Content-type');
-		  res.header('Access-Control-Allow-Origin', 'https://henrymunro.com');
-		  res.header('Access-Control-Allow-Origin', 'https://www.henrymunro.com');
-		  res.header('Access-Control-Allow-Origin', 'https://stg.henrymunro.com');
-		  res.header('Access-Control-Allow-Origin', 'https://dev.henrymunro.com');		  
-		  res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
-		  next();
-		})
+		const cors = {
+            origin: [
+            	'https://henrymunro.com',
+            	"https://www.henrymunro.com",
+            	"https://stg.henrymunro.com",
+            	'https://dev.henrymunro.com',
+            	'http://localhost:3000'
+            	],
+            default: "www.one.com"
+        }
+
+		router.all('*', function(req, res, next) {
+                var origin = cors.origin.indexOf(req.header('host').toLowerCase()) > -1 ? req.headers.origin : cors.default;
+                res.header("Access-Control-Allow-Origin", origin)
+                res.header('Access-Control-Allow-Methods', 'GET,PUT,POST')
+                res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+                next();
+        });
 
 		// // Session management 
 	 //    router.use(session({

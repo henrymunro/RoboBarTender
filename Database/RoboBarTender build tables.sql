@@ -174,8 +174,8 @@ SELECT 'Populate Data' as 'BUILDING TABLES, VIEWS AND FUNCTIONS';
 insert into PumpType(PumpType, FlowRate)
 values('Standard', 0.001); /* 60ml/min -> 0.001 L/s */
 
-insert into Config(KillSwitch, Pumping)
-values(0 , 0); 
+insert into Config(KillSwitch, Pumping, CupInPlace)
+values(0 , 0, 1); 
 
 insert into GPIOPump(PumpNumber, GPIOPinNumber, PumpType_id)
 values (1, 7, 1),

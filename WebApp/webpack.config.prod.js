@@ -47,14 +47,18 @@ module.exports = {
     ]
   },
   output: {
-    path: path.join('/var/www/RoboBarTender'),
+    path: path.join(__dirname,'/build'),
     filename: '[name].min.js'
   },
   resolve: {
     modulesDirectories: ['views', 'node_modules']
   },
-  plugins: debug ? [new ExtractTextPlugin('styles.css')] :
+  plugins: debug ? [
+      new ExtractTextPlugin('styles.css'),
+      new webpack.EnvironmentPlugin(['NODE_ENV'])
+    ] :
     [
+      new webpack.EnvironmentPlugin(['NODE_ENV']),
       new webpack.optimize.DedupePlugin(),
       new webpack.optimize.OccurenceOrderPlugin(),
       new webpack.optimize.UglifyJsPlugin({ mangle: false, sourcemap: false })

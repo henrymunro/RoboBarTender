@@ -8,8 +8,9 @@ var helmet = require('helmet') // Security Module
 var app = express()
 app.use(helmet())
 
+
 // view engine setup
-app.set('views', path.join(__dirname, 'build'))
+app.set('views', path.join(__dirname,'/build'))
 app.set('view engine', 'hjs')
 
 // uncomment after placing your favicon in /public
@@ -18,7 +19,7 @@ app.use(logger('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
-app.use(express.static('/var/www/RoboBarTender'))
+app.use(express.static(path.join(__dirname,'/build')))
 // Loads Routes
 var router = require('./router/index')(app)
 
@@ -58,4 +59,4 @@ app.use(function (err, req, res, next) {
   })
 })
 
-module.exports = app
+module.exports =  app

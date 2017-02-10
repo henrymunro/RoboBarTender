@@ -1,9 +1,11 @@
 const debug = require('debug')('databaseConnection')
-const config = require('../RoboBarTender.config')
+const config = require('./config')
+
+console.log('CONFIG!: ', config)
 
 debug('Startup: Loading in DATABASE CONNECTION')
 
-const { host, username, password, database } = config
+const { host, username, password, database } = config.database
 
 const pool = require('mysql2/promise').createPool({
 	host: host, 

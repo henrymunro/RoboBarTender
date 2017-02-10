@@ -13,6 +13,11 @@ module.exports =  class Router {
 		router.use(function(req, res, next){
 		  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST');
 		  res.header('Access-Control-Allow-Headers', 'Content-type');
+		  res.header('Access-Control-Allow-Headers', 'https://henrymunro.com');
+		  res.header('Access-Control-Allow-Headers', 'https://www.henrymunro.com');
+		  res.header('Access-Control-Allow-Headers', 'https://stg.henrymunro.com');
+		  res.header('Access-Control-Allow-Headers', 'https://dev.henrymunro.com');		  
+		  res.header('Access-Control-Allow-Headers', 'http://localhost:3000');
 		  next();
 		})
 

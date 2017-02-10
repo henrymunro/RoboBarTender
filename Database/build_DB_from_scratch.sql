@@ -2,7 +2,7 @@ create database RoboBarTender;
 
 SELECT 'CREATING USER';
 CREATE USER 'RoboBarTender'@'%' IDENTIFIED BY 'some_pass';
-GRANT EXECUTE ON PROCEDURE RoboBarTender.* TO 'RoboBarTender'@'%';
+GRANT EXECUTE ON RoboBarTender.* TO 'RoboBarTender'@'%';
 
 use RoboBarTender;
 

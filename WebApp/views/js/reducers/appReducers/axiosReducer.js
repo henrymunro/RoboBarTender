@@ -1,9 +1,29 @@
 import axios from 'axios'
 
-const RPi = (process.env.RPi?true:false)
+// Load in config
+const environment = process.env.NODE_ENV||'development'
+// Check to see if an incorrect environment has been set
+if ( !(environment!='production'||environment!='staging'||environment!='development')){
+    throw `ENVIROMENT NOT RECOGNISED ${environment}`
+}
 
-let baseURL = RPi?'http://192.168.1.33:3000/':'http://localhost:3000/'
-baseURL = '51.6.194.23'
+console.log('ENVIROMENT: ', environment)
+
+let baseURL, hardwareURL
+switch (environment) {
+    case 'production':
+        baseURL = 'https://henrymunro.com/RoboBarTender/'
+        hardwareURL = 'https://146.198.253.181/'
+        break
+    case 'staging':
+        baseURL = 'https://henrymunro.com/RoboBarTender/'
+        hardwareURL = 'https://146.198.253.181/'
+        break
+    case 'development':
+        baseURL = 'http://192.168.1.2:3000/'
+        hardwareURL = 'http://192.168.1.2:3000/'
+        break
+}
 
 console.log('BASE URL: ', baseURL)
 
@@ -15,22 +35,26 @@ export default function reducer (state = {
 
         }),
         URLS: {
-        baseURL: 'http://localhost:3000/',
+        // baseURL: 'http://localhost:3000/',
+        baseURL: baseURL,
         // Log
-        logError: 'log/browserError',
+        logError: baseURL+'log/browserError',
         // Drinks
-        getDrinks: 'drinks',
-        orderDrink: 'drinks/order',
-        createDrink: 'drinks/createDrink',
+        getDrinks: baseURL+'drinks',
+        orderDrink: hardwareURL+'drinks/order',
+        createDrink: baseURL+'drinks/createDrink',
         getDrinkIngredients: 'drinks/getDrinkIngredients',
         // Pumps
-        getPumps: 'pump',
-        pollPump: 'pump/poll',
-        addPump: 'pump/addPump',
-        ceasePump: 'pump/ceasePump',
-        pumpsForNewDrink: 'pump/pumpsForNewDrink',
-        killAllPumps: 'pump/killAllPumps'
+        getPumps: baseURL+'pump',
+        pollPump: baseURL+'pump/poll',
+        addPump: baseURL+'pump/addPump',
+        ceasePump: baseURL+'pump/ceasePump',
+        pumpsForNewDrink: baseURL+'pump/pumpsForNewDrink',
+        killAllPumps: baseURL+'pump/killAllPumps'
         }
+    },
+    config: {
+        environment: environment
     }
   } , action) {
   return state

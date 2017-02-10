@@ -18,7 +18,7 @@ module.exports =  class Router {
             	'https://dev.henrymunro.com',
             	'http://localhost:3000'
             	],
-            default: "www.one.com"
+            default: "https://henrymunro.com"
         }
 
 		router.all('*', function(req, res, next) {

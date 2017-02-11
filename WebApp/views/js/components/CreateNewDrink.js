@@ -18,6 +18,7 @@ import {updateSelectedDrink,
   updateNewDrinkName,
   updateNewDrinkDescription,
   updateNewDrinkImage,
+  updateNewDrinkImageElement, 
   createNewDrink,
   getDrinks
    } from 'js/actions/drinksActions'
@@ -64,9 +65,17 @@ export default class CreateNewDrink extends React.Component {
     this.props.dispatch(updateNewDrinkImage(image))
   }
 
+  checkImageExists(imageSrc) {
+    console.log('CHECKING NEW IMAGE')
+    var img = new Image();
+    img.onload = ()=>{this.props.dispatch(updateNewDrinkImageElement(imageSrc))}
+    img.onerror = ()=>{alert('Could not load image')}
+    img.src = imageSrc;    
+  }
+
   createNewDrink(e){
     const { image, name, pump, ingredients } = this.props.createNewDrink.contents
-    console.log(name, description, ingredients)
+    console.log(name, ingredients)
     if(name!='' && ingredients.length >0){
       this.props.dispatch(createNewDrink(name, 'default', ingredients, image, this.props.axios))
             .then((res)=>{
@@ -94,7 +103,7 @@ export default class CreateNewDrink extends React.Component {
     ]
     
     const { createNewDrink } = this.props
-    const{ description, image, name, pump, ingredients } = createNewDrink.contents
+    const{ description, image, name, pump, ingredients, imageElement } = createNewDrink.contents
 
     const pumpsElements = pump.map((element, key)=>{    
       return <div key={key}>
@@ -124,45 +133,44 @@ export default class CreateNewDrink extends React.Component {
       return <ListItem key={key} primaryText={elm.DisplayName} innerDivStyle={{padding:'5px 56px 5px 16px'}} rightIcon={<div>{elm.newDrinkProportion}</div>}/>
     })
 
-    const DialogHeadElement = <div>
-                    <TextField
-                          hintText="Name"
+    // Check to see if drink image exists 
+    if(image!='' && image!=imageElement){
+      this.checkImageExists(image)
+    }
+
+    const NewDrinkInfo = <div>
+                    <TextField     
+                          fullWidth={true}                 
                           defaultValue={createNewDrink.name}
                           onChange={this.updateNewDrinkName.bind(this)}
-                          floatingLabelText="Create a new concoction"
+                          floatingLabelText="Drink Name"
                         />
-                    <Divider />
-                    <div className="row">
-
-                      <div className='col s12 l6'>
                       <TextField
-                        hintText="Image"
-                        value={createNewDrink.image}                      
+                        fullWidth={true}       
+                        defaultValue={createNewDrink.image}                      
                         onChange={this.updateNewDrinkImage.bind(this)}
+                        floatingLabelText="Image URL"
                       />
-                      </div>
-                      <div className="col s12 l6">
-                          <List>
-                            {ingredientsElement}
-                          </List>
-                      </div>
-                    </div>
+                      <img src={imageElement} style={{width:"100%", height:"100%", objectFit:'contain'}} /> 
                   </div>
 
+
     return <div >
-              <Dialog title={DialogHeadElement}
+              <Dialog title={'Create New Drink'}
                     actions={actions}
                     modal={false} //Will be dismissed if user clicks outside the area
                     open={createNewDrink.modalOpen}
                     onRequestClose={this.closeNewDrinkModal.bind(this)}
                     autoScrollBodyContent={true}
-                    contentStyle={{maxHeight:'99%'}}
+                    contentStyle={{maxHeight:'99%', width: '90%',  maxWidth: 'none',}}
                     >
-                    
                     <div className="row">
-                    <Paper zDepth={2}>
-                      {pumpsElements}
-                    </Paper>
+                      <div className="col s4 m4 l4" style={{backgroud:'green'}}>
+                        {NewDrinkInfo}
+                      </div>
+                      <div className="col s8 m8 l8" style={{marginTop:"20px", paddingLeft:"30px"}}>
+                        {pumpsElements}
+                      </div>
                     </div>
               </Dialog>
 

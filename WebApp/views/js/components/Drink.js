@@ -69,6 +69,7 @@ export default class Drink extends React.Component {
     const URLMatch = re.test(DrinkImage)
     const adjustedImagePath = URLMatch? DrinkImage: "images/"+DrinkImage
 
+
     const cantMakeElement = (CanMake==0?<CardHeader title="Can't make!" subtitle="Please add the correct ingredients" />:<div/>)
 
     const drinkCard = <div>

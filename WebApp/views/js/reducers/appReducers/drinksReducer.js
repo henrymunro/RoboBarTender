@@ -1,3 +1,5 @@
+import React from 'react'
+
 export default function reducer (state = {
     drinks: {
       value: [],
@@ -23,7 +25,8 @@ export default function reducer (state = {
         description: '',
         image: '',
         ingredients:[],
-        pump:[]
+        pump:[],
+        imageElement: "images/default.jpg"
       }
     }
   } , action) {
@@ -139,7 +142,8 @@ export default function reducer (state = {
                                 description: '',
                                 image: '',
                                 ingredients:[],
-                                pump:action.payload.data
+                                pump:action.payload.data,
+                                imageElement: state.createNewDrink.contents.imageElement
                               }
                             }
       }
@@ -149,11 +153,8 @@ export default function reducer (state = {
       return { ...state, createNewDrink:{
                               modalOpen: state.createNewDrink.modalOpen,
                               contents: {
-                                name: action.payload,
-                                description: state.createNewDrink.contents.description,
-                                image: state.createNewDrink.contents.image,
-                                ingredients:state.createNewDrink.contents.ingredients,
-                                pump:state.createNewDrink.contents.pump
+                                ...state.createNewDrink.contents,
+                                name: action.payload
                               }
                             }
       }
@@ -163,11 +164,8 @@ export default function reducer (state = {
       return { ...state, createNewDrink:{
                               modalOpen: state.createNewDrink.modalOpen,
                               contents: {
-                                name: state.createNewDrink.contents.name,
-                                description: action.payload,
-                                image: state.createNewDrink.contents.image,
-                                ingredients:state.createNewDrink.contents.ingredients,
-                                pump:state.createNewDrink.contents.pump
+                                ...state.createNewDrink.contents,
+                                description: action.payload
                               }
                             }
       }
@@ -177,11 +175,19 @@ export default function reducer (state = {
       return { ...state, createNewDrink:{
                               modalOpen: state.createNewDrink.modalOpen,
                               contents: {
-                                name: state.createNewDrink.contents.name,
-                                description: state.createNewDrink.contents.description,
-                                image: action.payload,
-                                ingredients:state.createNewDrink.contents.ingredients,
-                                pump:state.createNewDrink.contents.pump
+                                ...state.createNewDrink.contents,
+                                image: action.payload
+                              }
+                            }
+      }
+    }
+
+    case 'UPDATE_NEW_DRINK_IMAGE_ELEMENT':{
+      return { ...state, createNewDrink:{
+                              modalOpen: state.createNewDrink.modalOpen,
+                              contents: {
+                                ...state.createNewDrink.contents,
+                                imageElement: action.payload
                               }
                             }
       }
@@ -203,11 +209,9 @@ export default function reducer (state = {
       return{ ...state, createNewDrink:{
                               modalOpen: state.createNewDrink.modalOpen,
                               contents: {
-                                name: state.createNewDrink.contents.name,
-                                description: state.createNewDrink.contents.description,
-                                image: state.createNewDrink.contents.image,
-                                ingredients: newIngredients,
-                                pump: newPumpState
+                                ...state.createNewDrink.contents,
+                                pump: newPumpState,
+                                ingredients: newIngredients
                               }
                             }
       }

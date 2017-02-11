@@ -125,6 +125,12 @@ export function updateNewDrinkImage(image){
 	}
 }
 
+export function updateNewDrinkImageElement(imageElement){
+	return{
+		type: 'UPDATE_NEW_DRINK_IMAGE_ELEMENT',
+		payload: imageElement
+	}
+}
 
 export function createNewDrink( name, description, ingredients, image, axios ){
 	return {

@@ -96,6 +96,15 @@ export default function reducer (state = {
       }
     }
 
+    case 'KILL_ALL_PUMPS_FULFILLED': {
+      return {...state, 
+        drinkOrderPending: false,
+        drinkOrdered: false,
+        drinkOrderedTime: '',
+        errorMessage: ''
+      }
+    }
+
     /* ################   CHECK DRINK ORDER PROCESS ACTIONS #################*/
 
     case 'UPDATE_DRINK_PROGRESS_TIMER': {

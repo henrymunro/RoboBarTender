@@ -34,7 +34,9 @@ export default class Drinks extends React.Component {
     })
 
     return <div>
-              <RaisedButton label="Create New Drink" fullWidth={true} onClick={this.openNewDrinkModal.bind(this)} style={{marginTop:'20px', marginBottom:'30px'}}/>
+              <div className="container">
+                <RaisedButton label="Create New Drink" fullWidth={true} onClick={this.openNewDrinkModal.bind(this)} style={{marginTop:'20px', marginBottom:'30px'}}/>
+              </div>
               <CreateNewDrink createNewDrink={createNewDrink} axios={this.props.axios} dispatch={this.props.dispatch} /> 
               {drinksComponent}
            </div>

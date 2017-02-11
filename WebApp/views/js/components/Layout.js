@@ -95,8 +95,8 @@ export default class Layout extends React.Component {
 
     return <div>
               <StickyContainer>
-                <div className="row">
-                  <div className="col hide-on-med-and-down l3">
+                <div className="row" style={{marginBottom:'0'}}>
+                  <div className="col hide-on-med-and-down l3" style={{height:document.body.scrollHeight+'px', background:'#eceff1', marginBottom:'0'}}>
                     <Sticky>
                       <CurrentDrink 
                           {... currentDrinkProps}

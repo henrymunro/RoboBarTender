@@ -77,14 +77,14 @@ export default class Drink extends React.Component {
                     {cantMakeElement}
                     <div className="hide-on-large-only">                        
                       <CardMedia                        
-                          overlay={<div><CardHeader subtitle={DrinkName}/></div>}
+                          overlay={<div><CardHeader title={DrinkName} titleStyle={{color:'white'}}/></div>}
                         >
                         <img src={adjustedImagePath} style={{height:"250px"}}/>
                       </CardMedia>
                     </div>
                     <div className="hide-on-med-and-down">
                       <CardMedia                        
-                          overlay={<div><CardHeader subtitle={DrinkName}/></div>}
+                          overlay={<div><CardHeader title={DrinkName} titleStyle={{color:'white'}}/></div>}
                           >
                         <img src={adjustedImagePath} style={{height:"228px"}}/>
                       </CardMedia>

@@ -26,6 +26,13 @@ export function getDrinkIngredients(Drink_id, axios){
 	}
 }
 
+export function deleteDrink(Drink_id, axios){
+	return{
+		type:'DELETE_DRINK',
+		payload: axios.request.post(axios.URLS.deleteDrink, {Drink_id: Drink_id})
+	}
+}
+
 /* ###################### ORDER DRINK ##############################*/
 
 export function updateDrinkVolume(volume){

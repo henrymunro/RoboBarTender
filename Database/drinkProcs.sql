@@ -131,6 +131,21 @@ DELIMITER ;
 
 
 
+DROP PROCEDURE IF EXISTS sp_DeleteDrink;
+DELIMITER //
+CREATE PROCEDURE sp_DeleteDrink(
+	in drink_id_in varchar(500)
+)
+BEGIN
+	
+	UPDATE Drink
+	SET EndDate = CURRENT_TIMESTAMP
+	WHERE Drink_id = drink_id_in;
+	
+END //
+DELIMITER ;
+
+
 
 /* #################### Insert ################## */
 

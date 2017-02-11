@@ -41,6 +41,7 @@ export default function reducer (state = {
         logError: baseURL+'log/browserError',
         // Drinks
         getDrinks: baseURL+'drinks',
+        deleteDrink: baseURL+'drinks/delete',
         orderDrink: hardwareURL+'drinks/order',
         createDrink: baseURL+'drinks/createDrink',
         getDrinkIngredients: 'drinks/getDrinkIngredients',
@@ -50,7 +51,7 @@ export default function reducer (state = {
         addPump: baseURL+'pump/addPump',
         ceasePump: baseURL+'pump/ceasePump',
         pumpsForNewDrink: baseURL+'pump/pumpsForNewDrink',
-        killAllPumps: baseURL+'pump/killAllPumps'
+        killAllPumps: hardwareURL+'pump/killAllPumps'
         }
     },
     config: {

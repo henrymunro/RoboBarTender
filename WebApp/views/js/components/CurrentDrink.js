@@ -6,7 +6,7 @@ import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'mat
 import {List, ListItem} from 'material-ui/List'
 import moment from 'moment'
 
-import {updateDrinkVolume, orderDrink, getDrinkIngredients } from 'js/actions/drinksActions'
+import {updateDrinkVolume, orderDrink, getDrinkIngredients, deleteDrink, getDrinks, updateSelectedDrink } from 'js/actions/drinksActions'
 
 import baseStyles from 'styles/base.css'
 
@@ -29,6 +29,18 @@ export default class CurrentDrink extends React.Component {
     const Drink_id = this.props.currentDrink.Drink_id
     const { drinkVolume } = this.props
     this.props.dispatch(orderDrink(Drink_id, drinkVolume, this.props.axios))
+  }
+
+  deleteDrink(){
+    const Drink_id = this.props.currentDrink.Drink_id
+    this.props.dispatch(deleteDrink(Drink_id, this.props.axios))
+        .then(()=>{
+            return this.props.dispatch(getDrinks(this.props.axios))
+        }).then((res)=>{
+          console.log('GOT DRINKS: ',res.value.data[0].Drink_id, res)
+          this.props.dispatch(updateSelectedDrink(0))
+          this.props.dispatch(getDrinkIngredients(res.value.data[0].Drink_id, this.props.axios))
+        })
   }
 
 
@@ -87,8 +99,16 @@ export default class CurrentDrink extends React.Component {
     return <div>
               <div className="hide-on-med-and-down">
                 <h4>{DrinkName}</h4>
-                <p>Percentage: {AlcoholPercentage}%</p>
-                <p>{DrinkDescription}</p>
+                <div className="row valign-wrapper">
+                  <div className="col s6 m6 l6" style={{fontSize:'small'}}>
+                    <div className="valign">
+                      Percentage: {AlcoholPercentage}%
+                    </div>
+                  </div>
+                  <div className="col s6 m6 l6">
+                      <RaisedButton label={'Delete'} onClick={this.deleteDrink.bind(this)}/>
+                  </div>
+                </div>                
               </div>
               <div className="hide-on-large-only">
                 <h5>{DrinkName}</h5>

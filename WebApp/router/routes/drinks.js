@@ -104,6 +104,26 @@ router.post('/getDrinkIngredients', (req, res)=>{
          })
 })
 
+router.post('/delete', (req, res)=>{
+  const { Drink_id } = req.body 
+  debug('Request RECIEVED: To delete drink ingredients Drink_id: '+ Drink_id)
+  const params = [Drink_id]
+  const procedure = 'call sp_DeleteDrink(?);'
+  pool.getConnection()
+         .then((conn) => {
+          debug('Calling procedure: '+procedure)
+           const result = conn.query(procedure, params)
+           conn.release()
+           return result;
+         })
+         .then((result) => {
+          debug('Request SUCCESS: ' + procedure)
+          res.send('SUCCESS')
+         }).catch((err)=>{
+          debug('Request ERROR: ' + procedure + ', error: ' +  err)
+          res.send('An Error has occoured')
+         })
+})
 
 
 

@@ -7,6 +7,6 @@ if ( !(environment!='production'||environment!='staging'||environment!='developm
     throw `ENVIROMENT NOT RECOGNISED ${environment}`
 }
 
-module.exports = require(path.join(__dirname, `../config/${environment}.RoboBarTender.config.json`))
+module.exports = require(path.join(__dirname, `../config/${environment}.robobartender.config.json`))
 
 

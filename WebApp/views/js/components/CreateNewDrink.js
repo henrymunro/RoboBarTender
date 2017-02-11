@@ -77,7 +77,8 @@ export default class CreateNewDrink extends React.Component {
     const { image, name, pump, ingredients } = this.props.createNewDrink.contents
     console.log(name, ingredients)
     if(name!='' && ingredients.length >0){
-      this.props.dispatch(createNewDrink(name, 'default', ingredients, image, this.props.axios))
+      const imageSend = (!image||image=='')?'default.jpg':image
+      this.props.dispatch(createNewDrink(name, 'default', ingredients, imageSend, this.props.axios))
             .then((res)=>{
               console.log('DRINK CREATEDDDDD')
                 this.props.dispatch(closeNewDrinkModal())

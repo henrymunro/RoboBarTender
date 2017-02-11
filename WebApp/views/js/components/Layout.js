@@ -10,7 +10,7 @@ import EditPumps from 'js/components/EditPumps'
 
 import baseStyles from 'styles/base.css'
 
-import { getUsername, getPumps, openEditPumpDialog, killAllPumps } from 'js/actions/layoutActions'
+import { getUsername, getPumps, openEditPumpDialog, updateSelectedEditPump, killAllPumps } from 'js/actions/layoutActions'
 import { getDrinks, getDrinkIngredients } from 'js/actions/drinksActions'
 
 
@@ -39,7 +39,7 @@ export default class Layout extends React.Component {
   }
 
   openEditPumpsDialog(){
-    this.props.dispatch(openEditPumpDialog())
+    this.props.dispatch(updateSelectedEditPump(1))
   }
 
   killAllPumps(){

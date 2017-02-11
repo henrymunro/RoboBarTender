@@ -2,6 +2,7 @@ import React from 'react'
 import { StickyContainer, Sticky } from 'react-sticky'
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card'
 import Dialog from 'material-ui/Dialog'
+import Divider from 'material-ui/Divider'
 import FlatButton from 'material-ui/FlatButton'
 import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField'
@@ -101,37 +102,43 @@ export default class EditPumps extends React.Component {
 
     const pumpLayoutMap = pumpLayout.map((value, key)=>{
         const { pumpNumber, active } = value
-        const currentDrink = pumps.value.filter((el)=>{return el.PumpNumber == pumpNumber})[0] || {}
-        const pumpActive = currentDrink.PumpStatus ===1
+        const currentPump = pumps.value.filter((el)=>{return el.PumpNumber == pumpNumber})[0] || {}
+        const pumpActive = currentPump.PumpStatus ===1
         const pumpStyle = cx({
-            [styles.pumpEmpty]: !currentDrink.DisplayName,
-            [styles.pumpInactive]: !pumpActive && currentDrink.DisplayName,
+            [styles.pumpEmpty]: !currentPump.DisplayName,
+            [styles.pumpInactive]: !pumpActive && currentPump.DisplayName,
             [styles.pumpActive]: pumpActive
 
         })
 
+        // Change the style of the currently selected pump
+        const pumpSelectedToEdit = (selectedEditPumpNumber === pumpNumber)?styles.pumpSelectedToEdit: ''
 
-        const ceasePumpButton = (!pumpActive && currentDrink.DisplayName)?  <RaisedButton label="Delete" data-pump-number={pumpNumber} fullWidth={true} onClick={this.ceasePump.bind(this)}/> : <div/>
+
+        const ceasePumpButton = (!pumpActive && currentPump.DisplayName)?  <RaisedButton label="Delete" data-pump-number={pumpNumber} fullWidth={true} onClick={this.ceasePump.bind(this)}/> : <div/>
 
 
-        return <div key={key}>
-            <var data-pump-number={pumpNumber} key={key}>
-              <Card key={key}>
-                    <CardHeader
-                      subtitle={currentDrink.DisplayName||'Empty'}
-                      className={pumpStyle}
-                      onClick={this.updateSelectedEditPump.bind(this)}
-                    /> 
-                    <div>
-                      {ceasePumpButton}
+        return <div key={key} 
+                    className={pumpStyle+' '+baseStyles.cf}
+                    
+                    onClick={this.updateSelectedEditPump.bind(this)}>
+              <var data-pump-number={pumpNumber} key={key} >
+                <div className={"row "+ pumpSelectedToEdit} style={{'paddingTop':'5px', paddingBottom:'5px', margin:'0'}}>
+                  <div className={pumpSelectedToEdit} style={{'minHeight':'40px'}}>
+                    <div className={"col s8 m8 l8 "+ pumpSelectedToEdit}>
+                        {currentPump.DisplayName||'Empty'}
                     </div>
-                </Card>
+                    <div className={"col s4 m4 l4 "+ pumpSelectedToEdit}>
+                        {ceasePumpButton}
+                    </div>
+                  </div>
+                </div>
               </var>
+              <Divider />
             </div>
     })
 
-    const dialogHead = <div className="row">
-                <div className="col s6 m6 l6">
+    const currentPumpElement = <div className="col s6 m6 l6">
                   <TextField
                     value={editPumpName||''}
                     onChange={this.updateEditPumpName.bind(this)}
@@ -142,34 +149,34 @@ export default class EditPumps extends React.Component {
                     onChange={this.updateEditPumpDisplayName.bind(this)}
                     floatingLabelText="Display Name"
                   /><br />
-                </div>
-                <div className="col s6 m6 l6">
                   <TextField
                     value={editPumpPercrntage==0?'0':editPumpPercrntage||''}
                     onChange={this.updateEditPumpPercentage.bind(this)}
                     floatingLabelText="Alcohol Percentage"
                   /><br />
-                  <div className="container">
-                    <RaisedButton 
-                        label={ "Save Pump " + selectedEditPumpNumber}
-                        primary={true}
-                        onTouchTap={this.saveNewPump.bind(this)} />
-                  </div>
-
+                  <RaisedButton 
+                      label={ "Save Pump " + selectedEditPumpNumber}
+                      primary={true}
+                      onTouchTap={this.saveNewPump.bind(this)} />
                 </div>
-              </div>
 
     return <div>              
               <Dialog
-                title={dialogHead}
                 actions={actions}
                 modal={false}
+                title="Edit Pump Configuration"
                 open={editPumpDialogOpen}
                 onRequestClose={this.closeEditPumpsDialog.bind(this)}
                 autoScrollBodyContent={true}
               >
-
-                {pumpLayoutMap}
+                <div className="row" style={{'marginTop':'20px'}}>
+                  <div className="col s6 m6 l6">
+                    {currentPumpElement}
+                  </div>
+                  <div className="col s6 m6 l6">
+                    {pumpLayoutMap}
+                  </div>
+                </div>
               </Dialog>
            </div>
   }

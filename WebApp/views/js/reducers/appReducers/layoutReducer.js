@@ -15,7 +15,7 @@ export default function reducer (state = {
     pumping: false,
     editPumps:{
       editPumpDialogOpen: false,
-      selectedEditPumpNumber: 0,
+      selectedEditPumpNumber: 1,
       editPumpName:'',
       editPumpDisplayName:'',
       editPumpPercrntage:undefined

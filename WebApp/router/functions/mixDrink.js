@@ -141,7 +141,7 @@ if (RPi) {
       process.exit();
 
      }).catch((err)=>{
-            debug('Request ERROR: ' + procedure + ', error: ' +  err)
+            debug('Request ERROR: ' +  err)
             process.exit();
     })
     //process.exit();

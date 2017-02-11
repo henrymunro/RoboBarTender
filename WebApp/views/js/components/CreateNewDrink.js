@@ -52,6 +52,7 @@ export default class CreateNewDrink extends React.Component {
     this.props.dispatch(updateNewDrinkName(name))
   }
 
+  //Not in use any more
   updateNewDrinkDescription(e){
     const description = e.target.value 
     this.props.dispatch(updateNewDrinkDescription(description))
@@ -64,10 +65,10 @@ export default class CreateNewDrink extends React.Component {
   }
 
   createNewDrink(e){
-    const {description, image, name, pump, ingredients } = this.props.createNewDrink.contents
+    const { image, name, pump, ingredients } = this.props.createNewDrink.contents
     console.log(name, description, ingredients)
-    if(name!=''&& description!='' && ingredients.length >0){
-      this.props.dispatch(createNewDrink(name, description, ingredients, image, this.props.axios))
+    if(name!='' && ingredients.length >0){
+      this.props.dispatch(createNewDrink(name, 'default', ingredients, image, this.props.axios))
             .then((res)=>{
               console.log('DRINK CREATEDDDDD')
                 this.props.dispatch(closeNewDrinkModal())
@@ -134,11 +135,6 @@ export default class CreateNewDrink extends React.Component {
                     <div className="row">
 
                       <div className='col s12 l6'>
-                      <TextField
-                        hintText="A short description"
-                        value={createNewDrink.description}                      
-                        onChange={this.updateNewDrinkDescription.bind(this)}
-                      />
                       <TextField
                         hintText="Image"
                         value={createNewDrink.image}                      

@@ -13,14 +13,14 @@ let baseURL, hardwareURL
 switch (environment) {
     case 'production':
         baseURL = 'https://henrymunro.com/RoboBarTender/'
-        hardwareURL = 'https://146.198.253.181/'
+        hardwareURL = 'https://146.198.253.171/'
         break
     case 'staging':
         baseURL = 'https://henrymunro.com/RoboBarTender/'
-        hardwareURL = 'https://146.198.253.181/'
+        hardwareURL = 'https://146.198.253.171/'
         break
     case 'development':
-        baseURL = 'http://192.168.1.2:3000/'
+        baseURL = 'http://localhost:3000/'
         hardwareURL = 'http://192.168.1.2:3000/'
         break
 }

@@ -3,12 +3,13 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "webpack-watch": "webpack --watch --config webpack.config.prod.js",
-    "RPi-webpack-watch": "webpack --define process.env.RPi='\"true\"' --config webpack.config.prod.js",
+    "webpack-watch": "webpack --watch --config webpack.config.js",
+    "RPi-webpack-watch": "webpack --define process.env.RPi='\"true\"' --config webpack.config.js",
     "start": "DEBUG=databaseProcedure,databaseConnection,LOG,Drinks,Pump,ValidateDrinkOrder,MixDrink node ./bin/www",
     "express-server": "DEBUG=databaseProcedure,databaseConnection,LOG,Drinks,Pump,ValidateDrinkOrder,MixDrink nodemon -w . -w www",
     "RPi-express-server": "RPi=true DEBUG=databaseProcedure,databaseConnection,LOG,Drinks,Pump,ValidateDrinkOrder,MixDrink nodemon -w . -w www",
-    "dev": "concurrently --kill-others \"npm run webpack-watch\" \"npm run express-server\""
+    "dev": "concurrently --kill-others \"npm run webpack-watch\" \"npm run express-server\"",
+    "webpack": "webpack --config webpack.config.js"
   },
   "dependencies": {
     "axios": "^0.12.0",

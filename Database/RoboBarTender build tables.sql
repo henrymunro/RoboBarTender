@@ -192,7 +192,7 @@ insert into Drink(Name, User_id, Description, Image)
 values('Rum and Coke', 1, 'A simple yet refreshing beverage', 'Rum_and_coke.jpg');
 
 insert into DrinkLogStatus(Status, Reason)
-values ('success', NULL), ('fail','kill switch'), ('fail','pumping'), ('fail', 'ingredients'), ('fail', 'no cup'), ('fail', 'drink not recognised'), ('fail', 'other');
+values ('success', NULL), ('fail','kill switch'), ('fail','pumping'), ('fail', 'ingredients'), ('fail', 'no cup'), ('fail', 'drink not recognised'), ('fail', 'hardware fail'), ('fail', 'unable to connect to hardware'), ('fail', 'other');
 
 insert into Ingredients(Name, Drink_id, Volume)
 values ('Rum', 1, 20),

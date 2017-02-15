@@ -1,4 +1,6 @@
 const debug = require('debug')('Drinks')
+const config = require('../config')
+const axios = require('axios').create({ timeout: 2500  })
 
 //Load in router class
 const Router = require('../router')
@@ -12,6 +14,9 @@ const   { callProcUPDATE, callProcGET } = databaseProcedures
 //Load in other functions 
 const validateNewDrinkOrder = require('../functions/validateDrinkOrder').validateNewDrinkOrder
 const { mixNewDrink, logDrinkRequestInDB } = require('../functions/mixDrink')
+
+const RPi = (process.env.RPi?true:false);
+const environment = process.env.NODE_ENV || 'development'
 
 debug('Startup: Loading in DRINKS routes')
 
@@ -71,13 +76,36 @@ router.post('/order', (req,res)=>{
       res.send({orderPlaced: false, msg:'no_cup', errorMessage:'There is no cup present, please place on in the bar tender'})
     } else {
       debug('Request ACCEPTED')
-      res.send({orderPlaced: true})
-      logDrinkRequestInDB(Drink_id, Volume, user, source, 'success', '')
-      debug('Sending Request to MIX DRINK')
-      mixNewDrink(response)
+      if( RPi ){
+        debug('Sending Request to MIX DRINK')
+        logDrinkRequestInDB(Drink_id, Volume, user, source, 'success', '')
+        mixNewDrink(response)
+      } else {
+        debug(`Sending Request to hardware ${config.HardwareHost} to MIX DRINK`)
+        axios.post(`${config.HardwareHost}/drinks/order`, {Drink_id: Drink_id, Volume: Volume})
+              .then((response)=>{
+                debug('Response recieved')
+                if (response.orderPlaced){
+                  logDrinkRequestInDB(Drink_id, Volume, user, source, 'success', '')                  
+                } else {
+                  logDrinkRequestInDB(Drink_id, Volume, user, source, 'fail', 'hardware fail')
+                }
+                res.send(response)
+              }).catch((error)=>{
+                  debug('ERROR: sending request to hardware' + error)
+                  if (environment == 'development'){
+                    logDrinkRequestInDB(Drink_id, Volume, user, source, 'success', '')  
+                    res.send({orderPlaced:true})
+                  }else{
+                    logDrinkRequestInDB(Drink_id, Volume, user, source, 'fail', 'unable to connect to hardware')
+                    res.send({orderPlaced:false, msg:'hardware_error', errorMessage:'Error sending request to RoboBarTender' })
+                  }
+             })
+      }
     }
   }).catch((err)=>{
     debug('ERROR with request for drink: '+ Drink_id + '   '+ err)
+    res.send({orderPlaced: false, msg:'generic_error', errorMessage:'An Error Occoured'})
   })
 })
 

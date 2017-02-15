@@ -214,4 +214,28 @@ END //
 DELIMITER ;
 
 
+DROP PROCEDURE IF EXISTS sp_GetDrinkLogHistory;
+DELIMITER //
+CREATE PROCEDURE sp_GetDrinkLogHistory()
+BEGIN
+	
+	SELECT  CAST(DL.TimeStamp as date) as Date,
+			D.Name as DrinkName, 
+			D.Image as DrinkImage,
+			DLS.Status,
+			SUM(DL.Volume) as Volume,
+			COUNT(*) as Count, 
+			COUNT(distinct DL.User) as DistinctUser
+	FROM DrinkLog DL
+	INNER JOIN Drink D ON DL.Drink_id = D.Drink_id
+	LEFT JOIN DrinkLogStatus DLS on DLS.DrinkLogStatus_id = DL.DrinkLogStatus_id
+	GROUP BY CAST(DL.TimeStamp as date), 
+			D.Name, 
+			D.Image,
+			DLS.Status
+	ORDER BY CAST(DL.TimeStamp as date) DESC 
+	LIMIT 100;
+	
+END //
+DELIMITER ;
 

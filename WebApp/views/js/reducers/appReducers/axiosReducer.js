@@ -35,14 +35,12 @@ export default function reducer (state = {
 
         }),
         URLS: {
-        // baseURL: 'http://localhost:3000/',
-        baseURL: baseURL,
         // Log
         logError: baseURL+'log/browserError',
         // Drinks
         getDrinks: baseURL+'drinks',
         deleteDrink: baseURL+'drinks/delete',
-        orderDrink: hardwareURL+'drinks/order',
+        orderDrink: baseURL+'drinks/order',
         createDrink: baseURL+'drinks/createDrink',
         getDrinkIngredients: 'drinks/getDrinkIngredients',
         // Pumps
@@ -51,6 +49,7 @@ export default function reducer (state = {
         addPump: baseURL+'pump/addPump',
         ceasePump: baseURL+'pump/ceasePump',
         pumpsForNewDrink: baseURL+'pump/pumpsForNewDrink',
+        // Kill pumps goes staight to hardware
         killAllPumps: hardwareURL+'pump/killAllPumps'
         }
     },

@@ -23,7 +23,15 @@ const userAuthentication = store => next => action => {
 
 }
 
-const middleware = applyMiddleware(promise(), thunk, logger(), userAuthentication)
+// Load in middleware 
+let middleware
+const environment = process.env.NODE_ENV||'development'
+if (environment == 'production'){
+	// Switch off logging in production
+	middleware = applyMiddleware(promise(), thunk, userAuthentication)
+} else {
+	middleware = applyMiddleware(promise(), thunk, logger(), userAuthentication)
+}
 
 
 export default createStore(reducer, middleware)

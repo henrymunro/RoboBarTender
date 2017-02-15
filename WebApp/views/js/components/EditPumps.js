@@ -140,14 +140,14 @@ export default class EditPumps extends React.Component {
 
     const currentPumpElement = <div className="col s6 m6 l6">
                   <TextField
-                    value={editPumpName||''}
-                    onChange={this.updateEditPumpName.bind(this)}
-                    floatingLabelText="Alcohol Name"
-                  /><br />
-                  <TextField
                     value={editPumpDisplayName||''}
                     onChange={this.updateEditPumpDisplayName.bind(this)}
                     floatingLabelText="Display Name"
+                  /><br />
+                  <TextField
+                    value={editPumpName||''}
+                    onChange={this.updateEditPumpName.bind(this)}
+                    floatingLabelText="Alcohol Name - For Recipies"
                   /><br />
                   <TextField
                     value={editPumpPercrntage==0?'0':editPumpPercrntage||''}

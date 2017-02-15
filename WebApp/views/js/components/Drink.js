@@ -79,7 +79,7 @@ export default class Drink extends React.Component {
                       <CardMedia                        
                           overlay={<div><CardHeader title={DrinkName} titleStyle={{color:'white'}}/></div>}
                         >
-                        <img src={adjustedImagePath} style={{height:"250px"}}/>
+                        <img src={adjustedImagePath} style={{height:"500px"}}/>
                       </CardMedia>
                     </div>
                     <div className="hide-on-med-and-down">

@@ -5,6 +5,11 @@ export default function reducer (state = {
       value: [],
       pending: true
     },
+    drinkHistory:{
+      value:[],
+      pending:false, 
+      modalOpen: false
+    },
     selectedDrink: 0,
     selectedDrinkIngredients: [],
     drinkVolume: 250,
@@ -226,7 +231,37 @@ export default function reducer (state = {
       }
     }
 
-
+    /* ##################### DRINK HISTORY ######################*/
+     case 'GET_DRINK_HISTORY_PENDING': {
+      return {...state, drinkHistory: {
+                                ...state.drinkHistory, 
+                                pending: true,
+                              }
+      }
+    }
+    case 'GET_DRINK_HISTORY_FULFILLED': {
+      const drinkHistory = action.payload.data
+      return {...state, drinkHistory: {
+                                ...state.drinkHistory,  
+                                value: drinkHistory,
+                                pending: false
+                              }
+      }
+    }
+    case 'OPEN_DRINK_HISTORY_MODAL': {
+      return {...state, drinkHistory: {
+                                ...state.drinkHistory,  
+                                modalOpen: true
+                              }
+      }
+    }
+    case 'CLOSE_DRINK_HISTORY_MODAL': {
+      return {...state, drinkHistory: {
+                                ...state.drinkHistory,  
+                                modalOpen: false
+                              }
+      }
+    }
   }
   return state
 }

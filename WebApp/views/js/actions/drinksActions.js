@@ -5,6 +5,7 @@ export function getDrinks (axios) {
   }
 }
 
+
 export function setDrinkImageToDefault(Drink_id, image){
 	return{
 		type:'SET_DRINK_IMAGE_TO_DEFAULT',
@@ -143,5 +144,30 @@ export function createNewDrink( name, description, ingredients, image, axios ){
 	return {
 		type: 'CREATE_NEW_DRINK',
 		payload: axios.request.post(axios.URLS.createDrink, {name: name, image:image, description: description, ingredients: ingredients})
+	}
+}
+
+
+
+
+/* #########################  DRINK HISTORY ############################## */
+export function getDrinkHistory(axios){
+	return{
+		type:'GET_DRINK_HISTORY',
+		payload: axios.request.get(axios.URLS.getDrinkHistory)
+	}
+}
+
+export function openDrinkHistoryModal(){
+	return{
+		type: 'OPEN_DRINK_HISTORY_MODAL',
+		payload: true
+	}
+}
+
+export function closeDrinkHistoryModal(){
+	return{
+		type: 'CLOSE_DRINK_HISTORY_MODAL',
+		payload: false
 	}
 }

@@ -58,6 +58,7 @@ export default class Layout extends React.Component {
     const { drinks, 
       selectedDrink, 
       selectedDrinkIngredients,
+      drinkHistory,
       drinkOrdered, 
       drinkProgressPercentage, 
       drinkProgressUpdateInterval,
@@ -119,6 +120,7 @@ export default class Layout extends React.Component {
                       currentDrinkProps= {currentDrinkProps}
                       createNewDrink={createNewDrink} 
                       drinks={drinks.value} 
+                      drinkHistory={drinkHistory}
                       axios={this.props.axios} 
                       dispatch={this.props.dispatch}  /> 
                   </div>

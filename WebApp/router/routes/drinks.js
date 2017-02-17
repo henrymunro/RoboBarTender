@@ -43,6 +43,27 @@ router.get('/', (req, res)=>{
   // res.status(200).send('SUCCESS')
 })
 
+router.get('/drinkHistory', (req, res)=>{
+  debug('Request RECIEVED to get drink history')
+  const procedure = 'call sp_GetDrinkLogHistory();'
+  pool.getConnection()
+       .then((conn) => {
+        debug('Calling procedure: '+procedure)
+         const result = conn.query(procedure)
+         conn.release()
+         return result;
+       })
+       .then((result) => {
+        debug('Request SUCCESS: ' + procedure)
+        const drinks = result[0][0]
+        const ingredients = result[0][1]
+        res.send(result[0][0])
+       }).catch((err)=>{
+        debug('Request ERROR: ' + procedure + ', error: ' +  err)
+        res.send('An Error has occoured')
+       })
+})
+
 router.post('/order', (req,res)=>{
   const {Drink_id, Volume} = req.body
   debug('Request RECIEVED to order Drink: ', Drink_id, Volume)

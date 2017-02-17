@@ -53,8 +53,6 @@ export default class EditPumps extends React.Component {
   }
 
   updateEditPumpName(e, value){
-    console.log('Value: ', value)
-    console.log('Event: ', e.target.value)
     this.props.dispatch(updateEditPumpName(value))
   }
 
@@ -89,7 +87,6 @@ export default class EditPumps extends React.Component {
             editPumpPercrntage
       } = editPumps
 
-    console.log('PUMPS: ', pumps.value)
 
     const actions = [
       <FlatButton

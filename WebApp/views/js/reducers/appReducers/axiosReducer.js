@@ -39,6 +39,7 @@ export default function reducer (state = {
         logError: baseURL+'log/browserError',
         // Drinks
         getDrinks: baseURL+'drinks',
+        getDrinkHistory: baseURL+'drinks/drinkHistory',
         deleteDrink: baseURL+'drinks/delete',
         orderDrink: baseURL+'drinks/order',
         createDrink: baseURL+'drinks/createDrink',

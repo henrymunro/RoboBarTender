@@ -231,6 +231,7 @@ export default function reducer (state = {
       }
     }
 
+
     /* ##################### DRINK HISTORY ######################*/
      case 'GET_DRINK_HISTORY_PENDING': {
       return {...state, drinkHistory: {

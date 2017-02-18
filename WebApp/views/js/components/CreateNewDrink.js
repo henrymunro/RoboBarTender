@@ -83,6 +83,7 @@ export default class CreateNewDrink extends React.Component {
               console.log('DRINK CREATEDDDDD')
                 this.props.dispatch(closeNewDrinkModal())
                 this.props.dispatch(getDrinks(this.props.axios))
+                this.props.dispatch(getPumpInfoForNewDrink(this.props.axios))
             })
     } else {
       alert('Populate all fields')

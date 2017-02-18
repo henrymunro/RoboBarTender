@@ -16,7 +16,7 @@ switch (environment) {
         hardwareURL = 'https://146.198.253.171/'
         break
     case 'staging':
-        baseURL = 'https://henrymunro.com/RoboBarTender/'
+        baseURL = 'https://stg.henrymunro.com/RoboBarTender/'
         hardwareURL = 'https://146.198.253.171/'
         break
     case 'development':

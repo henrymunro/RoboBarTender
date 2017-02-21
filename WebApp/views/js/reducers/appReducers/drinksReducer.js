@@ -83,7 +83,7 @@ export default function reducer (state = {
     }
 
     case 'UPDATE_SELECTED_DRINK':{
-      return{ ...state, selectedDrink: action.payload}
+      return{ ...state, selectedDrink: action.payload, errorMessage:''}
     }
 
 

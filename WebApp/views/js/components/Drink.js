@@ -69,24 +69,39 @@ export default class Drink extends React.Component {
     const URLMatch = re.test(DrinkImage)
     const adjustedImagePath = URLMatch? DrinkImage: "images/"+DrinkImage
 
-
-    const cantMakeElement = (CanMake==0?<CardHeader title="Can't make!" subtitle="Please add the correct ingredients" />:<div/>)
+    // Check to see if we can make the drink and adds a warning ribon to image if not
+    const cantMakeElement = (CanMake==0?<div className={baseStyles.ribbon_red}>Can't Make</div>:<div/>)
+    const ribbonImageElement = <div className={baseStyles.wrapper} style={{height:'234px'}}>
+            <img src={adjustedImagePath} style={{height:'234px', width:'100%'}}/>
+            <div className={baseStyles.ribbon_wrapper}>        
+              {cantMakeElement}
+            </div>
+          </div>
 
     const drinkCard = <div>
                   <Card onClick={this.onCardClick.bind(this)} style={{marginBottom:'20px'}}>
-                    {cantMakeElement}
                     <div className="hide-on-large-only">                        
                       <CardMedia                        
                           overlay={<div><CardHeader title={DrinkName} titleStyle={{color:'white'}}/></div>}
                         >
-                        <img src={adjustedImagePath} style={{height:"500px"}}/>
+                        <div className={baseStyles.wrapper} style={{height:'500px'}}>
+                          <img src={adjustedImagePath} style={{height:'500px', width:'100%'}}/>
+                          <div className={baseStyles.ribbon_wrapper}>        
+                            {cantMakeElement}
+                          </div>
+                        </div>  
                       </CardMedia>
                     </div>
                     <div className="hide-on-med-and-down">
                       <CardMedia                        
                           overlay={<div><CardHeader title={DrinkName} titleStyle={{color:'white'}}/></div>}
                           >
-                        <img src={adjustedImagePath} style={{height:"228px"}}/>
+                          <div className={baseStyles.wrapper} style={{height:'234px'}}>
+                            <img src={adjustedImagePath} style={{height:'234px', width:'100%'}}/>
+                            <div className={baseStyles.ribbon_wrapper}>        
+                              {cantMakeElement}
+                            </div>
+                          </div>                       
                       </CardMedia>
                     </div> 
                 </Card>

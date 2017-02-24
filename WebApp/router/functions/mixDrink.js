@@ -200,7 +200,7 @@ function logDrinkRequestInDB(drink_id, volume, user, source, status, statusReaso
            const result = conn.query('call sp_LogDrinkRequest(?,?,?,?,?,?);', [drink_id, volume, user, source, status, statusReason])
            conn.release()
            return result;
-         }).then((result)=>{
+         }).then((DBresult)=>{
             debug('Sucesfully logged drink request in DB')
             resolve()
          }).catch((err)=>{

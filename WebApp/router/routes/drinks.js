@@ -107,7 +107,7 @@ router.post('/order', (req,res)=>{
         axios.post(`${config.HardwareHost}/drinks/order`, {Drink_id: Drink_id, Volume: Volume})
               .then((hardwareResponse)=>{
                 debug('Response recieved')
-                if (hardwareResponse.orderPlaced){
+                if (hardwareResponse.data.orderPlaced){
                   logDrinkRequestInDB(Drink_id, Volume, user, source, 'success', '')                  
                 } else {
                   logDrinkRequestInDB(Drink_id, Volume, user, source, 'fail', 'hardware fail')

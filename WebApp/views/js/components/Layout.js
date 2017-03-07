@@ -115,7 +115,9 @@ export default class Layout extends React.Component {
                     </Sticky>
                   </div>
                   <div className="col s12 m12 l9">
-                    {drinkOrderedComponent}
+                    <div className='hide-on-med-and-down'>
+                      {drinkOrderedComponent}
+                    </div>
                     <Drinks 
                       currentDrinkProps= {currentDrinkProps}
                       createNewDrink={createNewDrink} 

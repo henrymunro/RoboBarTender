@@ -3,7 +3,7 @@ import { StickyContainer, Sticky } from 'react-sticky'
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card'
 import {updateSelectedDrink, setDrinkImageToDefault, getDrinkIngredients } from 'js/actions/drinksActions'
 
-import CurrentDrink from 'js/components/CurrentDrink'
+import CurrentDrinkSmall from 'js/components/CurrentDrinkSmall'
 
 import baseStyles from 'styles/base.css'
 
@@ -71,18 +71,13 @@ export default class Drink extends React.Component {
 
     // Check to see if we can make the drink and adds a warning ribon to image if not
     const cantMakeElement = (CanMake==0?<div className={baseStyles.ribbon_red}>Can't Make</div>:<div/>)
-    const ribbonImageElement = <div className={baseStyles.wrapper} style={{height:'234px'}}>
-            <img src={adjustedImagePath} style={{height:'234px', width:'100%'}}/>
-            <div className={baseStyles.ribbon_wrapper}>        
-              {cantMakeElement}
-            </div>
-          </div>
+
 
     const drinkCard = <div>
                   <Card onClick={this.onCardClick.bind(this)} style={{marginBottom:'20px'}}>
                     <div className="hide-on-large-only">                        
                       <CardMedia                        
-                          overlay={<div><CardHeader title={DrinkName} titleStyle={{color:'white'}}/></div>}
+                          overlay={<div><CardHeader title={DrinkName} titleStyle={{color:'white', fontSize:'xx-large'}}/></div>}
                         >
                         <div className={baseStyles.wrapper} style={{height:'500px'}}>
                           <img src={adjustedImagePath} style={{height:'500px', width:'100%'}}/>
@@ -107,9 +102,9 @@ export default class Drink extends React.Component {
                 </Card>
               </div>
 
-    const selectedDrinkCard = <Card>                                          
+    const selectedDrinkCard = <Card style={{ marginBottom:'20px', background:'#eceff1'}}>                                          
                       <CardMedia style={{marginBottom:'20px', marginRight:'10px', marginLeft:'10px', paddingTop:'4px', paddingBotton:'10px'}}>
-                        <CurrentDrink 
+                        <CurrentDrinkSmall 
                           {... currentDrinkProps}
                           axios={this.props.axios} 
                           dispatch={this.props.dispatch} />

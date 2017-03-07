@@ -194,7 +194,7 @@ function killAllPumps(){
 function logDrinkRequestInDB(drink_id, volume, user, source, status, statusReason){
   return new Promise((resolve, reject)=>{
       debug('Logging drink request')
-
+      debug('HERE: ', drink_id, volume, user, source, status, statusReason)
        pool.getConnection()
          .then((conn) => {
            const result = conn.query('call sp_LogDrinkRequest(?,?,?,?,?,?);', [drink_id, volume, user, source, status, statusReason])

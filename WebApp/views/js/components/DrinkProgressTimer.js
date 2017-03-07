@@ -57,11 +57,11 @@ export default class DrinkTimerProgress extends React.Component {
       const timeElaspedS = (new Date().getTime() - drinkOrderedTime)/1000
       const totalPourTime = pourTime * (drinkVolume/1000) // Pour time s/L  drinkVolume ml
       const newCompleted = 100.0 * timeElaspedS / totalPourTime
-      console.log('NEW COMPLETED: ', newCompleted)
-      console.log('TimeEllapsed: ', timeElaspedS)
-      console.log('Total Pour Time: ', totalPourTime)
-      console.log('Pour Time: ', pourTime)
-      console.log('Drink drinkVolume: ', drinkVolume)
+      // console.log('NEW COMPLETED: ', newCompleted)
+      // console.log('TimeEllapsed: ', timeElaspedS)
+      // console.log('Total Pour Time: ', totalPourTime)
+      // console.log('Pour Time: ', pourTime)
+      // console.log('Drink drinkVolume: ', drinkVolume)
 
       this.timer = setTimeout(() => {
         // Clear pending timeout to allow a new one to be added

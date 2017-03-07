@@ -106,13 +106,14 @@ router.post('/order', (req,res)=>{
         debug(`Sending Request to hardware ${config.HardwareHost} to MIX DRINK`)
         axios.post(`${config.HardwareHost}/drinks/order`, {Drink_id: Drink_id, Volume: Volume})
               .then((hardwareResponse)=>{
-                debug('Response recieved')
+                debug('Response recieved', hardwareResponse.data)
                 if (hardwareResponse.data.orderPlaced){
                   logDrinkRequestInDB(Drink_id, Volume, user, source, 'success', '')                  
+                  res.send({ orderPlaced: true })
                 } else {
                   logDrinkRequestInDB(Drink_id, Volume, user, source, 'fail', 'hardware fail')
+                  res.send({orderPlaced:false, msg:'hardware_error', errorMessage:'Error sending request to RoboBarTender' })
                 }
-                res.send(hardwareResponse)
               }).catch((error)=>{
                   debug('ERROR: sending request to hardware' + error)
                   if (environment == 'development'){

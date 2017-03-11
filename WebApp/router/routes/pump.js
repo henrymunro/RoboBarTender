@@ -10,6 +10,8 @@ const databaseProcedures = require('../functions/databaseProcedures')
 const { killAllPumps } = require('../functions/mixDrink')
 const   { callProcUPDATE, callProcGET } = databaseProcedures
 
+const RPi = (process.env.RPi?true:false)
+
 
 debug('Startup: Loading in PUMP routes')
 
@@ -127,19 +129,32 @@ router.post('/ceasePump', (req, res)=>{
 
 router.get('/killAllPumps', (req, res)=>{
   debug('Request RECIEVED to kill all pumps')
-  killAllPumps().then((result)=>{
+  if( RPi ){
+    killAllPumps().then((result)=>{
     debug('Request to kill all pumps sucessful')
-    res.send({status: true})
-  }).catch((err)=>{
-    deubg('Request to kill all pumps FAILED, retrying')
-    killAllPumps().then((result)=>{debug('Second attempt to kill pumps sucessful')})
-                  .catch((err)=>{
-                      debug('Second attempt to kill pumps FAILED, NOT RETRYING')
-                      res.send({status: false, error: err})
-                    })
-  })
-
-} )
+        res.send({status: true})
+      }).catch((err)=>{
+        deubg('Request to kill all pumps FAILED, retrying')
+        killAllPumps().then((result)=>{debug('Second attempt to kill pumps sucessful')})
+                      .catch((err)=>{
+                          debug('Second attempt to kill pumps FAILED, NOT RETRYING')
+                          res.send({status: false, error: err})
+                        })
+      })
+    } else {
+      debug(`Sending Kill Request to hardware ${config.HardwareHost}`)
+      axios.get(`${config.HardwareHost}/killAllPumps`)
+            .then((hardwareResponse)=>{
+                if (hardwareResponse.data.status){
+                  res.send({status: true})
+                } else {
+                  res.send({status: false, error: 'error sending to hardware'})
+                }
+              }).catch((err)=>{
+                res.send({status: false, error: err})
+              })
+    }
+})
 
 //Route to log browser errors in the DB
 // router.post('/browserError', (req, res)=>{

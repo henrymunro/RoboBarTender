@@ -51,7 +51,7 @@ export default function reducer (state = {
         ceasePump: baseURL+'pump/ceasePump',
         pumpsForNewDrink: baseURL+'pump/pumpsForNewDrink',
         // Kill pumps goes staight to hardware
-        killAllPumps: hardwareURL+'pump/killAllPumps'
+        killAllPumps: baseURL+'pump/killAllPumps'
         }
     },
     config: {

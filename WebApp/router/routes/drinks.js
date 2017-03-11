@@ -117,8 +117,9 @@ router.post('/order', (req,res)=>{
               }).catch((error)=>{
                   debug('ERROR: sending request to hardware' + error)
                   if (environment == 'development'){
+                    mixNewDrink(response)
                     logDrinkRequestInDB(Drink_id, Volume, user, source, 'success', '')  
-                    res.send({orderPlaced:true})
+                    // res.send({orderPlaced:true})
                   }else{
                     logDrinkRequestInDB(Drink_id, Volume, user, source, 'fail', 'unable to connect to hardware')
                     res.send({orderPlaced:false, msg:'hardware_error', errorMessage:'Error sending request to RoboBarTender' })

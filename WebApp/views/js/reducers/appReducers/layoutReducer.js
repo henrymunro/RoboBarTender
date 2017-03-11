@@ -11,7 +11,9 @@ export default function reducer (state = {
                   {pumpNumber: 2, active: false},
                   {pumpNumber: 3, active: false},
                   {pumpNumber: 4, active: false},
-                  {pumpNumber: 5, active: false}],
+                  {pumpNumber: 5, active: false},
+                  {pumpNumber: 6, active: false},
+                  {pumpNumber: 7, active: false}],
     pumping: false,
     editPumps:{
       editPumpDialogOpen: false,

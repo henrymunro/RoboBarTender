@@ -145,7 +145,7 @@ router.get('/killAllPumps', (req, res)=>{
       })
     } else {
       debug(`Sending Kill Request to hardware ${config.HardwareHost}`)
-      axios.get(`${config.HardwareHost}/killAllPumps`)
+      axios.get(`${config.HardwareHost}/pump/killAllPumps`)
             .then((hardwareResponse)=>{
                 if (hardwareResponse.data.status){
                   res.send({status: true})

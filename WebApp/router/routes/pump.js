@@ -1,4 +1,6 @@
 const debug = require('debug')('Pump')
+const config = require('../config')
+const axios = require('axios').create({ timeout: 2500  })
 
 //Load in router class
 const Router = require('../router')

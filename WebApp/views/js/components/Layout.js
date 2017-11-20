@@ -45,7 +45,8 @@ export default class Layout extends React.Component {
   killAllPumps(){
     this.props.dispatch(killAllPumps(this.props.axios))
           .then((result)=>{
-            const { status, err } = result.data
+            console.log('Result: ', result)
+            const { status, err } = result.value.data
             if (!status){
               alert('ERROR: '+ err)
             }
